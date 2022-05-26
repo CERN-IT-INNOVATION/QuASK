@@ -8,10 +8,6 @@ Add description
 
 ## Project name, project webpage and project GitHub repository
 
-- [ ] add repository topic: [procedure](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics). 
-  Choose between:
-  - [ ] QML (quantum machine learning)
-  - [ ] QTI (quantum technology initiative)
 - [ ] use `main` branch for production-ready state only
 - [ ] create `develop` branch for the latest delivered development changes for the next release
 - [ ] create your development branch where each contributor works on a daily basis
