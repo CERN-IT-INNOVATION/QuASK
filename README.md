@@ -1,6 +1,6 @@
 # QuASK  [![Made at CERN!](https://img.shields.io/badge/CERN-CERN%20openlab-brightgreen)](https://openlab.cern/) [![Made at CERN!](https://img.shields.io/badge/CERN-Open%20Source-%232980b9.svg)](https://home.cern) [![Made at CERN!](https://img.shields.io/badge/CERN-QTI-blue)](https://quantum.cern/our-governance)
 
-## Quantum Advantage Seeker with kernel
+## Quantum Advantage Seeker with Kernel
 
 
 Add description
