@@ -3,7 +3,8 @@ from collections import Counter
 from scipy import stats
 import click
 from sklearn.model_selection import train_test_split
-from sklearn.metrics.pairwise import linear_kernel, rbf_kernel
+from quask.kernels import the_kernel_register
+
 
 @click.group()
 def main():
@@ -89,21 +90,20 @@ def analyze():
     np.save(f"{save_path}/Y_train.npy", Y_train)
     np.save(f"{save_path}/Y_test.npy", Y_test)
 
-    # TODO can align the interface of the classical kernels with the quantum ones?
-    # create classical linear kernels
-    if click.confirm(f'Do you want to generate the Gram matrix for the linear kernel?'):
-        linear_gm_train = linear_kernel(X_train)
-        linear_gm_test = linear_kernel(X_test, X_train)
-        np.save(f"{save_path}/linear_gm_train.npy", linear_gm_train)
-        np.save(f"{save_path}/linear_gm_test.npy", linear_gm_test)
+    # apply non-trainable kernels
+    for (kernel_fn, kernel_name, kernel_params) in the_kernel_register:
+        if click.confirm(f'Do you want to generate the Gram matrix for the {kernel_name}?'):
+            params = []
+            for i in range(kernel_params):
+                param = click.prompt("Insert {i+1}-th param:", type=float)
+                params.append(param)
+            params_str = "_".join([str(p) for p in params])  # generate parameters identifier
+            params_str = ''.join(e for e in params_str if e.isalnum())  # remove non alphanum characters
+            gm_train = kernel_fn(X_train, None, params)
+            gm_test = kernel_fn(X_test, X_train, params)
+            np.save(f"{save_path}/{kernel_name}_{params_str}_gm_train.npy", gm_train)
+            np.save(f"{save_path}/{kernel_name}_{params_str}_gm_test.npy", gm_test)
 
-    # create (potentially many) classical Gaussian kernels
-    while click.confirm(f'Do you want to generate a Gram matrix for the RBF (Gaussian) kernel?'):
-        gamma = click.prompt("Insert gamma parameter:", type=click.FloatRange('0.00001', '10000'))
-        gamma_str = "{:.2e}".format(gamma).replace('+', '')
-        rbf_gm_train = rbf_kernel(X_train, gamma=gamma)
-        rbf_gm_test = rbf_kernel(X_test, X_train, gamma=gamma)
-        np.save(f"{save_path}/rbf_gm_gamma_{gamma_str}_train.npy", rbf_gm_train)
-        np.save(f"{save_path}/rbf_gm_gamma_{gamma_str}_test.npy", rbf_gm_test)
+    # apply trainable kernels
+    # TODO
 
-    

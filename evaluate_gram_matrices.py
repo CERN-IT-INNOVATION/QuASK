@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-
 from quask.metrics import calculate_generalization_accuracy
 import click
 
