@@ -8,6 +8,7 @@ from sklearn.preprocessing import MinMaxScaler
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
 from quask.kernels import the_kernel_register
+from quask.trainable_kernels import the_trainable_kernel_register
 
 
 @click.group()
@@ -62,12 +63,12 @@ def analyze():
 
         # undersampling
         if click.confirm(f'Do you want to undersample the largest class?'):
-            perc = click.prompt(f'The smaller class is x% the size of the larger class, x = ', type=click.FloatRange(0.0, 1.0))
+            perc = click.prompt(f'The smaller class is x% the size of the larger class, x = ', type=click.FloatRange(0.0,1.0))
             X, Y = RandomOverSampler(sampling_strategy=perc).fit_resample(X, Y)
 
         # oversampling
         if click.confirm(f'Do you want to oversample the smallest class?'):
-            perc = click.prompt(f'The smaller class is x% the size of the larger class, x = ', type=click.FloatRange(0.0, 1.0))
+            perc = click.prompt(f'The smaller class is x% the size of the larger class, x = ', type=click.FloatRange(0.0,1.0))
             X, Y = RandomUnderSampler(sampling_strategy=perc).fit_resample(X, Y)
     else:
         # show statistics about the (real valued) labels
@@ -107,5 +108,16 @@ def analyze():
             np.save(f"{save_path}/{kernel_name}_{params_str}_gm_test.npy", gm_test)
 
     # apply trainable kernels
-    # TODO
+    for (kernel_fn, kernel_name, kernel_params) in the_trainable_kernel_register:
+        if click.confirm(f'Do you want to generate the Gram matrix for the TRAINABLE {kernel_name}?'):
+            params = []
+            for kernel_param in kernel_params:
+                param = click.prompt(f"Insert '{kernel_param}' param:", type=float)
+                params.append(param)
+            params_str = "_".join([str(p) for p in params])  # generate parameters identifier
+            params_str = ''.join(e for e in params_str if e.isalnum())  # remove non alphanum characters
+            gm_train = kernel_fn(X_train, None, params)
+            gm_test = kernel_fn(X_test, X_train, params)
+            np.save(f"{save_path}/{kernel_name}_{params_str}_gm_train.npy", gm_train)
+            np.save(f"{save_path}/{kernel_name}_{params_str}_gm_test.npy", gm_test)
 
