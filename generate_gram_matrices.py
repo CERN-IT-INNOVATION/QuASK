@@ -116,8 +116,9 @@ def analyze():
                 params.append(param)
             params_str = "_".join([str(p) for p in params])  # generate parameters identifier
             params_str = ''.join(e for e in params_str if e.isalnum())  # remove non alphanum characters
-            gm_train = kernel_fn(X_train, None, params)
-            gm_test = kernel_fn(X_test, X_train, params)
-            np.save(f"{save_path}/{kernel_name}_{params_str}_gm_train.npy", gm_train)
-            np.save(f"{save_path}/{kernel_name}_{params_str}_gm_test.npy", gm_test)
+            raise NotImplementedError()
+            # gm_train = kernel_fn(X_train, None, params)
+            # gm_test = kernel_fn(X_test, X_train, params)
+            # np.save(f"{save_path}/{kernel_name}_{params_str}_gm_train.npy", gm_train)
+            # np.save(f"{save_path}/{kernel_name}_{params_str}_gm_test.npy", gm_test)
 
