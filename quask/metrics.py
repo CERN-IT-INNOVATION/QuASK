@@ -55,7 +55,7 @@ def calculate_generalization_accuracy(training_gram, training_labels, testing_gr
     return accuracy
 
 
-def calculate_geometry_difference(k_1, k_2, normalization_lambda=0.001):
+def calculate_geometric_difference(k_1, k_2, normalization_lambda=0.001):
     """
     Calculate the geometric difference g(K_1 || K_2), which is equation F9 in 
     "The power of data in quantum machine learning" (https://arxiv.org/abs/2011.01938)

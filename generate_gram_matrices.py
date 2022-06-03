@@ -94,6 +94,7 @@ def analyze():
     np.save(f"{save_path}/Y_test.npy", Y_test)
 
     # apply non-trainable kernels
+    # TODO showing the list of kernel is more user friendly
     for (kernel_fn, kernel_name, kernel_params) in the_kernel_register:
         if click.confirm(f'Do you want to generate the Gram matrix for the {kernel_name}?'):
             params = []
@@ -108,6 +109,7 @@ def analyze():
             np.save(f"{save_path}/{kernel_name}_{params_str}_gm_test.npy", gm_test)
 
     # apply trainable kernels
+    # TODO showing the list of kernel is more user friendly
     for (kernel_fn, kernel_name, kernel_params) in the_trainable_kernel_register:
         if click.confirm(f'Do you want to generate the Gram matrix for the TRAINABLE {kernel_name}?'):
             params = []
@@ -121,4 +123,3 @@ def analyze():
             # gm_test = kernel_fn(X_test, X_train, params)
             # np.save(f"{save_path}/{kernel_name}_{params_str}_gm_train.npy", gm_train)
             # np.save(f"{save_path}/{kernel_name}_{params_str}_gm_test.npy", gm_test)
-

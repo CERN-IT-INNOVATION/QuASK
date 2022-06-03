@@ -24,9 +24,5 @@ class TrainableKernelRegister:
 
 the_trainable_kernel_register = TrainableKernelRegister()
 
-
-
-
-
-
+# TODO training modes? Gradient descent optimizer, grid search, ...?
 

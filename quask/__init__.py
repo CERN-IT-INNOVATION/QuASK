@@ -2,3 +2,4 @@ import metrics
 import kernels
 import trainable_kernels
 import template_pennylane
+import datasets

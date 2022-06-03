@@ -27,6 +27,16 @@ def calculate_accuracy(training_gram, training_labels, testing_gram, testing_lab
     print(accuracy)
 
 
+# plot-accuracy --x training_gram.npy --y ...numpy --xt ...nmpy --yt ...npy --label kernel_1 \
+#               --x training_gram.npy --y ...numpy --xt ...nmpy --yt ...npy --label kernel_2 \
+#               --x training_gram.npy --y ...numpy --xt ...nmpy --yt ...npy --label kernel_1 \
+#               --x training_gram.npy --y ...numpy --xt ...nmpy --yt ...npy --label kernel_1 \
+#     |
+# "   |
+# |   |
+# |   |
+# K1 K2
+
 @main.command()
 @click.option('--x', type=click.Path(exists=True), required=True, multiple=True)
 @click.option('--y', type=click.Path(exists=True), required=True, multiple=True)
