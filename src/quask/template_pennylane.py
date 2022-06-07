@@ -1,6 +1,5 @@
 import jax
 import jax.numpy as jnp
-import optax
 import pennylane as qml
 import pennylane.numpy as np
 
