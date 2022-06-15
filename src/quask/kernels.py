@@ -1,5 +1,7 @@
 from sklearn.metrics.pairwise import linear_kernel, rbf_kernel, polynomial_kernel
 from .template_pennylane import ZZFullEntFeatureMap, pennylane_quantum_kernel, pennylane_projected_feature_map
+from .template_qiskit import encoding, qiskit_quantum_kernel, zz_norm_feature_map
+from qiskit_machine_learning.kernels import QuantumKernel
 import numpy as np
 
 class KernelRegister:
@@ -26,7 +28,7 @@ class KernelRegister:
         return ret
 
 
-def zz_quantum_kernel(X_1, X_2=None, params=None):
+def zz_quantum_kernel(X_1, X_2=None, params=None, pennylane=True):
     """
     Create the kernel matrix using the Quantum ZZ Feature Map (with full entanglement scheme)
     using the structure described in https://qiskit.org/documentation/stubs/qiskit.circuit.library.ZZFeatureMap.html.
@@ -37,12 +39,15 @@ def zz_quantum_kernel(X_1, X_2=None, params=None):
     :param params: ignored
     :return: Gram matrix
     """
-    return pennylane_quantum_kernel(ZZFullEntFeatureMap, X_1, X_2)
+
+    if pennylane:
+        return pennylane_quantum_kernel(ZZFullEntFeatureMap, X_1, X_2)
+    else:
+        return qiskit_quantum_kernel(zz_norm_feature_map, X_1, X_2)
 
 
 def projected_zz_quantum_kernel(X_1, X_2=None, params=[0.01]):
     """
-
     To create the training Gram matrix pass X_1 = training set and X_2 = None
     To create the testing Gram matrix pass X_1 = testing set and X_2 = training set
     :param X_1: First dataset

@@ -8,7 +8,6 @@ def main():
     """LEAVE THE MAIN ALOOOOONEEEEEEE"""
     pass
 
-
 @main.command()
 @click.option('--training-gram', type=click.Path(exists=True), required=True)
 @click.option('--training-labels', type=click.Path(exists=True), required=True)
@@ -66,3 +65,6 @@ def plot_accuracy(x, y, xt, yt, label):
     ax.set_title('Accuracies of the configurations')
     ax.legend()
     plt.show()
+
+if __name__ == '__main__':
+    main()
