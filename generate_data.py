@@ -6,7 +6,6 @@ def main():
     """LEAVE THE MAIN ALOOOOONEEEEEEE"""
     pass
 
-
 @main.command()
 def interactive():
     """
@@ -29,3 +28,6 @@ def generate_dataset(index):
     # premi 1 per generate_mio_dataset_quantum_fantastico
     # premi 2 per ...
     pass
+
+if __name__ == '__main__':
+    main()

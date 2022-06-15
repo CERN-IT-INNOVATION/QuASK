@@ -44,11 +44,11 @@ def pennylane_quantum_kernel(feature_map, X_1, X_2=None):
     # build the gram matrix
     gram = np.zeros(shape=(X_1.shape[0], X_2.shape[0]))
     for i in range(X_1.shape[0]):
-        for j in range(X_2.shape[0]):
+        for j in range(i,X_2.shape[0]):
             gram[i][j] = kernel(X_1[i], X_2[j])
-
+            gram[j][i] = gram[i][j]
+            
     return gram
-
 
 def pennylane_projected_feature_map(feature_map, X):
     """
