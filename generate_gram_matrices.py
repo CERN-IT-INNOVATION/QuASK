@@ -16,7 +16,6 @@ def main():
     """LEAVE THE MAIN ALOOOOONEEEEEEE"""
     pass
 
-
 @main.command()
 def analyze():
     """
@@ -124,3 +123,6 @@ def analyze():
             # gm_test = kernel_fn(X_test, X_train, params)
             # np.save(f"{save_path}/{kernel_name}_{params_str}_gm_train.npy", gm_train)
             # np.save(f"{save_path}/{kernel_name}_{params_str}_gm_test.npy", gm_test)
+
+if __name__ == '__main__':
+    main()

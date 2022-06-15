@@ -1,3 +1,4 @@
-def generate_mio_dataset_quantum_fantastico():
+
+def generate_quantum_labels():
     X, y = None, None
     return X, y
