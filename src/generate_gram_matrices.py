@@ -25,7 +25,8 @@ def analyze():
     # reproducibility seed
     seed = click.prompt('Choose a random seed:', type=int)
     np.random.seed(seed)
-    train_test_split_seed = np.random.randint()
+
+    train_test_split_seed = click.prompt('Choose a random seed for splitting training and testing set:', type=int)
 
     # choose output location
     save_path = click.prompt("Where is the output folder:", type=click.Path(exists=True, file_okay=False, dir_okay=True))
