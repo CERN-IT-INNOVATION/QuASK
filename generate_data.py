@@ -1,5 +1,5 @@
 import click
-from quask.datasets import generate_mio_dataset_quantum_fantastico
+from quask.datasets import generate_dataset_quantum, create_dataset
 
 @click.group()
 def main():
@@ -12,9 +12,9 @@ def interactive():
     Interactive prompt guiding the user through the generation of the dataset
     :return: None
     """
-    # che dataset vuoi generare tra quelli proposti?
-    # premi 1 per generate_mio_dataset_quantum_fantastico
-    # premi 2 per ...
+    # Which dataset do you want to generate among the proposed oness?
+    # press 1 for generate_dataset_quantum
+    # press 2 for create_dataset
     pass
 
 
@@ -24,9 +24,9 @@ def generate_dataset(index):
     Interactive prompt guiding the user through the generation of the dataset
     :return: None
     """
-    # che dataset vuoi generare tra quelli proposti?
-    # premi 1 per generate_mio_dataset_quantum_fantastico
-    # premi 2 per ...
+    # Which dataset do you want to generate among the proposed oness?
+    # press 1 for generate_dataset_quantum
+    # press 2 for create_dataset
     pass
 
 if __name__ == '__main__':
