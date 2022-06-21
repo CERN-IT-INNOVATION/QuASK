@@ -1,6 +1,4 @@
 import openml
-import requests
-import io
 import numpy as np
     
 
