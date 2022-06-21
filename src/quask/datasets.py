@@ -45,15 +45,23 @@ def get_dataset_quantum(the_id):
 
     :the_id: parameter able to distinguish between quantum dataset
     """
+    try:
+        import importlib.resources as pkg_resources
+    except ImportError:
+        # Try backported to PY<37 `importlib_resources`.
+        import importlib_resources as pkg_resources
+
+    from . import resources
+
     if the_id == 0:
-        X = np.load("QuASK/resources/X_Q_Fashion_MNIST_720_2_E1")
-        y = np.load("QuASK/resources/y_Q_Fashion_MNIST_720_2_E1")
+        X = np.loadtxt(pkg_resources.open_text(resources, "X_Q_Fashion-MNIST_720_2_E1"), delimiter=' ')
+        y = np.loadtxt(pkg_resources.open_text(resources, "y_Q_Fashion-MNIST_720_2_E1"), delimiter=' ')
     elif the_id == 1:
-        X = np.load("QuASK/resources/X_Q_Fashion_MNIST_720_4_E2")
-        y = np.load("QuASK/resources/y_Q_Fashion_MNIST_720_4_E2")
+        X = np.loadtxt(pkg_resources.open_text(resources, "X_Q_Fashion-MNIST_720_4_E2"), delimiter=' ')
+        y = np.loadtxt(pkg_resources.open_text(resources, "y_Q_Fashion-MNIST_720_4_E2"), delimiter=' ')
     elif the_id == 2:
-        X = np.load("QuASK/resources/X_Q_Fashion_MNIST_720_8_E3")
-        y = np.load("QuASK/resources/y_Q_Fashion_MNIST_720_8_E3")
+        X = np.loadtxt(pkg_resources.open_text(resources, "X_Q_Fashion-MNIST_720_8_E3"), delimiter=' ')
+        y = np.loadtxt(pkg_resources.open_text(resources, "y_Q_Fashion-MNIST_720_8_E3"), delimiter=' ')
 
     return X, y
 
