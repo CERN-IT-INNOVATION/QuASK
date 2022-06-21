@@ -323,18 +323,45 @@ def download_dataset_HEP(datatype, N_TRAIN, n_features):
     y.data_save()
     return X, y
 
-def generate_HEP_dataset_quantum(datatype, N_TRAIN, n_features, enc):
-    X, y = download_dataset_HEP(datatype, N_TRAIN, n_features)
-    y = observables(datatype, N_TRAIN, n_features, enc, pennylane=False, save=True)
-    return X, y
+# def generate_HEP_dataset_quantum(datatype, N_TRAIN, n_features, enc):
+#     X, y = download_dataset_HEP(datatype, N_TRAIN, n_features)
+#     y = observables(datatype, N_TRAIN, n_features, enc, pennylane=False, save=True)
+#     return X, y
 
-def generate_dataset_quantum(the_id):
-    X, y = download_dataset_openml(the_id)
-    y = random_qnn_encoding(X, )
-    return X, y
 
-def get_quantum_dataset():
-    pass
+# use in future version to generate dataset quantum from classical datasets
+# def generate_dataset_quantum(the_id, wires):
+#     X, y = download_dataset_openml(the_id)
+#     y = random_qnn_encoding(X, wires)
+#     return X, y
+
+def get_dataset_quantum(the_id):
+    """
+    get dataset quantum
+
+    This function calls already preprocessed datasets with quantum labels.
+    These examples are identified with a specific id.
+    The avaliable datasets at the moment are:
+        - Fashion-MNIST with 2 features and encoding E1
+        - Fashion-MNIST with 4 features and encoding E2
+        - Fashion-MNIST with 8 features and encoding E3
+
+    These datasets can be used to benchmark the performace of our 
+    classical and quantum kernels to verify the power of data.
+
+    :the_id: parameter able to distinguish between quantum dataset
+    """
+    if the_id == 0:
+        X = np.load("QuASK/resources/X_Q_Fashion_MNIST_720_2_E1")
+        y = np.load("QuASK/resources/y_Q_Fashion_MNIST_720_2_E1")
+    elif the_id == 1:
+        X = np.load("QuASK/resources/X_Q_Fashion_MNIST_720_4_E2")
+        y = np.load("QuASK/resources/y_Q_Fashion_MNIST_720_4_E2")
+    elif the_id == 2:
+        X = np.load("QuASK/resources/X_Q_Fashion_MNIST_720_8_E3")
+        y = np.load("QuASK/resources/y_Q_Fashion_MNIST_720_8_E3")
+    
+    return X, y
 
 def get_dataset_HEP():
     download_dataset_HEP
@@ -382,4 +409,6 @@ the_dataset_register.register('iris', 'classification', 'classical', lambda: dow
 the_dataset_register.register('Fashion-MNIST', 'classification', 'classical', lambda: download_dataset_openml(40996))
 the_dataset_register.register('liver-disorders', 'regression', 'classical', lambda: download_dataset_openml(8))
 the_dataset_register.register('delta_elevators', 'regression', 'classical', lambda: download_dataset_openml(198))
-the_dataset_register.register('higgs', 'classification', 'classical', lambda: get_dataset_HEP())
+the_dataset_register.register('Q_Fashion-MNIST_2_E1', 'regression', 'quantum', lambda: get_dataset_quantum(0))
+the_dataset_register.register('Q_Fashion-MNIST_4_E2', 'regression', 'quantum', lambda: get_dataset_quantum(1))
+the_dataset_register.register('Q_Fashion-MNIST_8_E3', 'regression', 'quantum', lambda: get_dataset_quantum(2))
