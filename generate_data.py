@@ -1,5 +1,5 @@
 import click
-from quask.datasets import generate_dataset_quantum, create_dataset
+from quask.datasets import generate_dataset_quantum, create_HEP_dataset
 
 @click.group()
 def main():
@@ -26,7 +26,7 @@ def generate_dataset(index):
     """
     # Which dataset do you want to generate among the proposed oness?
     # press 1 for generate_dataset_quantum
-    # press 2 for create_dataset
+    # press 2 for create_dataset_HEP
     pass
 
 if __name__ == '__main__':

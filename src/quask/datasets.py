@@ -1,5 +1,8 @@
 import openml
-
+import requests
+import io
+import numpy as np
+    
 
 def download_dataset_openml(the_id):
     """
@@ -24,6 +27,35 @@ def download_dataset_openml_by_name(name):
     # retrieve the dataset id
     the_id = int(openml_df.query(f'name == "{name}"').iloc[0]["did"])
     return download_dataset_openml_by_name(the_id)
+
+
+def get_dataset_quantum(the_id):
+    """
+    get dataset quantum
+
+    This function calls already preprocessed datasets with quantum labels.
+    These examples are identified with a specific id.
+    The avaliable datasets at the moment are:
+        - Fashion-MNIST with 2 features and encoding E1
+        - Fashion-MNIST with 4 features and encoding E2
+        - Fashion-MNIST with 8 features and encoding E3
+
+    These datasets can be used to benchmark the performace of our
+    classical and quantum kernels to verify the power of data.
+
+    :the_id: parameter able to distinguish between quantum dataset
+    """
+    if the_id == 0:
+        X = np.load("QuASK/resources/X_Q_Fashion_MNIST_720_2_E1")
+        y = np.load("QuASK/resources/y_Q_Fashion_MNIST_720_2_E1")
+    elif the_id == 1:
+        X = np.load("QuASK/resources/X_Q_Fashion_MNIST_720_4_E2")
+        y = np.load("QuASK/resources/y_Q_Fashion_MNIST_720_4_E2")
+    elif the_id == 2:
+        X = np.load("QuASK/resources/X_Q_Fashion_MNIST_720_8_E3")
+        y = np.load("QuASK/resources/y_Q_Fashion_MNIST_720_8_E3")
+
+    return X, y
 
 
 class DatasetRegister:
@@ -68,6 +100,9 @@ the_dataset_register.register('iris', 'classification', 'classical', lambda: dow
 the_dataset_register.register('Fashion-MNIST', 'classification', 'classical', lambda: download_dataset_openml(40996))
 the_dataset_register.register('liver-disorders', 'regression', 'classical', lambda: download_dataset_openml(8))
 the_dataset_register.register('delta_elevators', 'regression', 'classical', lambda: download_dataset_openml(198))
+the_dataset_register.register('Q_Fashion-MNIST_2_E1', 'regression', 'quantum', lambda: get_dataset_quantum(0))
+the_dataset_register.register('Q_Fashion-MNIST_4_E2', 'regression', 'quantum', lambda: get_dataset_quantum(1))
+the_dataset_register.register('Q_Fashion-MNIST_8_E3', 'regression', 'quantum', lambda: get_dataset_quantum(2))
 
 
 # class Data:
@@ -81,6 +116,7 @@ the_dataset_register.register('delta_elevators', 'regression', 'classical', lamb
 #                  ):
 #         """
 #         init
+#
 #         This function initializes the class with the following attributes.
 #
 #         n_features: int number of features of each datapoint
@@ -99,21 +135,35 @@ the_dataset_register.register('delta_elevators', 'regression', 'classical', lamb
 #         self.filename = filename
 #         self.path = path
 #
-#     def data_load(self):
+#     def data_load(self, datatype):
 #         """
 #         load background/signal
 #
 #         This function loads the background and signal dataset.
 #
 #         """
-#         # fetching the background dataset from its path
+#         # fetching the dataset from CERNBox drive
 #
-#         self.data = np.load(f'{self.path + self.filename}')
+#         url = 'https://cernbox.cern.ch/index.php/s/WAKFsaxC9aSW59R?path=%2Finput_ae'
+#         if datatype == 'train':
+#             name = 'x_data_minmax_7.20e+05_train.npy'
+#         elif datatype == 'test':
+#             name = 'x_data_minmax_7.20e+05_test.npy'
+#         elif datatype == 'valid':
+#             name = 'x_data_minmax_7.20e+05_valid.npy'
+#
+#         r = requests.get(url + name).content
+#         with open(self.filename, 'wb') as self.data:
+#             self.data.write(r)
+#
+#         print(self.data[:10])
+#
+#         # self.data = np.load(f'{self.path+self.filename}')
 #         self.n_datapoints = self.data.shape[0]
 #         self.n_features = self.data.shape[1]
 #         return self
 #
-#     def label_load(self):
+#     def label_load(self, datatype):
 #         """
 #         load background/signal
 #
@@ -122,9 +172,50 @@ the_dataset_register.register('delta_elevators', 'regression', 'classical', lamb
 #         """
 #         # fetching the background dataset from its path
 #
-#         self.data = np.load(f'{self.path + self.filename}')
+#         url = 'https://cernbox.cern.ch/index.php/s/WAKFsaxC9aSW59R?path=%2Finput_ae'
+#         if datatype == 'train':
+#             name = 'y_data_minmax_7.20e+05_train.npy'
+#         elif datatype == 'test':
+#             name = 'y_data_minmax_7.20e+05_test.npy'
+#         elif datatype == 'valid':
+#             name = 'y_data_minmax_7.20e+05_valid.npy'
+#
+#         r = requests.get(url + name).content
+#         with open(self.filename, 'wb') as self.data:
+#             self.data.write(r)
+#
+#         print(self.data[:10])
+#
+#         # self.data = np.load(f'{self.path+self.filename}')
 #         self.n_datapoints = self.data.shape[0]
 #         return self
+#
+#     def get_feature_names(self):
+#         """
+#         get feature names
+#
+#         This function allocate the features of the Higgs event under study
+#         to the dataset.
+#         """
+#
+#         features = ['jet_1_pt', 'jet_1_eta', 'jet_1_phi', 'jet_1_energy', 'jet_1_b-tag', 'jet_1_px', 'jet_1_py',
+#                     'jet_1_pz',
+#                     'jet_2_pt', 'jet_2_eta', 'jet_2_phi', 'jet_2_energy', 'jet_2_b-tag', 'jet_2_px', 'jet_2_py',
+#                     'jet_2_pz',
+#                     'jet_3_pt', 'jet_3_eta', 'jet_3_phi', 'jet_3_energy', 'jet_3_b-tag', 'jet_3_px', 'jet_3_py',
+#                     'jet_3_pz',
+#                     'jet_4_pt', 'jet_4_eta', 'jet_4_phi', 'jet_4_energy', 'jet_4_b-tag', 'jet_4_px', 'jet_4_py',
+#                     'jet_4_pz',
+#                     'jet_5_pt', 'jet_5_eta', 'jet_5_phi', 'jet_5_energy', 'jet_5_b-tag', 'jet_5_px', 'jet_5_py',
+#                     'jet_5_pz',
+#                     'jet_6_pt', 'jet_6_eta', 'jet_6_phi', 'jet_6_energy', 'jet_6_b-tag', 'jet_6_px', 'jet_6_py',
+#                     'jet_6_pz',
+#                     'jet_7_pt', 'jet_7_eta', 'jet_7_phi', 'jet_7_energy', 'jet_7_b-tag', 'jet_7_px', 'jet_7_py',
+#                     'jet_7_pz',
+#                     'met_pt', 'met_phi', 'met_px', 'met_py',
+#                     'lept_pt', 'lept_eta', 'lept_phi', 'lept_energy', 'lept_px', 'lept_py', 'lept_pz']
+#
+#         self.features = features
 #
 #     def compute_auc_roc(self, labels):
 #         """
@@ -271,15 +362,22 @@ the_dataset_register.register('delta_elevators', 'regression', 'classical', lamb
 #         return np.savetxt(self.path + self.filename, self.data)
 #
 #
-# # ============================================
-# # -----------------end-class------------------
-# # ============================================
+# def download_dataset_HEP(datatype, N_TRAIN, n_features):
+#     X = Data()
+#     y = Data()
 #
-# def create_dataset(filename, path, filename_label, datatype, N_TRAIN, n_features, features):
-#     X = Data(filename=filename, path=path, features=features)
-#     X.data_load()
-#     y = Data(filename=filename_label, path=path, features=features)
-#     y.label_load()
+#     X.filename = f'x_{datatype}_higgs_{N_TRAIN}_{n_features}'
+#     X.path = 'resources/'
+#     y.filename = f'y_{datatype}_higgs_{N_TRAIN}_{n_features}'
+#     y.path = 'resources/'
+#
+#     X.data_load(datatype)
+#     y.label_load(datatype)
+#
+#     print('uploaded')
+#
+#     X.get_feature_names()
+#     y.get_feature_names()
 #
 #     print('===========================================')
 #     print('\nDataset and labels loaded\n')
@@ -295,19 +393,21 @@ the_dataset_register.register('delta_elevators', 'regression', 'classical', lamb
 #     print('Dataset normalized')
 #     x, y = X_normalized.dataset_truncation(N_TRAIN, y.data, datatype, 'quantum')
 #     print(f'The dataset has now {x.n_datapoints} datapoints\n')
-#     x.filename = f'x_{datatype}_higgs_{N_TRAIN}_{n_features}'
-#     x.path = '/data/fdimarca/projected_kernel/Higgs_data/'
-#     y.filename = f'y_{datatype}_higgs_{N_TRAIN}_{n_features}'
-#     y.path = '/data/fdimarca/projected_kernel/Higgs_data/'
 #
-#     x.data_save()
+#     X.data_save()
 #     y.data_save()
-#     return x, y
-#
-#
-# def generate_dataset_quantum(filename, path, filename_label, datatype, N_TRAIN, n_features, enc, features):
-#     X, y = create_dataset(filename, path, filename_label, datatype, N_TRAIN, n_features=n_features, features=features)
+#     return X, y
+
+
+# def generate_HEP_dataset_quantum(datatype, N_TRAIN, n_features, enc):
+#     X, y = download_dataset_HEP(datatype, N_TRAIN, n_features)
 #     y = observables(datatype, N_TRAIN, n_features, enc, pennylane=False, save=True)
 #     return X, y
-#
-#
+
+
+# use in future version to generate dataset quantum from classical datasets
+# def generate_dataset_quantum(the_id, wires):
+#     X, y = download_dataset_openml(the_id)
+#     y = random_qnn_encoding(X, wires)
+#     return X, y
+
