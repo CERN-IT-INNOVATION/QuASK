@@ -1,7 +1,5 @@
 from sklearn.metrics.pairwise import linear_kernel, rbf_kernel, polynomial_kernel
-from .template_pennylane import ZZFullEntFeatureMap, pennylane_quantum_kernel, pennylane_projected_feature_map
-from .template_qiskit import encoding, qiskit_quantum_kernel, zz_norm_feature_map
-from qiskit_machine_learning.kernels import QuantumKernel
+from .template_pennylane import zz_fullentanglement_embedding, pennylane_quantum_kernel, pennylane_projected_feature_map
 import numpy as np
 
 class KernelRegister:
@@ -28,7 +26,7 @@ class KernelRegister:
         return ret
 
 
-def zz_quantum_kernel(X_1, X_2=None, params=None, pennylane=True):
+def zz_quantum_kernel(X_1, X_2=None, params=None):
     """
     Create the kernel matrix using the Quantum ZZ Feature Map (with full entanglement scheme)
     using the structure described in https://qiskit.org/documentation/stubs/qiskit.circuit.library.ZZFeatureMap.html.
@@ -39,11 +37,7 @@ def zz_quantum_kernel(X_1, X_2=None, params=None, pennylane=True):
     :param params: ignored
     :return: Gram matrix
     """
-
-    if pennylane:
-        return pennylane_quantum_kernel(ZZFullEntFeatureMap, X_1, X_2)
-    else:
-        return qiskit_quantum_kernel(zz_norm_feature_map, X_1, X_2)
+    return pennylane_quantum_kernel(zz_fullentanglement_embedding, X_1, X_2)
 
 
 def projected_zz_quantum_kernel(X_1, X_2=None, params=[0.01]):
@@ -55,8 +49,8 @@ def projected_zz_quantum_kernel(X_1, X_2=None, params=[0.01]):
     :param params: list of floats, params[0] is the gamma parameter
     :return: Gram matrix
     """
-    X_1_proj = pennylane_projected_feature_map(ZZFullEntFeatureMap, X_1)
-    X_2_proj = pennylane_projected_feature_map(ZZFullEntFeatureMap, X_2)
+    X_1_proj = pennylane_projected_feature_map(zz_fullentanglement_embedding, X_1)
+    X_2_proj = pennylane_projected_feature_map(zz_fullentanglement_embedding, X_2)
 
     # build the gram matrix
     gamma = params[0]
@@ -67,6 +61,7 @@ def projected_zz_quantum_kernel(X_1, X_2=None, params=[0.01]):
             gram[i][j] = np.exp(-gamma * ((X_1_proj[i] - X_2_proj[j])**2).sum())
 
     return gram
+
 
 # create the global register
 the_kernel_register = KernelRegister()
