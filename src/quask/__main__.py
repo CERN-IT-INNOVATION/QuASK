@@ -142,8 +142,10 @@ def apply_kernel():
             params.append(the_param_value)
         # calculate and save
         path = click.prompt("Where is the output folder?", type=click.Path(exists=True, file_okay=False, dir_okay=True))
+        print(X_train.shape, X_test.shape)
         training_gram = kernel_fn(X_train, X_train, params)
-        testing_gram = kernel_fn(X_train, X_test, params)
+        testing_gram = kernel_fn(X_test, X_train, params)
+        print(training_gram.shape, testing_gram.shape)
         np.save(f"{path}/training_{kernel_name}.npy", training_gram)
         np.save(f"{path}/testing_{kernel_name}.npy", testing_gram)
         print(f"Saved file {path}/training_{kernel_name}.npy")

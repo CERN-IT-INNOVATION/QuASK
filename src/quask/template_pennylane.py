@@ -1,5 +1,4 @@
 import jax
-import jax.numpy as jnp
 import pennylane as qml
 import pennylane.numpy as np
 
@@ -97,6 +96,33 @@ def random_qnn_encoding(x, wires, trotter_number=10):
             qml.RZZ(angle, wires=[wires[i], wires[i + 1]])
 
 
+def projected_xyz_embedding(embedding, X):
+    """
+    Create a Quantum Kernel given the template written in Pennylane framework
+    :param embedding: Pennylane template for the quantum feature map
+    :param X: First dataset
+    :return: projected quantum feature map X
+    """
+    N = X.shape[1]
+
+    # create device using JAX
+    device = qml.device("default.qubit.jax", wires=N)
+
+    # define the circuit for the quantum kernel ("overlap test" circuit)
+    @jax.jit
+    @qml.qnode(device)
+    def proj_feature_map(x):
+        embedding(x, wires=range(N))
+        return [qml.expval(qml.PauliX(i)) for i in range(N)] \
+               + [qml.expval(qml.PauliY(i)) for i in range(N)] \
+               + [qml.expval(qml.PauliZ(i)) for i in range(N)]
+
+    # build the gram matrix
+    X_proj = [proj_feature_map(x) for x in X]
+
+    return X_proj
+
+
 def pennylane_quantum_kernel(feature_map, X_1, X_2=None):
     """
     Create a Quantum Kernel given the template written in Pennylane framework
@@ -105,7 +131,8 @@ def pennylane_quantum_kernel(feature_map, X_1, X_2=None):
     :param X_2: Second dataset
     :return: Gram matrix
     """
-    if X_2 == None: X_2 = X_1  # Training Gram matrix
+    if X_2 is None:
+        X_2 = X_1  # Training Gram matrix
     assert X_1.shape[1] == X_2.shape[1], "The training and testing data must have the same dimensionality"
     N = X_1.shape[1]
 
@@ -127,35 +154,34 @@ def pennylane_quantum_kernel(feature_map, X_1, X_2=None):
     # build the gram matrix
     gram = np.zeros(shape=(X_1.shape[0], X_2.shape[0]))
     for i in range(X_1.shape[0]):
-        for j in range(i,X_2.shape[0]):
+        for j in range(i, X_2.shape[0]):
             gram[i][j] = kernel(X_1[i], X_2[j])
             gram[j][i] = gram[i][j]
-            
+
     return gram
 
 
-def pennylane_projected_feature_map(feature_map, X):
+def pennylane_projected_quantum_kernel(feature_map, X_1, X_2=None, params=[1.0]):
     """
     Create a Quantum Kernel given the template written in Pennylane framework
     :param feature_map: Pennylane template for the quantum feature map
-    :param X: First dataset
-    :return: projected quantum feature map X
+    :param X_1: First dataset
+    :param X_2: Second dataset
+    :return: Gram matrix
     """
-    N = X.shape[1]
+    if X_2 is None:
+        X_2 = X_1  # Training Gram matrix
+    assert X_1.shape[1] == X_2.shape[1], "The training and testing data must have the same dimensionality"
 
-    # create device using JAX
-    device = qml.device("default.qubit.jax", wires=N)
-
-    # define the circuit for the quantum kernel ("overlap test" circuit)
-    @jax.jit
-    @qml.qnode(device)
-    def proj_feature_map(x):
-        feature_map(x, wires=range(N))
-        return [qml.expval(qml.PauliX(i)) for i in range(N)] \
-               + [qml.expval(qml.PauliY(i)) for i in range(N)] \
-               + [qml.expval(qml.PauliZ(i)) for i in range(N)]
+    X_1_proj = projected_xyz_embedding(feature_map, X_1)
+    X_2_proj = projected_xyz_embedding(feature_map, X_2)
 
     # build the gram matrix
-    X_proj = [proj_feature_map(x) for x in X]
+    gamma = params[0]
 
-    return X_proj
+    gram = np.zeros(shape=(X_1.shape[0], X_2.shape[0]))
+    for i in range(X_1_proj.shape[0]):
+        for j in range(X_2_proj.shape[0]):
+            gram[i][j] = np.exp(-gamma * ((X_1_proj[i] - X_2_proj[j]) ** 2).sum())
+
+    return gram

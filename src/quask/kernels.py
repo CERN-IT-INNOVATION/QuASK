@@ -1,6 +1,6 @@
 from sklearn.metrics.pairwise import linear_kernel, rbf_kernel, polynomial_kernel
-from .template_pennylane import zz_fullentanglement_embedding, pennylane_quantum_kernel, pennylane_projected_feature_map
-import numpy as np
+from .template_pennylane import zz_fullentanglement_embedding, pennylane_quantum_kernel, pennylane_projected_quantum_kernel, random_qnn_encoding
+
 
 class KernelRegister:
 
@@ -26,43 +26,6 @@ class KernelRegister:
         return ret
 
 
-def zz_quantum_kernel(X_1, X_2=None, params=None):
-    """
-    Create the kernel matrix using the Quantum ZZ Feature Map (with full entanglement scheme)
-    using the structure described in https://qiskit.org/documentation/stubs/qiskit.circuit.library.ZZFeatureMap.html.
-    To create the training Gram matrix pass X_1 = training set and X_2 = None
-    To create the testing Gram matrix pass X_1 = testing set and X_2 = training set
-    :param X_1: First dataset
-    :param X_2: Second dataset
-    :param params: ignored
-    :return: Gram matrix
-    """
-    return pennylane_quantum_kernel(zz_fullentanglement_embedding, X_1, X_2)
-
-
-def projected_zz_quantum_kernel(X_1, X_2=None, params=[0.01]):
-    """
-    To create the training Gram matrix pass X_1 = training set and X_2 = None
-    To create the testing Gram matrix pass X_1 = testing set and X_2 = training set
-    :param X_1: First dataset
-    :param X_2: Second dataset
-    :param params: list of floats, params[0] is the gamma parameter
-    :return: Gram matrix
-    """
-    X_1_proj = pennylane_projected_feature_map(zz_fullentanglement_embedding, X_1)
-    X_2_proj = pennylane_projected_feature_map(zz_fullentanglement_embedding, X_2)
-
-    # build the gram matrix
-    gamma = params[0]
-
-    gram = np.zeros(shape=(X_1.shape[0], X_2.shape[0]))
-    for i in range(X_1_proj.shape[0]):
-        for j in range(X_2_proj.shape[0]):
-            gram[i][j] = np.exp(-gamma * ((X_1_proj[i] - X_2_proj[j])**2).sum())
-
-    return gram
-
-
 # create the global register
 the_kernel_register = KernelRegister()
 
@@ -79,7 +42,16 @@ poly_kernel_wrapper = lambda X1, X2, params: polynomial_kernel(X1, X2, degree=in
 the_kernel_register.register(poly_kernel_wrapper, 'poly_kernel', ['degree'])
 
 # register custom quantum kernels
+zz_quantum_kernel = lambda X_1, X_2, params: pennylane_quantum_kernel(zz_fullentanglement_embedding, X_1, X_2)
 the_kernel_register.register(zz_quantum_kernel, 'zz_quantum_kernel', [])
+
+projected_zz_quantum_kernel = lambda X_1, X_2, params: pennylane_projected_quantum_kernel(zz_fullentanglement_embedding, X_1, X_2, params)
 the_kernel_register.register(projected_zz_quantum_kernel, 'projected_zz_quantum_kernel', ['gamma'])
+
+random_quantum_kernel = lambda X_1, X_2, params: pennylane_quantum_kernel(random_qnn_encoding, X_1, X_2, params)
+the_kernel_register.register(random_quantum_kernel, 'random_quantum_kernel', ['gamma'])
+
+projected_random_quantum_kernel = lambda X_1, X_2, params: pennylane_projected_quantum_kernel(random_qnn_encoding, X_1, X_2, params)
+the_kernel_register.register(projected_random_quantum_kernel, 'projected_random_quantum_kernel', ['gamma'])
 
 # TODO add registration of more quantum kernels
