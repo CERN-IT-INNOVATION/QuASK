@@ -65,61 +65,6 @@ class Data:
         self.filename = filename
         self.path = path
 
-    def data_load(self, datatype):
-        """
-        load background/signal
-
-        This function loads the background and signal dataset.
-
-        """
-        # fetching the dataset from CERNBox drive
-        
-        url = 'https://cernbox.cern.ch/index.php/s/WAKFsaxC9aSW59R?path=%2Finput_ae'
-        if datatype == 'train':
-            name = 'x_data_minmax_7.20e+05_train.npy'
-        elif datatype == 'test':
-            name = 'x_data_minmax_7.20e+05_test.npy'
-        elif datatype == 'valid':
-            name = 'x_data_minmax_7.20e+05_valid.npy'
-
-        r = requests.get(url+name).content
-        with open(self.filename, 'wb') as self.data:
-            self.data.write(r)        
-        
-        print(self.data[:10])
-
-        # self.data = np.load(f'{self.path+self.filename}')
-        self.n_datapoints = self.data.shape[0]
-        self.n_features = self.data.shape[1]
-        return self
-
-    def label_load(self, datatype):
-        """
-        load background/signal
-
-        This function loads the background and signal dataset.
-
-        """
-        # fetching the background dataset from its path
-
-        url = 'https://cernbox.cern.ch/index.php/s/WAKFsaxC9aSW59R?path=%2Finput_ae'
-        if datatype == 'train':
-            name = 'y_data_minmax_7.20e+05_train.npy'
-        elif datatype == 'test':
-            name = 'y_data_minmax_7.20e+05_test.npy'
-        elif datatype == 'valid':
-            name = 'y_data_minmax_7.20e+05_valid.npy'
-
-        r = requests.get(url+name).content
-        with open(self.filename, 'wb') as self.data:
-            self.data.write(r)
-
-        print(self.data[:10])
-
-        # self.data = np.load(f'{self.path+self.filename}')
-        self.n_datapoints = self.data.shape[0]
-        return self
-
     def get_feature_names(self):
         """
         get feature names
@@ -285,7 +230,18 @@ class Data:
         return np.savetxt(self.path + self.filename, self.data)
 
 
-def download_dataset_HEP(datatype, N_TRAIN, n_features):
+def download_dataset_HEP():
+    url = 'coming_soon'
+    name_X = 'X_Higgs'
+    name_y = 'y_Higgs'
+
+    r_X = requests.get(url+name_X).content
+    X = open("X_Higgs.npy", 'wb').write(r_X)
+    r_y = requests.get(url+name_y).content
+    y = open("y_Higgs.npy", 'wb').write(r_y)
+    return X, y
+
+def process_dataset_HEP(datatype, N_TRAIN, n_features):
 
     X = Data()
     y = Data()
@@ -295,8 +251,7 @@ def download_dataset_HEP(datatype, N_TRAIN, n_features):
     y.filename = f'y_{datatype}_higgs_{N_TRAIN}_{n_features}'
     y.path = 'resources/'
 
-    X.data_load(datatype)
-    y.label_load(datatype)
+    X.data, y.data = download_dataset_HEP()
 
     print('uploaded')
 
@@ -364,7 +319,7 @@ def get_dataset_quantum(the_id):
     return X, y
 
 def get_dataset_HEP():
-    download_dataset_HEP
+    download_dataset_HEP()
     pass
 
 class DatasetRegister:

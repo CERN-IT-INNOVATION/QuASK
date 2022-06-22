@@ -54,6 +54,22 @@ def calculate_generalization_accuracy(training_gram, training_labels, testing_gr
     accuracy = correct / len(testing_labels)
     return accuracy
 
+def calculate_approximate_dimension(k):
+    """
+    Calculate the approximate dimension (d), which is equation S111 in the Supplementary 
+    of the "The power of data in quantum machine learning" 
+    (https://www.nature.com/articles/s41467-021-22539-9).
+    :param k: Kernel gram matrix
+    :return: approximate dimension of the given kernel
+    """
+    u, t, udagger = la.svd(k, full_matrices=True)
+
+    N = len(t)
+    
+    d = 0
+    for i in range(N):
+        d += 1/(N-i)*sum(t[i:])
+    return d
 
 def calculate_geometric_difference(k_1, k_2, normalization_lambda=0.001):
     """
@@ -73,7 +89,7 @@ def calculate_geometric_difference(k_1, k_2, normalization_lambda=0.001):
     # √K2
     k_2_sqrt = np.real(sqrtm(k_2))
     # √(K2 + lambda I)^-2
-    kc_inv = np.linalg.inv(k_2 + normalization_lambda * np.eye(n))
+    kc_inv = la.inv(k_2 + normalization_lambda * np.eye(n))
     kc_inv = kc_inv @ kc_inv
     # Equation F9
     f9_body = k_1_sqrt.dot(k_2_sqrt.dot(kc_inv.dot(k_2_sqrt.dot(k_1_sqrt))))
