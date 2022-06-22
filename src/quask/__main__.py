@@ -10,7 +10,7 @@ from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
 import prince
 from .datasets import the_dataset_register
-from .metrics import calculate_generalization_accuracy
+from .metrics import calculate_generalization_accuracy, calculate_kernel_target_alignment, calculate_geometric_difference, calculate_model_complexity
 from .kernels import the_kernel_register
 from .template_pennylane import PennylaneTrainableKernel
 
@@ -176,16 +176,16 @@ def apply_kernel(x_train, y_train, x_test, y_test):
 
 
 @main.command()
-@click.option('--x', type=click.Path(exists=True), required=True, multiple=True)
-@click.option('--y', type=click.Path(exists=True), required=True, multiple=True)
-@click.option('--xt', type=click.Path(exists=True), required=True, multiple=True)
-@click.option('--yt', type=click.Path(exists=True), required=True, multiple=True)
+@click.option('--train-gram', type=click.Path(exists=True), required=True, multiple=True)
+@click.option('--train-y', type=click.Path(exists=True), required=True, multiple=True)
+@click.option('--test-gram', type=click.Path(exists=True), required=True, multiple=True)
+@click.option('--test-y', type=click.Path(exists=True), required=True, multiple=True)
 @click.option('--label', type=click.STRING, required=True, multiple=True)
-def plot_accuracy(x, y, xt, yt, label):
+@click.option('--metric', type=click.Choice(['kernel-target-alignment', 'accuracy', 'geometric-difference', 'model-complexity']), required=True, multiple=False)
+@click.option('--geometric-difference-base-gram', type=click.Path(exists=True), required=False)
+def plot_metric(train_gram, train_y, test_gram, test_y, label, metric, geometric_difference_base_gram):
     """
     Generate the bar plot with the given input files.
-    TODO TEST.
-    TODO ADD ERROR BAR FOR ELEMENTS WITH THE SAME LABEL.
     :param x: Training gram matrix file (.npy, can be repeated multiple times)
     :param y: Training label file (.npy, can be repeated multiple times)
     :param xt: Testing gram matrix file (.npy, can be repeated multiple times)
@@ -193,17 +193,46 @@ def plot_accuracy(x, y, xt, yt, label):
     :param label: Label of the current bar (string)
     :return: None, shows a matplotlib image on a new window
     """
-    ind = range(len(x))
-    acc = [calculate_generalization_accuracy(xc, yc, xtc, ytc) for (xc, yc, xtc, ytc) in zip(x, y, xt, yt)]
+    assert len(train_gram) == len(train_y) == len(test_gram) == len(test_y) == len(label)
+    assert metric != 'geometric-difference' or geometric_difference_base_gram is not None
+
+    if geometric_difference_base_gram is not None:
+        geometric_difference_base_gram = np.load(geometric_difference_base_gram)
+
+    # get kernel names (do not sort?)
+    kernel_names = list(dict.fromkeys(label))
+    # create x axis
+    ind = range(len(kernel_names))
+    # create y axis
+    kernel_values = []
+    for i, kernel_name in enumerate(kernel_names):
+        kernel_values.append([])
+        for (train_gram_current, train_y_current, test_gram_current, test_y_current, kernel_name_current) in zip(train_gram, train_y, test_gram, test_y, label):
+            train_gram_current = np.load(train_gram_current)
+            train_y_current = np.load(train_y_current)
+            test_gram_current = np.load(test_gram_current)
+            test_y_current = np.load(test_y_current)
+            if kernel_name_current == kernel_name:
+                if metric == 'kernel-target-alignment':
+                    kernel_values[i].append(calculate_kernel_target_alignment(test_gram_current, test_y_current))
+                elif metric == 'accuracy':
+                    kernel_values[i].append(calculate_generalization_accuracy(train_gram_current, train_y_current, test_gram_current, test_y_current))
+                elif metric == 'geometric-difference':
+                    kernel_values[i].append(calculate_geometric_difference(test_gram_current, geometric_difference_base_gram))
+                elif metric == 'model-complexity':
+                    kernel_values[i].append(calculate_model_complexity(train_gram_current, train_y_current))
+
+    kernel_mean = [np.mean(item) for item in kernel_values]
+    kernel_variance = [np.var(item) for item in kernel_values]
+    # create plot
     fig, ax = plt.subplots()
-    p1 = ax.bar(ind, acc, 0.35, yerr=0, label='')
+    p1 = ax.bar(ind, kernel_mean, 0.35, yerr=kernel_variance, label='')
     ax.set_xlabel('Models')
-    ax.set_xticks(ind, labels=label)
-    ax.set_ylabel('Accuracy')
+    ax.set_xticks(ind, labels=kernel_names)
+    ax.set_ylabel(metric)
     ax.set_ylim((0, 1))
-    ax.set_title('Accuracies of the configurations')
-    ax.legend()
-    plt.show()
+    ax.set_title(f'{metric} of the configurations')
+    plt.savefig('plot_metric.png')
 
 
 if __name__ == '__main__':
