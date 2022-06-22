@@ -227,7 +227,7 @@ def plot_metric(train_gram, train_y, test_gram, test_y, label, metric, geometric
     # create plot
     fig, ax = plt.subplots()
     p1 = ax.bar(ind, kernel_mean, 0.35, yerr=kernel_variance, label='')
-    ax.set_xlabel('Models')
+    ax.set_xlabel('Kernels')
     ax.set_xticks(ind, labels=kernel_names)
     ax.set_ylabel(metric)
     ax.set_ylim((0, 1))
