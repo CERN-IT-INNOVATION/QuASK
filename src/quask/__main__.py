@@ -12,6 +12,7 @@ import prince
 from .datasets import the_dataset_register
 from .metrics import calculate_generalization_accuracy
 from .kernels import the_kernel_register
+from .template_pennylane import PennylaneTrainableKernel
 
 
 @click.group()
@@ -72,7 +73,7 @@ def preprocess_dataset():
             print(f"\t\tClass {item} is present {counts} times ({100 * counts / len(Y):4.2f} %)")
         # allow to pick only come classes while discarding others
         if len(classes) > 2 and click.confirm('Do you want to pick just the first two classes?'):
-            indexes = Y[(Y == classes[0]) | (Y == classes[1])]
+            indexes = (Y == classes[0]) | (Y == classes[1])
             X = X[indexes]
             Y = Y[indexes]
         # undersampling
@@ -114,12 +115,16 @@ def preprocess_dataset():
 
 
 @main.command()
-def apply_kernel():
+@click.option('--x-train', type=click.Path(exists=True, dir_okay=False, file_okay=True), required=False)
+@click.option('--y-train', type=click.Path(exists=True, dir_okay=False, file_okay=True), required=False)
+@click.option('--x-test', type=click.Path(exists=True, dir_okay=False, file_okay=True), required=False)
+@click.option('--y-test', type=click.Path(exists=True, dir_okay=False, file_okay=True), required=False)
+def apply_kernel(x_train, y_train, x_test, y_test):
     # load files
-    X_train_path = click.prompt("Where is X_train (npy file)?", type=click.Path(exists=True, file_okay=True, dir_okay=False))
-    y_train_path = click.prompt("Where is y_train (npy file)?", type=click.Path(exists=True, file_okay=True, dir_okay=False))
-    X_test_path = click.prompt("Where is X_test (npy file)?", type=click.Path(exists=True, file_okay=True, dir_okay=False))
-    y_test_path = click.prompt("Where is y_test (npy file)?", type=click.Path(exists=True, file_okay=True, dir_okay=False))
+    X_train_path = click.prompt("Where is X_train (npy file)?", type=click.Path(exists=True, file_okay=True, dir_okay=False)) if x_train is None else x_train
+    y_train_path = click.prompt("Where is y_train (npy file)?", type=click.Path(exists=True, file_okay=True, dir_okay=False)) if y_train is None else y_train
+    X_test_path = click.prompt("Where is X_test (npy file)?", type=click.Path(exists=True, file_okay=True, dir_okay=False)) if x_test is None else x_test
+    y_test_path = click.prompt("Where is y_test (npy file)?", type=click.Path(exists=True, file_okay=True, dir_okay=False)) if y_test is None else y_test
     X_train = np.load(X_train_path)
     y_train = np.load(y_train_path)
     X_test = np.load(X_test_path)
@@ -151,8 +156,23 @@ def apply_kernel():
         print(f"Saved file {path}/training_{kernel_name}.npy")
         print(f"Saved file {path}/testing_{kernel_name}.npy")
     else:
-        pass
+        embedding = click.prompt("Choose an embedding for your data", type=click.Choice(['rx', 'ry', 'rz', 'zz']))
+        var_form = click.prompt("Choose an embedding for your data", type=click.Choice(['hardware_efficient', 'tfim', 'ltfim', 'zz_rx']))
+        layers = click.prompt("Choose a number of layers", type=click.IntRange(1, 1000))
+        optimizer = click.prompt("Choose an optimizer", type=click.Choice(['adam', 'grid']))
+        metric = click.prompt("Choose a reward metric to maximize", type=click.Choice(['kernel-target-alignment', 'accuracy', 'geometric-difference', 'model-complexity']))
+        seed = click.prompt('Choose a random seed', type=int)
 
+        np.random.seed(seed)
+        trainable_kernel = PennylaneTrainableKernel(X_train, y_train, X_test, y_test, embedding, var_form, layers, optimizer, metric, seed=seed, keep_intermediate=True)
+        trainable_kernel.optimize_circuit()
+        training_gram, testing_gram = trainable_kernel.get_optimized_gram_matrices()
+        kernel_name = f"trainable_{embedding}_{var_form}_{layers}_{optimizer}_{metric}"
+        path = click.prompt("Where is the output folder?", type=click.Path(exists=True, file_okay=False, dir_okay=True))
+        np.save(f"{path}/training_{kernel_name}.npy", training_gram)
+        np.save(f"{path}/testing_{kernel_name}.npy", testing_gram)
+        print(f"Saved file {path}/training_{kernel_name}.npy")
+        print(f"Saved file {path}/testing_{kernel_name}.npy")
 
 
 @main.command()
