@@ -1,13 +1,10 @@
-
 # Import general purpose module(s)
 from typing import Optional
 import numpy as np
 from sklearn.preprocessing import MaxAbsScaler, StandardScaler
 from sklearn.metrics import roc_curve, auc
-from .observable import observables
 import openml
 import requests
-import io
     
 
 def download_dataset_openml(the_id):
