@@ -107,7 +107,7 @@ def calculate_model_complexity(k, y, normalization_lambda=0.001):
     :return: model complexity of the given kernel
     """
     n = k.shape[0]
-    k_inv = sqrtm(k + normalization_lambda * np.eye(n))
+    k_inv = la.inv(k + normalization_lambda * np.eye(n))
     k_body = k_inv.dot(k.dot(k_inv))
     model_complexity = 0
     for i in range(n):
