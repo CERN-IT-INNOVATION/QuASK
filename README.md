@@ -2,7 +2,53 @@
 
 ## Quantum Advantage Seeker with Kernel
 
-QuASK is a quantum machine learning software written in Python3 that facilitates researchers in designing, experimenting, and assessing different quantum kernels' performance. This software is platform agnostic and can be integrated with all major quantum software platforms (e.g. IBM Qiskit, Xanadu’s Pennylane, Amazon Braket). QuASK guides the user through a simple preprocessing of the classical data in input, applies quantum kernels that are either user-specified or already pre-existing and analyzes the result in generalization error. It allows for the generation of parametric quantum kernels that can be trained using gradient-descent-based optimization, grid search, or genetic algorithms. Projected quantum kernels can be used to mitigate the curse of dimensionality induced by the exponential scaling dimension of many-qubits Hilbert spaces. QuASK can also generate the observable values of a quantum model and use them to study the prediction capabilities of the quantum and classical kernels.
+QuASK is a quantum machine learning software written in Python that 
+supports researchers in designing, experimenting, and assessing 
+different quantum and classic kernels performance. This software 
+is package agnostic and can be integrated with all major quantum 
+software packages (e.g. IBM Qiskit, Xanadu’s Pennylane, Amazon Braket).
+QuASK guides the user through a simple preprocessing of input data, 
+definition and calculation of quantum and classic kernels, 
+either custom or pre-defined ones. From this evaluation the package 
+provide an assessment about potential quantum advantage and prediction 
+bounds on generalization error.
+Beyond theoretical framing, it allows for the generation of parametric
+quantum kernels that can be trained using gradient-descent-based 
+optimization, grid search, or genetic algorithms. Projected quantum 
+kernels, an effective solution to mitigate the curse of dimensionality 
+induced by the exponential scaling dimension of large Hilbert spaces,
+is also calculated. QuASK can also generate the observable values of
+a quantum model and use them to study the prediction capabilities of
+the quantum and classical kernels.
+
+## Installation
+
+The software requires Python3 version 3.9.10 or newer. The easiest way
+to install the software is through PiP packet manager, using the command:
+
+```python3 -m pip install quask```
+
+or by downloading the software directly from this repository:
+
+```python3 -m pip install https://github.com/QML-HEP/quask/archive/master.zip```
+
+## Usage
+
+## Credits
+
+Please cite the work using the following Bibtex entry:
+
+```text
+@article{CitekeyArticle,
+  author   = "P. J. Cohen",
+  title    = "The independence of the continuum hypothesis",
+  journal  = "Proceedings of the National Academy of Sciences",
+  year     = 1963,
+  volume   = "50",
+  number   = "6",
+  pages    = "1143--1148",
+}
+```
 
 
 ## Project name, project webpage and project GitHub repository
@@ -33,4 +79,4 @@ QuASK is a quantum machine learning software written in Python3 that facilitates
 <!--
 - [ ] [Sphynx](https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html) with Napoleon theme and Autodoc, include it in `docs` folder
 -->
-- [ ] citation policy: how to use and cite the code (e.g. BibTex reference)
+- [X] citation policy: how to use and cite the code (e.g. BibTex reference)

@@ -10,6 +10,15 @@ setup(
     license='Apache License Version 2.0',
     packages=setuptools.find_packages(),
     python_requires='>=3.9.10',
+    install_requires=[
+        'openml',
+        'numpy',
+        'scikit-learn',
+        'scipy',
+        'PennyLane',
+        'PennyLane-qiskit',
+        'jax'
+    ],
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: Unix',
