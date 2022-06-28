@@ -1,24 +1,42 @@
+"""
+Module dedicated to the generation and retrieval of classical and quantum datasets.
+
+Args:
+    the_dataset_register: singleton global instance of DatasetRegister
+"""
+
+
 import openml
 import numpy as np
-    
+
 
 def download_dataset_openml(the_id):
     """
-    Download a dataset from OpenML platform given the ID of the dataset
-    :param the_id: ID of the dataset
-    :return: X, y tuple
+    Download a dataset from OpenML platform given the ID of the dataset.
+
+    Args:
+        the_id: ID of the dataset (int)
+
+    Returns:
+        tuple (X, y) of numpy ndarray having shapes (d,n) and (n,)
     """
     metadata = openml.datasets.get_dataset(the_id)
     # get dataset
-    X, y, _, attribute_names = metadata.get_data(dataset_format="array", target=metadata.default_target_attribute)
+    X, y, _, attribute_names = metadata.get_data(
+        dataset_format="array", target=metadata.default_target_attribute
+    )
     return X, y
 
 
 def download_dataset_openml_by_name(name):
     """
     Download a dataset from OpenML platform given the name of the dataset
-    :param name: name of the dataset
-    :return: X, y tuple
+
+    Args:
+        name: name of the dataset (str)
+
+    Returns:
+        tuple (X, y) of numpy ndarray having shapes (d,n) and (n,)
     """
     # get the list of all datasets in OpenML platform
     openml_df = openml.datasets.list_datasets(output_format="dataframe")
@@ -29,11 +47,9 @@ def download_dataset_openml_by_name(name):
 
 def get_dataset_quantum(the_id):
     """
-    get dataset quantum
-
     This function calls already preprocessed datasets with quantum labels.
     These examples are identified with a specific id.
-    The avaliable datasets at the moment are:
+    The available datasets at the moment are:
         - Fashion-MNIST with 2 features and encoding E1
         - Fashion-MNIST with 4 features and encoding E2
         - Fashion-MNIST with 8 features and encoding E3
@@ -41,7 +57,11 @@ def get_dataset_quantum(the_id):
     These datasets can be used to benchmark the performace of our
     classical and quantum kernels to verify the power of data.
 
-    :the_id: parameter able to distinguish between quantum dataset
+    Args
+        the_id: parameter able to distinguish between quantum dataset
+
+    Returns:
+        tuple (X, y) of numpy ndarray having shapes (d,n) and (n,)
     """
     try:
         import importlib.resources as pkg_resources
@@ -52,41 +72,74 @@ def get_dataset_quantum(the_id):
     from . import resources
 
     if the_id == 0:
-        X = np.loadtxt(pkg_resources.open_text(resources, "X_Q_Fashion-MNIST_720_2_E1"), delimiter=' ')
-        y = np.loadtxt(pkg_resources.open_text(resources, "y_Q_Fashion-MNIST_720_2_E1"), delimiter=' ')
+        X = np.loadtxt(
+            pkg_resources.open_text(resources, "X_Q_Fashion-MNIST_720_2_E1"),
+            delimiter=" ",
+        )
+        y = np.loadtxt(
+            pkg_resources.open_text(resources, "y_Q_Fashion-MNIST_720_2_E1"),
+            delimiter=" ",
+        )
     elif the_id == 1:
-        X = np.loadtxt(pkg_resources.open_text(resources, "X_Q_Fashion-MNIST_720_4_E2"), delimiter=' ')
-        y = np.loadtxt(pkg_resources.open_text(resources, "y_Q_Fashion-MNIST_720_4_E2"), delimiter=' ')
+        X = np.loadtxt(
+            pkg_resources.open_text(resources, "X_Q_Fashion-MNIST_720_4_E2"),
+            delimiter=" ",
+        )
+        y = np.loadtxt(
+            pkg_resources.open_text(resources, "y_Q_Fashion-MNIST_720_4_E2"),
+            delimiter=" ",
+        )
     elif the_id == 2:
-        X = np.loadtxt(pkg_resources.open_text(resources, "X_Q_Fashion-MNIST_720_8_E3"), delimiter=' ')
-        y = np.loadtxt(pkg_resources.open_text(resources, "y_Q_Fashion-MNIST_720_8_E3"), delimiter=' ')
+        X = np.loadtxt(
+            pkg_resources.open_text(resources, "X_Q_Fashion-MNIST_720_8_E3"),
+            delimiter=" ",
+        )
+        y = np.loadtxt(
+            pkg_resources.open_text(resources, "y_Q_Fashion-MNIST_720_8_E3"),
+            delimiter=" ",
+        )
 
     return X, y
 
 
 class DatasetRegister:
+    """
+    List of datasets available in this module. The object is iterable.
+    """
 
     def __init__(self):
+        """
+        Init method.
+
+        Returns:
+            None
+        """
         self.datasets = []
         self.current = 0
 
     def register(self, dataset_name, dataset_type, information_nature, get_dataset):
         """
-        Register a new dataset
-        :param dataset_name: name of the dataset
-        :param dataset_type: 'regression' or 'classification'
-        :param information_nature: 'classical' or 'quantum'
-        :param get_dataset: function pointer to a zero-parameter function returning (X, y)
-        :return: None
+        Register a new dataset.
+
+        Args:
+            dataset_name: name of the dataset
+            dataset_type: 'regression' or 'classification'
+            information_nature: 'classical' or 'quantum'
+            get_dataset: function pointer to a zero-parameter function returning (X, y)
+
+        Returns:
+            None
         """
-        assert dataset_type in ['regression', 'classification']
-        assert information_nature in ['classical', 'quantum']
-        self.datasets.append({
-            'name': dataset_name,
-            'type': dataset_type,
-            'information': information_nature,
-            'get_dataset': get_dataset
-        })
+        assert dataset_type in ["regression", "classification"]
+        assert information_nature in ["classical", "quantum"]
+        self.datasets.append(
+            {
+                "name": dataset_name,
+                "type": dataset_type,
+                "information": information_nature,
+                "get_dataset": get_dataset,
+            }
+        )
 
     def __iter__(self):
         return self
@@ -102,13 +155,30 @@ class DatasetRegister:
 
 
 the_dataset_register = DatasetRegister()
-the_dataset_register.register('iris', 'classification', 'classical', lambda: download_dataset_openml(61))
-the_dataset_register.register('Fashion-MNIST', 'classification', 'classical', lambda: download_dataset_openml(40996))
-the_dataset_register.register('liver-disorders', 'regression', 'classical', lambda: download_dataset_openml(8))
-the_dataset_register.register('delta_elevators', 'regression', 'classical', lambda: download_dataset_openml(198))
-the_dataset_register.register('Q_Fashion-MNIST_2_E1', 'regression', 'quantum', lambda: get_dataset_quantum(0))
-the_dataset_register.register('Q_Fashion-MNIST_4_E2', 'regression', 'quantum', lambda: get_dataset_quantum(1))
-the_dataset_register.register('Q_Fashion-MNIST_8_E3', 'regression', 'quantum', lambda: get_dataset_quantum(2))
+the_dataset_register.register(
+    "iris", "classification", "classical", lambda: download_dataset_openml(61)
+)
+the_dataset_register.register(
+    "Fashion-MNIST",
+    "classification",
+    "classical",
+    lambda: download_dataset_openml(40996),
+)
+the_dataset_register.register(
+    "liver-disorders", "regression", "classical", lambda: download_dataset_openml(8)
+)
+the_dataset_register.register(
+    "delta_elevators", "regression", "classical", lambda: download_dataset_openml(198)
+)
+the_dataset_register.register(
+    "Q_Fashion-MNIST_2_E1", "regression", "quantum", lambda: get_dataset_quantum(0)
+)
+the_dataset_register.register(
+    "Q_Fashion-MNIST_4_E2", "regression", "quantum", lambda: get_dataset_quantum(1)
+)
+the_dataset_register.register(
+    "Q_Fashion-MNIST_8_E3", "regression", "quantum", lambda: get_dataset_quantum(2)
+)
 
 
 # class Data:
@@ -416,4 +486,3 @@ the_dataset_register.register('Q_Fashion-MNIST_8_E3', 'regression', 'quantum', l
 #     X, y = download_dataset_openml(the_id)
 #     y = random_qnn_encoding(X, wires)
 #     return X, y
-
