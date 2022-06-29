@@ -7,6 +7,11 @@ Welcome to QuASK's documentation!
 =================================
 Quantum Advantage Seeker with Kernel
 
+.. image:: images/high_level_arch.png
+  :width: 80%
+  :align: center
+  :alt: Alternative text
+
 QuASK is a quantum machine learning software written in Python that supports researchers in designing, experimenting, and assessing different quantum and classic kernels performance. This software is package agnostic and can be integrated with all major quantum software packages (e.g. IBM Qiskit, Xanadu’s Pennylane, Amazon Braket).
 
 QuASK guides the user through a simple preprocessing of input data, definition and calculation of quantum and classic kernels, either custom or pre-defined ones. From this evaluation the package provide an assessment about potential quantum advantage and prediction bounds on generalization error.
