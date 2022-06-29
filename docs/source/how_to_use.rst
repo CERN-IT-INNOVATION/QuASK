@@ -7,10 +7,10 @@ Installation
 
 The software has been tested on Python 3.9.10. We recommend using this version or a newer one. 
 
-The repository contains a ```requirements.txt``` file which can be installed 
+The repository contains a ``requirements.txt`` file which can be installed 
 by running from the main directory of the project using the command:
 
-```python3 -m pip install -r requirements.txt```
+``python3 -m pip install -r requirements.txt``
 
 You can install the software directly from the repository using the command:
 
@@ -18,23 +18,25 @@ You can install the software directly from the repository using the command:
 
 or through PiP packet manager using the command:
 
-```python3 -m pip install quask```
+``python3 -m pip install quask``
 
 Usage
 ==============
-### Use quask as a library of software components
+Use quask as a library of software components
+-----------
 
 QuASK can be used as a library to extend your own software. Check if everything's working with:
 
-```python
-import numpy as np
-import quask.metrics
-A = np.array([[1,2], [3,4]])
-B = np.array([[5,6], [7,8]])
+``python
+import numpy as np |
+import quask.metrics |
+A = np.array([[1,2], [3,4]]) |
+B = np.array([[5,6], [7,8]]) |
 print(quask.metrics.calculate_frobenius_inner_product(A, B))  # 70
-```
+``
 
-### Use quask as a command-line interface tool
+Use quask as a command-line interface tool
+-----------
 
 QuASK can be used as a command-line interface to analyze the dataset with the
 kernel methods. These are the commands implemented so far.
