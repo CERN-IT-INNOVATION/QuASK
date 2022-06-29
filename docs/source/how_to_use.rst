@@ -14,7 +14,7 @@ by running from the main directory of the project using the command:
 
 You can install the software directly from the repository using the command:
 
-```python3 -m pip install https://github.com/QML-HEP/quask/archive/master.zip```
+``python3 -m pip install https://github.com/QML-HEP/quask/archive/master.zip``
 
 or through PiP packet manager using the command:
 
@@ -27,13 +27,12 @@ Use quask as a library of software components
 
 QuASK can be used as a library to extend your own software. Check if everything's working with:
 
-```python
-| import numpy as np 
-| import quask.metrics 
-| A = np.array([[1,2], [3,4]]) 
-| B = np.array([[5,6], [7,8]]) 
-| print(quask.metrics.calculate_frobenius_inner_product(A, B))  
-```
+``python``
+| ``import numpy as np ``
+| ``import quask.metrics ``
+| ``A = np.array([[1,2], [3,4]]) ``
+| ``B = np.array([[5,6], [7,8]])`` 
+| ``print(quask.metrics.calculate_frobenius_inner_product(A, B)) ``
 
 Use quask as a command-line interface tool
 ----------------------------
