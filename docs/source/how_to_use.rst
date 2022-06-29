@@ -23,20 +23,20 @@ or through PiP packet manager using the command:
 Usage
 ==============
 Use quask as a library of software components
------------
+--------------
 
 QuASK can be used as a library to extend your own software. Check if everything's working with:
 
-``python
+```python
 import numpy as np |
 import quask.metrics |
 A = np.array([[1,2], [3,4]]) |
 B = np.array([[5,6], [7,8]]) |
 print(quask.metrics.calculate_frobenius_inner_product(A, B))  # 70
-``
+```
 
 Use quask as a command-line interface tool
------------
+--------------
 
 QuASK can be used as a command-line interface to analyze the dataset with the
 kernel methods. These are the commands implemented so far.
