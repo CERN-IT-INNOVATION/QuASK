@@ -7,7 +7,7 @@ Welcome to QuASK's documentation!
 =================================
 Quantum Advantage Seeker with Kernel
 
-.. image:: ../source/images/high_level_arch.png
+.. image:: docs/source/images/high_level_arch.png
   :width: 80%
   :align: center
   :alt: Alternative text
