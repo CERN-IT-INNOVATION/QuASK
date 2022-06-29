@@ -94,20 +94,3 @@ Please cite the work using the following Bibtex entry:
   pages    = "1143--1148",
 }
 ```
-
-# Missing bits
-
-## Project name, project webpage and project GitHub repository
-
-- [ ] use `main` branch for production-ready state only
-- [ ] create `develop` branch for the latest delivered development changes for the next release
-- [ ] create your development branch where each contributor works on a daily basis
-
-##  Requirements before promoting the project from private to public
-- [ ] `bibliography.md`: Zenodo link to external papers and datasets used
-- [X] Semantic versioning: comply with [semver.org](https://github.com/semver/semver/blob/master/semver.md) and [apache.org](https://apr.apache.org/versioning.html)
-- [ ] documentation: using [readthedocs](https://docs.readthedocs.io/en/stable/tutorial/) and [simple formatting rules](https://hplgit.github.io/teamods/sphinx_api/html/sphinx_api.html). Please, use one of the following two standards: [Google's docstring](https://google.github.io/styleguide/pyguide.html) or [Numpy's docstring](https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard).
-<!--
-- [ ] [Sphynx](https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html) with Napoleon theme and Autodoc, include it in `docs` folder
--->
-- [X] citation policy: how to use and cite the code (e.g. BibTex reference)
