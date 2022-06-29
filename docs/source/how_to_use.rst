@@ -42,16 +42,16 @@ kernel methods. These are the commands implemented so far.
 
 To retrieve the datasets available:
 
-    $ python3.9 -m quask get-dataset
+     ``python3.9 -m quask get-dataset``
 
 To preprocess a dataset:
 
-    $ python3.9 -m quask preprocess-dataset
+    ``python3.9 -m quask preprocess-dataset``
 
 To analyze a dataset using quantum and classical kernels:
 
-    $ python3.9 -m apply-kernel
+    ``python3.9 -m apply-kernel``
 
 To create some plot of the property related to the generated Gram matrices:
 
-    $ python3.9 -m quask plot-metric --metric accuracy --train-gram training_linear_kernel.npy --train-y Y_train.npy --test-gram testing_linear_kernel.npy --test-y Y_test.npy --label linear
+    ``python3.9 -m quask plot-metric --metric accuracy --train-gram training_linear_kernel.npy --train-y Y_train.npy --test-gram testing_linear_kernel.npy --test-y Y_test.npy --label linear``
