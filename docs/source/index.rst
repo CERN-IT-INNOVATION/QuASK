@@ -9,6 +9,8 @@ Welcome to QuASK's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   
+   how_to_use
 
 
 
