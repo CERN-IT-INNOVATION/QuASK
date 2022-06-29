@@ -49,20 +49,23 @@ def get_dataset_quantum(the_id):
     """
     This function calls already preprocessed datasets with quantum labels.
     These examples are identified with a specific id.
+    
     The available datasets at the moment are:
+
         - Fashion-MNIST with 2 features and encoding E1
         - Fashion-MNIST with 4 features and encoding E2
         - Fashion-MNIST with 8 features and encoding E3
-
+    
     These datasets can be used to benchmark the performace of our
     classical and quantum kernels to verify the power of data.
 
-    Args
+    Args:
         the_id: parameter able to distinguish between quantum dataset
 
     Returns:
         tuple (X, y) of numpy ndarray having shapes (d,n) and (n,)
     """
+
     try:
         import importlib.resources as pkg_resources
     except ImportError:
