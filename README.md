@@ -37,7 +37,7 @@ by running from the main directory of the project using the command:
 
 You can install the software directly from the repository using the command:
 
-```python3 -m pip install https://github.com/QML-HEP/quask/archive/master.zip```
+```python3 -m pip install https://github.com/CERN-IT-INNOVATION/QuASK/archive/master.zip```
 
 or through PiP packet manager using the command:
 
