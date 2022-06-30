@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to use it &mdash; QuASK 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to QuASK’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> QuASK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to use it</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#use-quask-as-a-library-of-software-components">Use quask as a library of software components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-quask-as-a-command-line-interface-tool">Use quask as a command-line interface tool</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">QuASK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>How to use it</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/how_to_use.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-to-use-it">
+<h1>How to use it<a class="headerlink" href="#how-to-use-it" title="Permalink to this heading"></a></h1>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<p>The software has been tested on Python 3.9.10. We recommend using this version or a newer one.</p>
+<p>The repository contains a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file which can be installed
+by running from the main directory of the project using the command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p>
+<p>You can install the software directly from the repository using the command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">https://github.com/QML-HEP/quask/archive/master.zip</span></code></p>
+<p>or through PiP packet manager using the command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">quask</span></code></p>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<section id="use-quask-as-a-library-of-software-components">
+<h3>Use quask as a library of software components<a class="headerlink" href="#use-quask-as-a-library-of-software-components" title="Permalink to this heading"></a></h3>
+<p>QuASK can be used as a library to extend your own software. Check if everything’s working with:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">python</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy</span> <span class="pre">as</span> <span class="pre">np</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">quask.metrics</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">np.array([[1,2],</span> <span class="pre">[3,4]])</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">np.array([[5,6],</span> <span class="pre">[7,8]])</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">print(quask.metrics.calculate_frobenius_inner_product(A,</span> <span class="pre">B))</span></code></div>
+</div>
+</section>
+<section id="use-quask-as-a-command-line-interface-tool">
+<h3>Use quask as a command-line interface tool<a class="headerlink" href="#use-quask-as-a-command-line-interface-tool" title="Permalink to this heading"></a></h3>
+<p>QuASK can be used as a command-line interface to analyze the dataset with the
+kernel methods. These are the commands implemented so far.</p>
+<p>To retrieve the datasets available:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3.9</span> <span class="pre">-m</span> <span class="pre">quask</span> <span class="pre">get-dataset</span></code></p>
+</div></blockquote>
+<p>To preprocess a dataset:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3.9</span> <span class="pre">-m</span> <span class="pre">quask</span> <span class="pre">preprocess-dataset</span></code></p>
+</div></blockquote>
+<p>To analyze a dataset using quantum and classical kernels:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3.9</span> <span class="pre">-m</span> <span class="pre">apply-kernel</span></code></p>
+</div></blockquote>
+<p>To create some plot of the property related to the generated Gram matrices:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3.9</span> <span class="pre">-m</span> <span class="pre">quask</span> <span class="pre">plot-metric</span> <span class="pre">--metric</span> <span class="pre">accuracy</span> <span class="pre">--train-gram</span> <span class="pre">training_linear_kernel.npy</span> <span class="pre">--train-y</span> <span class="pre">Y_train.npy</span> <span class="pre">--test-gram</span> <span class="pre">testing_linear_kernel.npy</span> <span class="pre">--test-y</span> <span class="pre">Y_test.npy</span> <span class="pre">--label</span> <span class="pre">linear</span></code></p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to QuASK’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Francesco Di Marcantonio, Massimiliano Incudini, Davide Tezza, Michele Grossi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
