@@ -3,9 +3,9 @@ from setuptools import setup
 
 setup(
     name='quask',
-    version='0.1.0',
+    version='1.0.0-beta',
     description='Quantum Advantage Seeker withKernels',
-    url='https://github.com/QML-HEP/QuASK',
+    url='https://github.com/CERN-IT-INNOVATION/QuASK',
     author='Massimiliano Incudini <massimiliano.incudini@univr.it>, Francesco Di Marcantonio <francesco.di.marcantonio@cern.ch>, Michele Grossi <michele.grossi@cern.ch>',
     license='Apache License Version 2.0',
     packages=setuptools.find_packages(),

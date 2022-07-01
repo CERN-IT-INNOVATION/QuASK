@@ -30,18 +30,14 @@ Advantage Seeker with Kernels" available on arxiv.org]().
 
 The software has been tested on Python 3.9.10. We recommend using this version or a newer one. 
 
-The repository contains a ```requirements.txt``` file which can be installed 
-by running from the main directory of the project using the command:
-
-```python3 -m pip install -r requirements.txt```
-
 You can install the software directly from the repository using the command:
 
-```python3 -m pip install https://github.com/CERN-IT-INNOVATION/QuASK/archive/master.zip```
+```python3 -m pip install https://github.com/CERN-IT-INNOVATION/QuASK/releases/download/1.0.0-beta/quask-1.0.0b0-py3-none-any.whl```
 
-or through PiP packet manager using the command:
+If the software shows dependencies related problems, download the repository and 
+from the main directory run the command:
 
-```python3 -m pip install quask```
+```python3 -m pip install -r requirements.txt```
 
 ## Usage
 
@@ -84,13 +80,14 @@ To create some plot of the property related to the generated Gram matrices:
 Please cite the work using the following Bibtex entry:
 
 ```text
-@article{CitekeyArticle,
-  author   = "P. J. Cohen",
-  title    = "The independence of the continuum hypothesis",
-  journal  = "Proceedings of the National Academy of Sciences",
-  year     = 1963,
-  volume   = "50",
-  number   = "6",
-  pages    = "1143--1148",
+@article{https://doi.org/10.48550/arxiv.2206.15284,
+  doi = {10.48550/ARXIV.2206.15284},
+  url = {https://arxiv.org/abs/2206.15284},
+  author = {Di Marcantonio, Francesco and Incudini, Massimiliano and Tezza, Davide and Grossi, Michele},
+  keywords = {Quantum Physics (quant-ph), Machine Learning (cs.LG), FOS: Physical sciences, FOS: Physical sciences, FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {QuASK -- Quantum Advantage Seeker with Kernels},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Attribution 4.0 International}
 }
 ```
