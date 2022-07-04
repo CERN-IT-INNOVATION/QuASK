@@ -24,7 +24,7 @@ a quantum model and use them to study the prediction capabilities of
 the quantum and classical kernels.
 
 The initial release is accompanied by the journal article ["QuASK - Quantum
-Advantage Seeker with Kernels" available on arxiv.org]().
+Advantage Seeker with Kernels" available on arxiv.org](https://arxiv.org/abs/2206.15284).
 
 ## Installation
 
@@ -68,7 +68,7 @@ To preprocess a dataset:
 
 To analyze a dataset using quantum and classical kernels:
 
-    $ python3.9 -m apply-kernel
+    $ python3.9 -m quask apply-kernel
 
 To create some plot of the property related to the generated Gram matrices:
 
