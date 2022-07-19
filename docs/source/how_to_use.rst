@@ -45,7 +45,7 @@ To preprocess a dataset:
 
 To analyze a dataset using quantum and classical kernels:
 
-    ``python3.9 -m apply-kernel``
+    ``python3.9 -m quask apply-kernel``
 
 To create some plot of the property related to the generated Gram matrices:
 
