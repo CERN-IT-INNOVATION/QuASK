@@ -55,7 +55,7 @@ requests==2.27.1
 requests-ntlm==1.1.0
 retworkx==0.11.0
 scikit-learn
-scipy==1.8.1
+scipy==1.7.3
 semantic-version==2.6.0
 six==1.16.0
 sklearn==0.0
