@@ -28,7 +28,7 @@ mpmath==1.2.1
 networkx
 ninja==1.10.2.3
 ntlm-auth==1.5.0
-numpy==1.22.4
+numpy==1.21.6
 openml==0.12.2
 opt-einsum==3.3.0
 packaging==21.3
