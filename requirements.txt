@@ -15,7 +15,7 @@ flatbuffers==2.0
 fonttools==4.33.3
 future==0.18.2
 idna==3.3
-imbalanced-learn==0.9.1
+imbalanced-learn
 imblearn==0.0
 jax==0.3.13
 jaxlib==0.3.10
