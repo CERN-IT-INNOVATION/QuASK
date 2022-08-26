@@ -54,7 +54,7 @@ qiskit-terra==0.20.2
 requests==2.27.1
 requests-ntlm==1.1.0
 retworkx==0.11.0
-scikit-learn==1.1.1
+scikit-learn
 scipy==1.8.1
 semantic-version==2.6.0
 six==1.16.0
