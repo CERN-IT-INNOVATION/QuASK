@@ -46,7 +46,7 @@ dill==0.3.5.1
 dimod==0.11.3
 diskcache==5.4.0
 distro==1.4.0
-distro-info===0.23ubuntu1
+distro-info===0.23
 dm-haiku==0.0.7
 dm-tree==0.1.6
 docplex==2.23.222
