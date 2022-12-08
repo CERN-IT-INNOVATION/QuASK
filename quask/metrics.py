@@ -152,7 +152,8 @@ def calculate_model_complexity(k, y, normalization_lambda=0.001):
 
 def calculate_model_complexity_training(k, y, normalization_lambda=0.001):
     """
-    TODO difference with formula above
+    Subprocedure of the function 'calculate_model_complexity_generalized'.
+
     Args:
         k: Kernel gram matrix
         y: Labels
@@ -170,7 +171,9 @@ def calculate_model_complexity_training(k, y, normalization_lambda=0.001):
 
 def calculate_model_complexity_generalized(k, y, normalization_lambda=0.001):
     """
-    TODO difference with formula above
+    Calculate the model complexity s(K), which is equation M1 in
+    "The power of data in quantum machine learning" (https://arxiv.org/abs/2011.01938).
+
     Args:
         k: Kernel gram matrix
         y: Labels

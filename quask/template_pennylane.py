@@ -213,6 +213,36 @@ def projected_xyz_embedding(embedding, X):
     return X_proj
 
 
+def projected_partial_trace_embedding(embedding, q, X):
+    """
+    Calculates the partial traces according to a given list of observables (each corresponding to reading a single
+    qubit).
+
+    Args:
+        embedding: Pennylane template for the quantum feature map
+        q: number of qubits
+        X: feature data (matrix) of size m x N, m = number of data points, N = number of elements
+
+    Returns:
+        numpy matrix of size m x (rdm size) = m x (q x 2^q x 2^q), q = # qubits
+    """
+
+    # create device using JAX
+    device = qml.device("default.qubit.jax", wires=q)
+
+    # return a list of q elements, each of the element is a 2^q x 2^q matrix
+    @jax.jit
+    @qml.qnode(device)
+    def proj_feature_map(x):
+        embedding(x, wires=range(q))
+        return [qml.density_matrix(i) for i in range(q)]
+
+    # build the gram matrix
+    X_proj = np.array([proj_feature_map(x) for x in X])
+
+    return X_proj
+
+
 def pennylane_quantum_kernel(feature_map, X_1, X_2=None):
     """
     Create a Quantum Kernel given the template written in Pennylane framework
@@ -291,8 +321,36 @@ def pennylane_projected_quantum_kernel(feature_map, X_1, X_2=None, params=[1.0])
     return gram
 
 
-def pennylane_linear_projected_kernel():
+def pennylane_linear_projected_kernel(feature_map, X_1, X_2=None):
     """
-    Function from Francesco's msc thesis - please fill with the description
+    Version of projected kernel that does not have an exponential, thus is less similar to the Gaussian kernel
+
+    Args:
+        feature_map: Pennylane template for the quantum feature map
+        X_1: First dataset
+        X_2: Second dataset
+
+    Returns:
+        Gram matrix
     """
-    pass
+    if X_2 is None:
+        X_2 = X_1  # Training Gram matrix
+    assert (
+            X_1.shape[1] == X_2.shape[1]
+    ), "The training and testing data must have the same dimensionality"
+
+    # ogni elemento della vettore è a sua volta un vettore di reduce density matrix
+    X_1_proj = projected_partial_trace_embedding(feature_map, X_1)
+    X_2_proj = projected_partial_trace_embedding(feature_map, X_2)
+    n = len(X_1_proj[0])  # number of 'projected features'
+
+    # build the gram matrix
+    gram = np.zeros(shape=(X_1.shape[0], X_2.shape[0]))
+    for i in range(X_1_proj.shape[0]):
+        for j in range(X_2_proj.shape[0]):
+            list1 = X_1_proj[i]  # vettore di reduce density matrix
+            list2 = X_2_proj[j]  # vettore di reduce density matrix
+            traces = [np.trace(elem1 @ elem2) for elem1, elem2 in zip(list1, list2)]
+            gram[i][j] = np.sum(traces)
+
+    return gram / n
