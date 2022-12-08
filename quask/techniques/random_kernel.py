@@ -1,4 +1,7 @@
-import copy
+"""
+Code base for https://arxiv.org/abs/2209.11144. This module generate a randomly generated circuit
+using qml.RandomLayers function.
+"""
 
 import pennylane as qml
 import numpy as np
@@ -9,8 +12,22 @@ from sklearn.metrics import mean_squared_error
 
 
 class RandomKernel:
+    """
+    Create a random kernel using qml.RandomLayers function.
+    """
 
     def __init__(self, X_train, y_train, X_validation, y_validation, n_layers, seed=12345):
+        """
+        Initialization
+
+        Args:
+            X_train: training feature data matrix
+            y_train: training label data array
+            X_validation: validation feature data matrix
+            y_validation: validation label data array
+            n_layers: number of layers
+            seed: random seed
+        """
         self.X_train = X_train
         self.y_train = y_train
         self.training_gram = None
@@ -24,6 +41,13 @@ class RandomKernel:
         self.seed = seed
 
     def create_pennylane_function(self):
+        """
+        Create pennylane kernel function
+
+        Returns:
+            kernel function
+        """
+
         # define function to compile
         def trainable_kernel_wrapper(x1, x2, weights, bandwidth):
             device = qml.device("default.qubit.jax", wires=self.n_qubits)
@@ -49,6 +73,18 @@ class RandomKernel:
         return jax.jit(trainable_kernel_wrapper)
 
     def estimate_mse(self, weights=None, X_test=None, y_test=None):
+        """
+        Estimate the MSE of the current solution.
+
+        Args:
+            weights: random weights
+            X_test: testing feature data matrix
+            y_test: testing label data array
+
+        Returns:
+            MSE
+        """
+
         X_test = self.X_validation if X_test is None else X_test
         y_test = self.y_validation if y_test is None else y_test
         training_gram = self.get_kernel_values(self.X_train, weights=weights)
@@ -56,12 +92,37 @@ class RandomKernel:
         return self.estimate_mse_svr(training_gram, self.y_train, testing_gram, y_test)
 
     def estimate_mse_svr(self, gram_train, y_train, gram_test, y_test):
+        """
+        Estimate the MSE of the current solution.
+
+        Args:
+            gram_train: training gram matrix
+            y_train: training label data array
+            gram_test: testing gram matrix
+            y_test: testing label data array
+
+        Returns:
+            MSE
+        """
+
         svr = SVR()
         svr.fit(gram_train, y_train.ravel())
         y_pred = svr.predict(gram_test)
         return mean_squared_error(y_test.ravel(), y_pred.ravel())
 
     def get_kernel_values(self, X1, X2=None, weights=None, bandwidth=None):
+        """
+        Calculate kernel gram matrix
+
+        Args:
+            X1: feature data of the first batch
+            X2: feature data of the second batch
+            weights: random weights
+            bandwidth: bandwidth
+
+        Returns:
+            kernel gram matrix
+        """
         weights = self.state if weights is None else weights
         bandwidth = 1.0 if bandwidth is None else bandwidth
         if X2 is None:
