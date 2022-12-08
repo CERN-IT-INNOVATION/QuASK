@@ -145,9 +145,41 @@ def calculate_model_complexity(k, y, normalization_lambda=0.001):
     """
     n = k.shape[0]
     k_inv = la.inv(k + normalization_lambda * np.eye(n))
-    k_body = k_inv.dot(k.dot(k_inv))
-    model_complexity = 0
-    for i in range(n):
-        for j in range(n):
-            model_complexity += k_body[i][j] * y[i] * y[j]
+    k_body = k_inv @ k @ k_inv
+    model_complexity = y.T @ k_body @ y
     return model_complexity
+
+
+def calculate_model_complexity_training(k, y, normalization_lambda=0.001):
+    """
+    TODO difference with formula above
+    Args:
+        k: Kernel gram matrix
+        y: Labels
+        normalization_lambda: Normalization factor
+
+    Returns:
+        model complexity of the given kernel
+    """
+    n = k.shape[0]
+    k_inv = la.inv(k + normalization_lambda * np.eye(n))
+    k_mid = k_inv @ k_inv # without k in the middle
+    model_complexity = (normalization_lambda**2) * (y.T @ k_mid @ y)
+    return model_complexity
+
+
+def calculate_model_complexity_generalized(k, y, normalization_lambda=0.001):
+    """
+    TODO difference with formula above
+    Args:
+        k: Kernel gram matrix
+        y: Labels
+        normalization_lambda: Normalization factor
+
+    Returns:
+        model complexity of the given kernel
+    """
+    n = k.shape[0]
+    a = np.sqrt(calculate_model_complexity_training(k, y, normalization_lambda) / n)
+    b = np.sqrt(calculate_model_complexity(k, y, normalization_lambda) / n)
+    return a + b
