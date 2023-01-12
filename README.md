@@ -26,6 +26,10 @@ the quantum and classical kernels.
 The initial release is accompanied by the journal article ["QuASK - Quantum
 Advantage Seeker with Kernels" available on arxiv.org](https://arxiv.org/abs/2206.15284).
 
+## Documentation
+
+The documentation for QuASK can be accessed on the website [Read The Docs](https://quask.readthedocs.io/en/latest/index.html).
+
 ## Installation
 
 The software has been tested on Python 3.9.10. We recommend using this version or a newer one. 
