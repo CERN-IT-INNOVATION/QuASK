@@ -9,6 +9,14 @@ Subpackages
 
    quask.resources
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   quask.techniques
+
 Submodules
 ----------
 
