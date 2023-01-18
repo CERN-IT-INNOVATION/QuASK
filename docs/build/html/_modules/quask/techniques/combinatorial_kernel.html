@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quask.techniques.combinatorial_kernel &mdash; QuASK 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> QuASK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_use.html">How to use it</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QuASK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>quask.techniques.combinatorial_kernel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for quask.techniques.combinatorial_kernel</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Code base for https://arxiv.org/abs/2209.11144. This module allow to convert a parametric quantum</span>
+<span class="sd">circuit into a matrix representation. Furthermore, it allows to generate a parameteric kernel function</span>
+<span class="sd">parameterized by such circuit matrix representation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax.scipy.linalg</span> <span class="kn">import</span> <span class="n">expm</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+
+
+<span class="n">sigma_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">sigma_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">sigma_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">sigma_id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pauli_vector</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sigma_id</span><span class="p">,</span> <span class="n">sigma_x</span><span class="p">,</span> <span class="n">sigma_y</span><span class="p">,</span> <span class="n">sigma_z</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="create_operation"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.combinatorial_kernel.create_operation">[docs]</a><span class="k">def</span> <span class="nf">create_operation</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">pauli</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Append to the Pennylane circuit a quantum transformation having the specified configuration according to the</span>
+<span class="sd">    scheme in https://arxiv.org/abs/2209.11144</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_qubits: number of qubits of the circuit</span>
+<span class="sd">        n_layers: number of layers of the circuit</span>
+<span class="sd">        index: number of operation within the circuit (determine if it is a single or two-qubits operation and its position)</span>
+<span class="sd">        pauli: determines the generators</span>
+<span class="sd">        angle: feature corresponding to the angle of the transformation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">n_qubits</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_layers</span>
+    <span class="c1"># assert 0 &lt;= pauli &lt; 16</span>
+    <span class="n">index_within_layer</span> <span class="o">=</span> <span class="n">index</span> <span class="o">%</span> <span class="n">n_layers</span>
+    <span class="k">if</span> <span class="n">index_within_layer</span> <span class="o">&lt;</span> <span class="n">n_qubits</span><span class="p">:</span>  <span class="c1"># single qubit operation</span>
+        <span class="n">unitary</span> <span class="o">=</span> <span class="n">expm</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">*</span> <span class="n">pauli_vector</span><span class="p">[</span><span class="n">pauli</span> <span class="o">%</span> <span class="mi">4</span><span class="p">])</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">QubitUnitary</span><span class="p">(</span><span class="n">unitary</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="n">index_within_layer</span> <span class="o">%</span> <span class="n">n_qubits</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># two qubits operation</span>
+        <span class="n">unitary</span> <span class="o">=</span> <span class="n">expm</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">pauli_vector</span><span class="p">[</span><span class="n">pauli</span> <span class="o">%</span> <span class="mi">4</span><span class="p">],</span> <span class="n">pauli_vector</span><span class="p">[</span><span class="n">pauli</span> <span class="o">//</span> <span class="mi">4</span><span class="p">]))</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">QubitUnitary</span><span class="p">(</span><span class="n">unitary</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="p">(</span><span class="n">index_within_layer</span> <span class="o">%</span> <span class="n">n_qubits</span><span class="p">,</span> <span class="p">(</span><span class="n">index_within_layer</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n_qubits</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="create_identity_combinatorial_kernel"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.combinatorial_kernel.create_identity_combinatorial_kernel">[docs]</a><span class="k">def</span> <span class="nf">create_identity_combinatorial_kernel</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a matrix representation for the identity circuit according to the</span>
+<span class="sd">    scheme in https://arxiv.org/abs/2209.11144</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_qubits: number of qubits of the circuit</span>
+<span class="sd">        n_layers: number of layers of the circuit</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_gates</span> <span class="o">=</span> <span class="n">n_qubits</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_layers</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_gates</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="create_random_combinatorial_kernel"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.combinatorial_kernel.create_random_combinatorial_kernel">[docs]</a><span class="k">def</span> <span class="nf">create_random_combinatorial_kernel</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">n_operations</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a matrix representation for a randomly generated circuit according to the</span>
+<span class="sd">    scheme in https://arxiv.org/abs/2209.11144</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_qubits: number of qubits of the circuit</span>
+<span class="sd">        n_layers: number of layers of the circuit</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_gates</span> <span class="o">=</span> <span class="n">n_qubits</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_layers</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_gates</span><span class="p">,)),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_operations</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_gates</span><span class="p">,))</span>
+    <span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n_gates</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="CombinatorialFeatureMap"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.combinatorial_kernel.CombinatorialFeatureMap">[docs]</a><span class="k">def</span> <span class="nf">CombinatorialFeatureMap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">solution</span><span class="p">,</span> <span class="n">bandwidth</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a PennyLane feature map starting from the matrix representation of the circuit</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: feature data</span>
+<span class="sd">        n_qubits: number of qubits of the circuit</span>
+<span class="sd">        n_layers: number of layers of the circuit</span>
+<span class="sd">        solution: matrix representation of the circuit</span>
+<span class="sd">        bandwidth: optional constant limiting the rotational angles of the transformations</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n_gates</span> <span class="o">=</span> <span class="n">n_qubits</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_layers</span>
+    <span class="k">assert</span> <span class="n">solution</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">n_gates</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Shape is </span><span class="si">{</span><span class="n">solution</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> instead of </span><span class="si">{</span><span class="p">(</span><span class="n">n_gates</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">solution</span><span class="si">=}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_gates</span><span class="p">):</span>
+        <span class="n">pauli</span> <span class="o">=</span> <span class="n">solution</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">operation_idx</span> <span class="o">=</span> <span class="n">solution</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">bandwidth</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">operation_idx</span><span class="p">]</span>
+        <span class="n">create_operation</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">pauli</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CombinatorialKernel"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.combinatorial_kernel.CombinatorialKernel">[docs]</a><span class="k">def</span> <span class="nf">CombinatorialKernel</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a kernel function starting from a given CombinatorialFeatureMap object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_qubits: number of qubits of the circuit</span>
+<span class="sd">        n_layers: number of layers of the circuit</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        kernel function having the parameters x1, x2, the_solution, the_bandwidth and returning a scalar value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">combinatorial_kernel_wrapper</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">the_solution</span><span class="p">,</span> <span class="n">the_bandwidth</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Kernel function corresponding to the given embedding, simulated with Jax</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x1: feature data of the first point</span>
+<span class="sd">            x2: feature data of the first point</span>
+<span class="sd">            the_solution: matrix representation of the circuit</span>
+<span class="sd">            the_bandwidth: optional constant limiting the rotational angles of the transformations</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            kernel value (scalar)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;default.qubit.jax&quot;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">)</span>
+        <span class="n">the_solution</span> <span class="o">=</span> <span class="n">the_solution</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">n_qubits</span><span class="o">*</span><span class="n">n_layers</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+        <span class="c1"># create projector (measures probability of having all &quot;00...0&quot;)</span>
+        <span class="n">projector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span> <span class="o">**</span> <span class="n">n_qubits</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">n_qubits</span><span class="p">))</span>
+        <span class="n">projector</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># define the circuit for the quantum kernel (&quot;overlap test&quot; circuit)</span>
+        <span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">interface</span><span class="o">=</span><span class="s1">&#39;jax&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">combinatorial_kernel</span><span class="p">():</span>
+            <span class="n">CombinatorialFeatureMap</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">the_solution</span><span class="p">,</span> <span class="n">the_bandwidth</span><span class="p">)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="n">CombinatorialFeatureMap</span><span class="p">)(</span><span class="n">x2</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">the_solution</span><span class="p">,</span> <span class="n">the_bandwidth</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">Hermitian</span><span class="p">(</span><span class="n">projector</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)))</span>
+
+        <span class="k">return</span> <span class="n">combinatorial_kernel</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">combinatorial_kernel_wrapper</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Francesco Di Marcantonio, Massimiliano Incudini, Davide Tezza, Michele Grossi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -11,10 +11,8 @@
   <![endif]-->
   
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -72,20 +70,12 @@
 
 
 <span class="kn">import</span> <span class="nn">jax</span>
-<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 <span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">optax</span>
-<span class="kn">from</span> <span class="nn">.metrics</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">calculate_kernel_target_alignment</span><span class="p">,</span>
-    <span class="n">calculate_generalization_accuracy</span><span class="p">,</span>
-    <span class="n">calculate_geometric_difference</span><span class="p">,</span>
-    <span class="n">calculate_model_complexity</span><span class="p">,</span>
-<span class="p">)</span>
 
 
 <div class="viewcode-block" id="rx_embedding"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.rx_embedding">[docs]</a><span class="k">def</span> <span class="nf">rx_embedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Encode the data with one rotation on sigma_x per qubit per feature</span>
 
 <span class="sd">    Args:</span>
@@ -99,7 +89,7 @@
 
 
 <div class="viewcode-block" id="ry_embedding"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.ry_embedding">[docs]</a><span class="k">def</span> <span class="nf">ry_embedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Encode the data with one rotation on sigma_y per qubit per feature</span>
 
 <span class="sd">    Args:</span>
@@ -113,7 +103,7 @@
 
 
 <div class="viewcode-block" id="rz_embedding"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.rz_embedding">[docs]</a><span class="k">def</span> <span class="nf">rz_embedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Encode the data with one hadamard then one rotation on sigma_y per qubit per feature</span>
 
 <span class="sd">    Args:</span>
@@ -128,7 +118,7 @@
 
 
 <div class="viewcode-block" id="zz_fullentanglement_embedding"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.zz_fullentanglement_embedding">[docs]</a><span class="k">def</span> <span class="nf">zz_fullentanglement_embedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Encode the data with the ZZ Feature Map (https://qiskit.org/documentation/stubs/qiskit.circuit.library.ZZFeatureMap.html)</span>
 
 <span class="sd">    Args:</span>
@@ -148,7 +138,7 @@
 
 
 <div class="viewcode-block" id="hardware_efficient_ansatz"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.hardware_efficient_ansatz">[docs]</a><span class="k">def</span> <span class="nf">hardware_efficient_ansatz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Hardware efficient ansatz</span>
 
 <span class="sd">    Args:</span>
@@ -168,7 +158,7 @@
 
 
 <div class="viewcode-block" id="tfim_ansatz"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.tfim_ansatz">[docs]</a><span class="k">def</span> <span class="nf">tfim_ansatz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transverse Field Ising Model</span>
 <span class="sd">    Figure 6a (left) in https://arxiv.org/pdf/2105.14377.pdf</span>
 
@@ -190,7 +180,7 @@
 
 
 <div class="viewcode-block" id="ltfim_ansatz"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.ltfim_ansatz">[docs]</a><span class="k">def</span> <span class="nf">ltfim_ansatz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transverse Field Ising Model with additional sigma_z rotations.</span>
 <span class="sd">    Figure 6a (right) in https://arxiv.org/pdf/2105.14377.pdf</span>
 
@@ -209,7 +199,7 @@
 
 
 <div class="viewcode-block" id="zz_rx_ansatz"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.zz_rx_ansatz">[docs]</a><span class="k">def</span> <span class="nf">zz_rx_ansatz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ZZX Model</span>
 <span class="sd">    Figure 7a in https://arxiv.org/pdf/2109.11676.pdf</span>
 
@@ -231,7 +221,7 @@
 
 
 <div class="viewcode-block" id="random_qnn_encoding"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.random_qnn_encoding">[docs]</a><span class="k">def</span> <span class="nf">random_qnn_encoding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">wires</span><span class="p">,</span> <span class="n">trotter_number</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function creates and appends a quantum neural network to the selected</span>
 <span class="sd">    encoding. It follows formula S(116) in the Supplementary.</span>
 
@@ -256,7 +246,7 @@
 
 
 <div class="viewcode-block" id="projected_xyz_embedding"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.projected_xyz_embedding">[docs]</a><span class="k">def</span> <span class="nf">projected_xyz_embedding</span><span class="p">(</span><span class="n">embedding</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a Quantum Kernel given the template written in Pennylane framework</span>
 
 <span class="sd">    Args:</span>
@@ -288,8 +278,38 @@
     <span class="k">return</span> <span class="n">X_proj</span></div>
 
 
+<div class="viewcode-block" id="projected_partial_trace_embedding"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.projected_partial_trace_embedding">[docs]</a><span class="k">def</span> <span class="nf">projected_partial_trace_embedding</span><span class="p">(</span><span class="n">embedding</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the partial traces according to a given list of observables (each corresponding to reading a single</span>
+<span class="sd">    qubit).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        embedding: Pennylane template for the quantum feature map</span>
+<span class="sd">        q: number of qubits</span>
+<span class="sd">        X: feature data (matrix) of size m x N, m = number of data points, N = number of elements</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy matrix of size m x (rdm size) = m x (q x 2^q x 2^q), q = # qubits</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># create device using JAX</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;default.qubit.jax&quot;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
+
+    <span class="c1"># return a list of q elements, each of the element is a 2^q x 2^q matrix</span>
+    <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
+    <span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">proj_feature_map</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">embedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">qml</span><span class="o">.</span><span class="n">density_matrix</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q</span><span class="p">)]</span>
+
+    <span class="c1"># build the gram matrix</span>
+    <span class="n">X_proj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">proj_feature_map</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">X_proj</span></div>
+
+
 <div class="viewcode-block" id="pennylane_quantum_kernel"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.pennylane_quantum_kernel">[docs]</a><span class="k">def</span> <span class="nf">pennylane_quantum_kernel</span><span class="p">(</span><span class="n">feature_map</span><span class="p">,</span> <span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a Quantum Kernel given the template written in Pennylane framework</span>
 
 <span class="sd">    Args:</span>
@@ -333,7 +353,7 @@
 
 
 <div class="viewcode-block" id="pennylane_projected_quantum_kernel"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.pennylane_projected_quantum_kernel">[docs]</a><span class="k">def</span> <span class="nf">pennylane_projected_quantum_kernel</span><span class="p">(</span><span class="n">feature_map</span><span class="p">,</span> <span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a Quantum Kernel given the template written in Pennylane framework.</span>
 
 <span class="sd">    Args:</span>
@@ -366,262 +386,39 @@
     <span class="k">return</span> <span class="n">gram</span></div>
 
 
-<div class="viewcode-block" id="PennylaneTrainableKernel"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel">[docs]</a><span class="k">class</span> <span class="nc">PennylaneTrainableKernel</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create a trainable kernel using Pennylane framework.</span>
+<div class="viewcode-block" id="pennylane_linear_projected_kernel"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.pennylane_linear_projected_kernel">[docs]</a><span class="k">def</span> <span class="nf">pennylane_linear_projected_kernel</span><span class="p">(</span><span class="n">feature_map</span><span class="p">,</span> <span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Version of projected kernel that does not have an exponential, thus is less similar to the Gaussian kernel</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        feature_map: Pennylane template for the quantum feature map</span>
+<span class="sd">        X_1: First dataset</span>
+<span class="sd">        X_2: Second dataset</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Gram matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">X_2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">X_2</span> <span class="o">=</span> <span class="n">X_1</span>  <span class="c1"># Training Gram matrix</span>
+    <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">X_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">X_2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">),</span> <span class="s2">&quot;The training and testing data must have the same dimensionality&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">X_train</span><span class="p">,</span>
-        <span class="n">y_train</span><span class="p">,</span>
-        <span class="n">X_test</span><span class="p">,</span>
-        <span class="n">y_test</span><span class="p">,</span>
-        <span class="n">embedding</span><span class="p">,</span>
-        <span class="n">var_form</span><span class="p">,</span>
-        <span class="n">layers</span><span class="p">,</span>
-        <span class="n">optimizer</span><span class="p">,</span>
-        <span class="n">metric</span><span class="p">,</span>
-        <span class="n">seed</span><span class="p">,</span>
-        <span class="n">keep_intermediate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Init method.</span>
+    <span class="c1"># ogni elemento della vettore è a sua volta un vettore di reduce density matrix</span>
+    <span class="n">X_1_proj</span> <span class="o">=</span> <span class="n">projected_partial_trace_embedding</span><span class="p">(</span><span class="n">feature_map</span><span class="p">,</span> <span class="n">X_1</span><span class="p">)</span>
+    <span class="n">X_2_proj</span> <span class="o">=</span> <span class="n">projected_partial_trace_embedding</span><span class="p">(</span><span class="n">feature_map</span><span class="p">,</span> <span class="n">X_2</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_1_proj</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># number of &#39;projected features&#39;</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            X_train: training set feature vector</span>
-<span class="sd">            y_train: training set label vector</span>
-<span class="sd">            X_test: testing set feature vector</span>
-<span class="sd">            y_test: testing set label vector</span>
-<span class="sd">            embedding: one of the following list: &quot;rx&quot;, &quot;ry&quot;, &quot;rz&quot;, &quot;zz&quot;</span>
-<span class="sd">            var_form: one of the following list: &quot;hardware_efficient&quot;, &quot;tfim&quot;, &quot;ltfim&quot;, &quot;zz_rx&quot;</span>
-<span class="sd">            layers: number of ansatz repetition</span>
-<span class="sd">            optimizer: one of the following list: &quot;adam&quot;, &quot;grid&quot;</span>
-<span class="sd">            metric: one of the following list: &quot;kernel-target-alignment&quot;, &quot;accuracy&quot;, &quot;geometric-difference&quot;, &quot;model-complexity&quot;</span>
-<span class="sd">            seed: random seed (int)</span>
-<span class="sd">            keep_intermediate: True if you want to keep the intermediate results of the optimization (bool)</span>
+    <span class="c1"># build the gram matrix</span>
+    <span class="n">gram</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_1_proj</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_2_proj</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">list1</span> <span class="o">=</span> <span class="n">X_1_proj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># vettore di reduce density matrix</span>
+            <span class="n">list2</span> <span class="o">=</span> <span class="n">X_2_proj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>  <span class="c1"># vettore di reduce density matrix</span>
+            <span class="n">traces</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">elem1</span> <span class="o">@</span> <span class="n">elem2</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem1</span><span class="p">,</span> <span class="n">elem2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">list1</span><span class="p">,</span> <span class="n">list2</span><span class="p">)]</span>
+            <span class="n">gram</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">traces</span><span class="p">)</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">y_test</span>
-        <span class="k">assert</span> <span class="n">embedding</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rx&quot;</span><span class="p">,</span> <span class="s2">&quot;ry&quot;</span><span class="p">,</span> <span class="s2">&quot;rz&quot;</span><span class="p">,</span> <span class="s2">&quot;zz&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">embedding</span>
-        <span class="k">assert</span> <span class="n">var_form</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;hardware_efficient&quot;</span><span class="p">,</span> <span class="s2">&quot;tfim&quot;</span><span class="p">,</span> <span class="s2">&quot;ltfim&quot;</span><span class="p">,</span> <span class="s2">&quot;zz_rx&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">var_form</span> <span class="o">=</span> <span class="n">var_form</span>
-        <span class="k">assert</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">layers</span> <span class="o">&lt;</span> <span class="mi">1000</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">layers</span>
-        <span class="k">assert</span> <span class="n">optimizer</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span> <span class="s2">&quot;grid&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
-        <span class="k">assert</span> <span class="n">metric</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">&quot;kernel-target-alignment&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;accuracy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;geometric-difference&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;model-complexity&quot;</span><span class="p">,</span>
-        <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">metric</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">circuit</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_circuit</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_params</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_grams</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">keep_intermediate</span> <span class="o">=</span> <span class="n">keep_intermediate</span>
-
-<div class="viewcode-block" id="PennylaneTrainableKernel.jnp_to_np"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel.jnp_to_np">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">jnp_to_np</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert jax numpy value to numpy</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            value: jax value</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            numpy value</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">value_numpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">primal</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">value_numpy</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">value_numpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">primal</span><span class="o">.</span><span class="n">aval</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">value_numpy</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">value_numpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">value_numpy</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot convert to numpy value </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PennylaneTrainableKernel.get_embedding"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel.get_embedding">[docs]</a>    <span class="k">def</span> <span class="nf">get_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert the embedding into its function pointer</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">==</span> <span class="s2">&quot;rx&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">rx_embedding</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">==</span> <span class="s2">&quot;ry&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ry_embedding</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">==</span> <span class="s2">&quot;rz&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">rz_embedding</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">==</span> <span class="s2">&quot;zz&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">zz_fullentanglement_embedding</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown embedding </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PennylaneTrainableKernel.get_var_form"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel.get_var_form">[docs]</a>    <span class="k">def</span> <span class="nf">get_var_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert the variational form into its function pointer</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            n_qubits: Number of qubits of the variational form</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            (fn, n) tuple of function and integer, the former representing the ansatz and the latter the number of parameters</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_form</span> <span class="o">==</span> <span class="s2">&quot;hardware_efficient&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">hardware_efficient_ansatz</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_qubits</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_form</span> <span class="o">==</span> <span class="s2">&quot;tfim&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">tfim_ansatz</span><span class="p">,</span> <span class="mi">2</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_form</span> <span class="o">==</span> <span class="s2">&quot;ltfim&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ltfim_ansatz</span><span class="p">,</span> <span class="mi">3</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_form</span> <span class="o">==</span> <span class="s2">&quot;zz_rx&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">zz_rx_ansatz</span><span class="p">,</span> <span class="mi">2</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown var_form </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">var_form</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PennylaneTrainableKernel.create_circuit"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel.create_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">create_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates the quantum circuit to be simulated with jax.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">device</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;default.qubit.jax&quot;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
-        <span class="n">embedding_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">()</span>
-        <span class="n">var_form_fn</span><span class="p">,</span> <span class="n">params_per_layer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_var_form</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-
-        <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
-        <span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">interface</span><span class="o">=</span><span class="s2">&quot;jax&quot;</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">circuit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-            <span class="n">embedding_fn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">):</span>
-                <span class="n">var_form_fn</span><span class="p">(</span>
-                    <span class="n">theta</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">params_per_layer</span> <span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">params_per_layer</span><span class="p">],</span>
-                    <span class="n">wires</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span>
-                <span class="p">)</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">PauliZ</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">circuit</span> <span class="o">=</span> <span class="n">circuit</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span>
-            <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">*</span> <span class="n">params_per_layer</span><span class="p">,)</span>
-        <span class="p">)</span></div>
-
-<div class="viewcode-block" id="PennylaneTrainableKernel.get_gram_matrix"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel.get_gram_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_gram_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_1</span><span class="p">,</span> <span class="n">X_2</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the gram matrix given the actual parameters.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            X_1: first set (testing)</span>
-<span class="sd">            X_2: second set (training)</span>
-<span class="sd">            theta: parameters</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Gram matrix</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">X_proj_1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">circuit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_1</span><span class="p">])</span>
-        <span class="n">X_proj_2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">circuit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_2</span><span class="p">])</span>
-        <span class="n">gamma</span> <span class="o">=</span> <span class="mf">1.0</span>
-
-        <span class="n">gram</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_proj_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_proj_2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">gamma</span> <span class="o">*</span> <span class="p">((</span><span class="n">X_proj_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">X_proj_2</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-                <span class="n">gram</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">PennylaneTrainableKernel</span><span class="o">.</span><span class="n">jnp_to_np</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">gram</span></div>
-
-<div class="viewcode-block" id="PennylaneTrainableKernel.get_loss"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel.get_loss">[docs]</a>    <span class="k">def</span> <span class="nf">get_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get loss according to the wanted metric.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            theta: parameter vector</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            loss (float)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">theta_numpy</span> <span class="o">=</span> <span class="n">PennylaneTrainableKernel</span><span class="o">.</span><span class="n">jnp_to_np</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-        <span class="n">training_gram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gram_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_intermediate</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta_numpy</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_grams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">training_gram</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;kernel-target-alignment&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">calculate_kernel_target_alignment</span><span class="p">(</span><span class="n">training_gram</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">calculate_generalization_accuracy</span><span class="p">(</span>
-                <span class="n">training_gram</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span> <span class="n">training_gram</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span>
-            <span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;geometric-difference&quot;</span><span class="p">:</span>
-            <span class="n">comparison_gram</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">)</span>
-            <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">calculate_geometric_difference</span><span class="p">(</span><span class="n">training_gram</span><span class="p">,</span> <span class="n">comparison_gram</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;model-complexity&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">calculate_model_complexity</span><span class="p">(</span><span class="n">training_gram</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown metric </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="si">}</span><span class="s2"> for loss function&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PennylaneTrainableKernel.get_optimizer"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel.get_optimizer">[docs]</a>    <span class="k">def</span> <span class="nf">get_optimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert the optimizer from string to object</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            optimizer object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">==</span> <span class="s2">&quot;adam&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">optax</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">==</span> <span class="s2">&quot;grid&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;grid&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown optimizer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PennylaneTrainableKernel.optimize_circuit"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel.optimize_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">optimize_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Run optimization of the circuit</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">optimizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">optimizer</span> <span class="o">==</span> <span class="s2">&quot;grid&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not implemented yet&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">opt_state</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
-            <span class="n">epochs</span> <span class="o">=</span> <span class="mi">2</span>
-            <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
-                <span class="n">cost</span><span class="p">,</span> <span class="n">grad_circuit</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">value_and_grad</span><span class="p">(</span>
-                    <span class="k">lambda</span> <span class="n">theta</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_loss</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-                <span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
-                <span class="n">updates</span><span class="p">,</span> <span class="n">opt_state</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">grad_circuit</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">apply_updates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">updates</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PennylaneTrainableKernel.get_optimized_gram_matrices"><a class="viewcode-back" href="../../quask.html#quask.template_pennylane.PennylaneTrainableKernel.get_optimized_gram_matrices">[docs]</a>    <span class="k">def</span> <span class="nf">get_optimized_gram_matrices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get optimized gram matrices</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            (tr,te) tuple of training and testing gram matrices</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">training_gram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gram_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
-        <span class="n">testing_gram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gram_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_test</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">training_gram</span><span class="p">,</span> <span class="n">testing_gram</span></div></div>
+    <span class="k">return</span> <span class="n">gram</span> <span class="o">/</span> <span class="n">n</span></div>
 </pre></div>
 
            </div>

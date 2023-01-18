@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quask.resources package &mdash; QuASK 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> QuASK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="how_to_use.html">How to use it</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">QuASK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>quask.resources package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quask.techniques.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quask-resources-package">
+<h1>quask.resources package<a class="headerlink" href="#quask-resources-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-quask.techniques.combinatorial_kernel">
+<span id="quask-techniques-combinatorial-kernel-module"></span><h2>quask.techniques.combinatorial_kernel module<a class="headerlink" href="#module-quask.techniques.combinatorial_kernel" title="Permalink to this heading"></a></h2>
+<p>Code base for <a class="reference external" href="https://arxiv.org/abs/2209.11144">https://arxiv.org/abs/2209.11144</a>. This module allow to convert a parametric quantum
+circuit into a matrix representation. Furthermore, it allows to generate a parameteric kernel function
+parameterized by such circuit matrix representation.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel.CombinatorialFeatureMap">
+<span class="sig-prename descclassname"><span class="pre">quask.techniques.combinatorial_kernel.</span></span><span class="sig-name descname"><span class="pre">CombinatorialFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel.html#CombinatorialFeatureMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel.CombinatorialFeatureMap" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a PennyLane feature map starting from the matrix representation of the circuit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – feature data</p></li>
+<li><p><strong>n_qubits</strong> – number of qubits of the circuit</p></li>
+<li><p><strong>n_layers</strong> – number of layers of the circuit</p></li>
+<li><p><strong>solution</strong> – matrix representation of the circuit</p></li>
+<li><p><strong>bandwidth</strong> – optional constant limiting the rotational angles of the transformations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel.CombinatorialKernel">
+<span class="sig-prename descclassname"><span class="pre">quask.techniques.combinatorial_kernel.</span></span><span class="sig-name descname"><span class="pre">CombinatorialKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel.html#CombinatorialKernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel.CombinatorialKernel" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a kernel function starting from a given CombinatorialFeatureMap object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> – number of qubits of the circuit</p></li>
+<li><p><strong>n_layers</strong> – number of layers of the circuit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>kernel function having the parameters x1, x2, the_solution, the_bandwidth and returning a scalar value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel.create_identity_combinatorial_kernel">
+<span class="sig-prename descclassname"><span class="pre">quask.techniques.combinatorial_kernel.</span></span><span class="sig-name descname"><span class="pre">create_identity_combinatorial_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel.html#create_identity_combinatorial_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel.create_identity_combinatorial_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Create a matrix representation for the identity circuit according to the
+scheme in <a class="reference external" href="https://arxiv.org/abs/2209.11144">https://arxiv.org/abs/2209.11144</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> – number of qubits of the circuit</p></li>
+<li><p><strong>n_layers</strong> – number of layers of the circuit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel.create_operation">
+<span class="sig-prename descclassname"><span class="pre">quask.techniques.combinatorial_kernel.</span></span><span class="sig-name descname"><span class="pre">create_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pauli</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel.html#create_operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel.create_operation" title="Permalink to this definition"></a></dt>
+<dd><p>Append to the Pennylane circuit a quantum transformation having the specified configuration according to the
+scheme in <a class="reference external" href="https://arxiv.org/abs/2209.11144">https://arxiv.org/abs/2209.11144</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> – number of qubits of the circuit</p></li>
+<li><p><strong>n_layers</strong> – number of layers of the circuit</p></li>
+<li><p><strong>index</strong> – number of operation within the circuit (determine if it is a single or two-qubits operation and its position)</p></li>
+<li><p><strong>pauli</strong> – determines the generators</p></li>
+<li><p><strong>angle</strong> – feature corresponding to the angle of the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel.create_random_combinatorial_kernel">
+<span class="sig-prename descclassname"><span class="pre">quask.techniques.combinatorial_kernel.</span></span><span class="sig-name descname"><span class="pre">create_random_combinatorial_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_operations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel.html#create_random_combinatorial_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel.create_random_combinatorial_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Create a matrix representation for a randomly generated circuit according to the
+scheme in <a class="reference external" href="https://arxiv.org/abs/2209.11144">https://arxiv.org/abs/2209.11144</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> – number of qubits of the circuit</p></li>
+<li><p><strong>n_layers</strong> – number of layers of the circuit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-quask.techniques.combinatorial_kernel_genetic">
+<span id="quask-techniques-combinatorial-kernel-genetic-module"></span><h2>quask.techniques.combinatorial_kernel_genetic module<a class="headerlink" href="#module-quask.techniques.combinatorial_kernel_genetic" title="Permalink to this heading"></a></h2>
+<p>Code base for <a class="reference external" href="https://arxiv.org/abs/2209.11144">https://arxiv.org/abs/2209.11144</a>. This module optimize a quantum circuit with a
+genetic optimization algorithm.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">quask.techniques.combinatorial_kernel_genetic.</span></span><span class="sig-name descname"><span class="pre">CombinatorialKernelGenetic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_validation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_populations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_breeding_parents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_genetic.html#CombinatorialKernelGenetic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generate a kernel function by perturbing a random circuit according to a genetic optimization algorithm</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.energy">
+<span class="sig-name descname"><span class="pre">energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_genetic.html#CombinatorialKernelGenetic.energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.energy" title="Permalink to this definition"></a></dt>
+<dd><p>Return the energy of the best solution after optimization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>energy or 100000 if no good solution has been found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.estimate_mse">
+<span class="sig-name descname"><span class="pre">estimate_mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_genetic.html#CombinatorialKernelGenetic.estimate_mse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.estimate_mse" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the MSE of the current solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solution</strong> – matrix representation of the kernel</p></li>
+<li><p><strong>X_test</strong> – testing feature data matrix</p></li>
+<li><p><strong>y_test</strong> – testing label data array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>MSE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.estimate_variance_of_kernel">
+<span class="sig-name descname"><span class="pre">estimate_variance_of_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sample_variance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_genetic.html#CombinatorialKernelGenetic.estimate_variance_of_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.estimate_variance_of_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the variance of the kernel function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_sample_variance</strong> – number of pairs of value to be selected</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(v, l); l = list of randomly selected kernel values, v = variance of l</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.generate_initial_population">
+<span class="sig-name descname"><span class="pre">generate_initial_population</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_genetic.html#CombinatorialKernelGenetic.generate_initial_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.generate_initial_population" title="Permalink to this definition"></a></dt>
+<dd><p>Generate the initial population randomly</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.get_kernel_values">
+<span class="sig-name descname"><span class="pre">get_kernel_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_genetic.html#CombinatorialKernelGenetic.get_kernel_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.get_kernel_values" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate kernel gram matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X1</strong> – feature data of the first batch</p></li>
+<li><p><strong>X2</strong> – feature data of the second batch</p></li>
+<li><p><strong>solution</strong> – matrix representation of the circuit</p></li>
+<li><p><strong>bandwidth</strong> – optional constant limiting the rotational angles of the transformations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>kernel gram matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.run_genetic_optimization">
+<span class="sig-name descname"><span class="pre">run_genetic_optimization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_genetic.html#CombinatorialKernelGenetic.run_genetic_optimization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_genetic.CombinatorialKernelGenetic.run_genetic_optimization" title="Permalink to this definition"></a></dt>
+<dd><p>Run the genetic optimization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quask.techniques.combinatorial_kernel_greedy">
+<span id="quask-techniques-combinatorial-kernel-greedy-module"></span><h2>quask.techniques.combinatorial_kernel_greedy module<a class="headerlink" href="#module-quask.techniques.combinatorial_kernel_greedy" title="Permalink to this heading"></a></h2>
+<p>Code base for <a class="reference external" href="https://arxiv.org/abs/2209.11144">https://arxiv.org/abs/2209.11144</a>. This module optimize a quantum circuit with a
+greedy optimization algorithm.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">quask.techniques.combinatorial_kernel_greedy.</span></span><span class="sig-name descname"><span class="pre">CombinatorialKernelGreedySearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_operations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_validation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_greedy.html#CombinatorialKernelGreedySearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generate a kernel function by perturbing a random circuit according to a greedy local search algorithm</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.create_pennylane_function">
+<span class="sig-name descname"><span class="pre">create_pennylane_function</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_greedy.html#CombinatorialKernelGreedySearch.create_pennylane_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.create_pennylane_function" title="Permalink to this definition"></a></dt>
+<dd><p>Create pennylane kernel function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>kernel function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.energy">
+<span class="sig-name descname"><span class="pre">energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_greedy.html#CombinatorialKernelGreedySearch.energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.energy" title="Permalink to this definition"></a></dt>
+<dd><p>Return the energy of the best solution after optimization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>solution</strong> – optional matrix representation of a candidate solution</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>energy or 100000 if no good solution has been found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.estimate_mse">
+<span class="sig-name descname"><span class="pre">estimate_mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_greedy.html#CombinatorialKernelGreedySearch.estimate_mse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.estimate_mse" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the MSE of the current solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solution</strong> – matrix representation of the kernel</p></li>
+<li><p><strong>X_test</strong> – testing feature data matrix</p></li>
+<li><p><strong>y_test</strong> – testing label data array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>MSE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.estimate_variance_of_kernel">
+<span class="sig-name descname"><span class="pre">estimate_variance_of_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sample_variance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_greedy.html#CombinatorialKernelGreedySearch.estimate_variance_of_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.estimate_variance_of_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the variance of the kernel function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solution</strong> – optional matrix representation of a candidate solution</p></li>
+<li><p><strong>n_sample_variance</strong> – number of pairs of value to be selected</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(v, l); l = list of randomly selected kernel values, v = variance of l</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.get_kernel_values">
+<span class="sig-name descname"><span class="pre">get_kernel_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_greedy.html#CombinatorialKernelGreedySearch.get_kernel_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.get_kernel_values" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate kernel gram matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X1</strong> – feature data of the first batch</p></li>
+<li><p><strong>X2</strong> – feature data of the second batch</p></li>
+<li><p><strong>solution</strong> – matrix representation of the circuit</p></li>
+<li><p><strong>bandwidth</strong> – optional constant limiting the rotational angles of the transformations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>kernel gram matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.search">
+<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_greedy.html#CombinatorialKernelGreedySearch.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.search" title="Permalink to this definition"></a></dt>
+<dd><p>Search the best value for each cell, sequentially</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.search_gate">
+<span class="sig-name descname"><span class="pre">search_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_greedy.html#CombinatorialKernelGreedySearch.search_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_greedy.CombinatorialKernelGreedySearch.search_gate" title="Permalink to this definition"></a></dt>
+<dd><p>Search the best value of the given gate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gate</strong> – number of operation which call</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quask.techniques.combinatorial_kernel_simanneal">
+<span id="quask-techniques-combinatorial-kernel-simanneal-module"></span><h2>quask.techniques.combinatorial_kernel_simanneal module<a class="headerlink" href="#module-quask.techniques.combinatorial_kernel_simanneal" title="Permalink to this heading"></a></h2>
+<p>Code base for <a class="reference external" href="https://arxiv.org/abs/2209.11144">https://arxiv.org/abs/2209.11144</a>. This module optimize a quantum circuit with a
+simulated annealing optimization algorithm.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">quask.techniques.combinatorial_kernel_simanneal.</span></span><span class="sig-name descname"><span class="pre">CombinatorialKernelSimulatedAnnealingTraining</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_solution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_operations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_validation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_simanneal.html#CombinatorialKernelSimulatedAnnealingTraining"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Annealer</span></code></p>
+<p>Generate a kernel function by perturbing a random circuit according to a simulated annealing</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.create_pennylane_function">
+<span class="sig-name descname"><span class="pre">create_pennylane_function</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_simanneal.html#CombinatorialKernelSimulatedAnnealingTraining.create_pennylane_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.create_pennylane_function" title="Permalink to this definition"></a></dt>
+<dd><p>Create pennylane kernel function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>kernel function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.energy">
+<span class="sig-name descname"><span class="pre">energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_simanneal.html#CombinatorialKernelSimulatedAnnealingTraining.energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.energy" title="Permalink to this definition"></a></dt>
+<dd><p>Return the energy of the best solution after optimization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>energy or 100000 if no good solution has been found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.estimate_mse">
+<span class="sig-name descname"><span class="pre">estimate_mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_simanneal.html#CombinatorialKernelSimulatedAnnealingTraining.estimate_mse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.estimate_mse" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the MSE of the current solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solution</strong> – matrix representation of the kernel</p></li>
+<li><p><strong>X_test</strong> – testing feature data matrix</p></li>
+<li><p><strong>y_test</strong> – testing label data array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>MSE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.estimate_variance_of_kernel">
+<span class="sig-name descname"><span class="pre">estimate_variance_of_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sample_variance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_simanneal.html#CombinatorialKernelSimulatedAnnealingTraining.estimate_variance_of_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.estimate_variance_of_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the variance of the kernel function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_sample_variance</strong> – number of pairs of value to be selected</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(v, l); l = list of randomly selected kernel values, v = variance of l</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.get_kernel_values">
+<span class="sig-name descname"><span class="pre">get_kernel_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_simanneal.html#CombinatorialKernelSimulatedAnnealingTraining.get_kernel_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.get_kernel_values" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate kernel gram matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X1</strong> – feature data of the first batch</p></li>
+<li><p><strong>X2</strong> – feature data of the second batch</p></li>
+<li><p><strong>solution</strong> – matrix representation of the circuit</p></li>
+<li><p><strong>bandwidth</strong> – optional constant limiting the rotational angles of the transformations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>kernel gram matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/combinatorial_kernel_simanneal.html#CombinatorialKernelSimulatedAnnealingTraining.move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.combinatorial_kernel_simanneal.CombinatorialKernelSimulatedAnnealingTraining.move" title="Permalink to this definition"></a></dt>
+<dd><p>Perturb the current solution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quask.techniques.scrambled_kernel">
+<span id="quask-techniques-scrambled-kernel-module"></span><h2>quask.techniques.scrambled_kernel module<a class="headerlink" href="#module-quask.techniques.scrambled_kernel" title="Permalink to this heading"></a></h2>
+<p>Code base for <a class="reference external" href="https://arxiv.org/abs/2209.11144">https://arxiv.org/abs/2209.11144</a>. This module generate a randomly generated circuit
+using qml.ArbitraryUnitary function.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="quask.techniques.scrambled_kernel.ScrambledKernel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">quask.techniques.scrambled_kernel.</span></span><span class="sig-name descname"><span class="pre">ScrambledKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_validation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/scrambled_kernel.html#ScrambledKernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.scrambled_kernel.ScrambledKernel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.scrambled_kernel.ScrambledKernel.create_pennylane_function">
+<span class="sig-name descname"><span class="pre">create_pennylane_function</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/scrambled_kernel.html#ScrambledKernel.create_pennylane_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.scrambled_kernel.ScrambledKernel.create_pennylane_function" title="Permalink to this definition"></a></dt>
+<dd><p>Create pennylane kernel function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>kernel function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.scrambled_kernel.ScrambledKernel.estimate_mse">
+<span class="sig-name descname"><span class="pre">estimate_mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/scrambled_kernel.html#ScrambledKernel.estimate_mse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.scrambled_kernel.ScrambledKernel.estimate_mse" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the MSE of the current solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weights</strong> – random weights</p></li>
+<li><p><strong>X_test</strong> – testing feature data matrix</p></li>
+<li><p><strong>y_test</strong> – testing label data array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>MSE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.scrambled_kernel.ScrambledKernel.estimate_mse_svr">
+<span class="sig-name descname"><span class="pre">estimate_mse_svr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gram_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gram_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/scrambled_kernel.html#ScrambledKernel.estimate_mse_svr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.scrambled_kernel.ScrambledKernel.estimate_mse_svr" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the MSE of the current solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gram_train</strong> – training gram matrix</p></li>
+<li><p><strong>y_train</strong> – training label data array</p></li>
+<li><p><strong>gram_test</strong> – testing gram matrix</p></li>
+<li><p><strong>y_test</strong> – testing label data array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>MSE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.scrambled_kernel.ScrambledKernel.get_kernel_values">
+<span class="sig-name descname"><span class="pre">get_kernel_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/scrambled_kernel.html#ScrambledKernel.get_kernel_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.scrambled_kernel.ScrambledKernel.get_kernel_values" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate kernel gram matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X1</strong> – feature data of the first batch</p></li>
+<li><p><strong>X2</strong> – feature data of the second batch</p></li>
+<li><p><strong>weights</strong> – not used</p></li>
+<li><p><strong>bandwidth</strong> – not used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>kernel gram matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quask.techniques.trainable_kernel">
+<span id="quask-techniques-trainable-kernel-module"></span><h2>quask.techniques.trainable_kernel module<a class="headerlink" href="#module-quask.techniques.trainable_kernel" title="Permalink to this heading"></a></h2>
+<p>Module dedicated to create a gradient-descend trainable kernel technique</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">quask.techniques.trainable_kernel.</span></span><span class="sig-name descname"><span class="pre">PennylaneTrainableKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_form</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_intermediate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Create a trainable kernel using Pennylane framework.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel.create_circuit">
+<span class="sig-name descname"><span class="pre">create_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel.create_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel.create_circuit" title="Permalink to this definition"></a></dt>
+<dd><p>Creates the quantum circuit to be simulated with jax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_embedding">
+<span class="sig-name descname"><span class="pre">get_embedding</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel.get_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_embedding" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the embedding into its function pointer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_gram_matrix">
+<span class="sig-name descname"><span class="pre">get_gram_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel.get_gram_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_gram_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Get the gram matrix given the actual parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_1</strong> – first set (testing)</p></li>
+<li><p><strong>X_2</strong> – second set (training)</p></li>
+<li><p><strong>theta</strong> – parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Gram matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_loss">
+<span class="sig-name descname"><span class="pre">get_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel.get_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_loss" title="Permalink to this definition"></a></dt>
+<dd><p>Get loss according to the wanted metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> – parameter vector</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>loss (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_optimized_gram_matrices">
+<span class="sig-name descname"><span class="pre">get_optimized_gram_matrices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel.get_optimized_gram_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_optimized_gram_matrices" title="Permalink to this definition"></a></dt>
+<dd><p>Get optimized gram matrices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(tr,te) tuple of training and testing gram matrices</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_optimizer">
+<span class="sig-name descname"><span class="pre">get_optimizer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel.get_optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_optimizer" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the optimizer from string to object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>optimizer object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_var_form">
+<span class="sig-name descname"><span class="pre">get_var_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel.get_var_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel.get_var_form" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the variational form into its function pointer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_qubits</strong> – Number of qubits of the variational form</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(fn, n) tuple of function and integer, the former representing the ansatz and the latter the number of parameters</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel.jnp_to_np">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">jnp_to_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel.jnp_to_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel.jnp_to_np" title="Permalink to this definition"></a></dt>
+<dd><p>Convert jax numpy value to numpy</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – jax value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quask.techniques.trainable_kernel.PennylaneTrainableKernel.optimize_circuit">
+<span class="sig-name descname"><span class="pre">optimize_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quask/techniques/trainable_kernel.html#PennylaneTrainableKernel.optimize_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quask.techniques.trainable_kernel.PennylaneTrainableKernel.optimize_circuit" title="Permalink to this definition"></a></dt>
+<dd><p>Run optimization of the circuit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quask.techniques">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-quask.techniques" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Francesco Di Marcantonio, Massimiliano Incudini, Davide Tezza, Michele Grossi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

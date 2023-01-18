@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quask.techniques.scrambled_kernel &mdash; QuASK 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> QuASK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_use.html">How to use it</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QuASK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>quask.techniques.scrambled_kernel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for quask.techniques.scrambled_kernel</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Code base for https://arxiv.org/abs/2209.11144. This module generate a randomly generated circuit</span>
+<span class="sd">using qml.ArbitraryUnitary function.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVR</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+
+<div class="viewcode-block" id="ScrambledKernel"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.scrambled_kernel.ScrambledKernel">[docs]</a><span class="k">class</span> <span class="nc">ScrambledKernel</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_validation</span><span class="p">,</span> <span class="n">y_validation</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialization</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X_train: training feature data matrix</span>
+<span class="sd">            y_train: training label data array</span>
+<span class="sd">            X_validation: validation feature data matrix</span>
+<span class="sd">            y_validation: validation label data array</span>
+<span class="sd">            n_qubits: number of qubits of the circuit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">training_gram</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_validation</span> <span class="o">=</span> <span class="n">X_validation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_validation</span> <span class="o">=</span> <span class="n">y_validation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validation_gram</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="n">n_qubits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">((</span><span class="mi">4</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scrambled_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_pennylane_function</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="mi">4</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ScrambledKernel.create_pennylane_function"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.scrambled_kernel.ScrambledKernel.create_pennylane_function">[docs]</a>    <span class="k">def</span> <span class="nf">create_pennylane_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create pennylane kernel function</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            kernel function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># define function to compile</span>
+        <span class="k">def</span> <span class="nf">scrambled_kernel_wrapper</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;default.qubit.jax&quot;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span>
+
+            <span class="c1"># create projector (measures probability of having all &quot;00...0&quot;)</span>
+            <span class="n">projector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">))</span>
+            <span class="n">projector</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="c1"># define the circuit for the quantum kernel (&quot;overlap test&quot; circuit)</span>
+            <span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">interface</span><span class="o">=</span><span class="s1">&#39;jax&#39;</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">scrambled_kernel</span><span class="p">():</span>
+                <span class="n">repeated_x1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">)[:(</span><span class="mi">4</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">repeated_x2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">)[:(</span><span class="mi">4</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">qml</span><span class="o">.</span><span class="n">ArbitraryUnitary</span><span class="p">(</span>
+                                <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">repeated_x1</span><span class="p">),</span>
+                                <span class="n">wires</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">))</span>
+                <span class="n">qml</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">ArbitraryUnitary</span><span class="p">)(</span>
+                                 <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">repeated_x2</span><span class="p">),</span>
+                                 <span class="n">wires</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">Hermitian</span><span class="p">(</span><span class="n">projector</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)))</span>
+
+            <span class="k">return</span> <span class="n">scrambled_kernel</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">scrambled_kernel_wrapper</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ScrambledKernel.estimate_mse"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.scrambled_kernel.ScrambledKernel.estimate_mse">[docs]</a>    <span class="k">def</span> <span class="nf">estimate_mse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate the MSE of the current solution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            weights: random weights</span>
+<span class="sd">            X_test: testing feature data matrix</span>
+<span class="sd">            y_test: testing label data array</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            MSE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_validation</span> <span class="k">if</span> <span class="n">X_test</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">X_test</span>
+        <span class="n">y_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_validation</span> <span class="k">if</span> <span class="n">y_test</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">y_test</span>
+        <span class="n">training_gram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_kernel_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">testing_gram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_kernel_values</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_mse_svr</span><span class="p">(</span><span class="n">training_gram</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span> <span class="n">testing_gram</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ScrambledKernel.estimate_mse_svr"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.scrambled_kernel.ScrambledKernel.estimate_mse_svr">[docs]</a>    <span class="k">def</span> <span class="nf">estimate_mse_svr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gram_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">gram_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate the MSE of the current solution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            gram_train: training gram matrix</span>
+<span class="sd">            y_train: training label data array</span>
+<span class="sd">            gram_test: testing gram matrix</span>
+<span class="sd">            y_test: testing label data array</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            MSE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">svr</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">()</span>
+        <span class="n">svr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gram_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">svr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">gram_test</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="ScrambledKernel.get_kernel_values"><a class="viewcode-back" href="../../../quask.techniques.html#quask.techniques.scrambled_kernel.ScrambledKernel.get_kernel_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_kernel_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate kernel gram matrix</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X1: feature data of the first batch</span>
+<span class="sd">            X2: feature data of the second batch</span>
+<span class="sd">            weights: not used</span>
+<span class="sd">            bandwidth: not used</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            kernel gram matrix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">X2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">kernel_gram</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scrambled_kernel</span><span class="p">(</span><span class="n">X1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">X1</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                    <span class="n">kernel_gram</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="n">kernel_gram</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kernel_gram</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">X2</span><span class="p">)))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X1</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X2</span><span class="p">)):</span>
+                    <span class="n">kernel_gram</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scrambled_kernel</span><span class="p">(</span><span class="n">X1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">X2</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">kernel_gram</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Francesco Di Marcantonio, Massimiliano Incudini, Davide Tezza, Michele Grossi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
