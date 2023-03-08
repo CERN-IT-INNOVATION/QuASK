@@ -1,0 +1,3 @@
+[submodule "saasbo"]
+	path = saasbo
+	url = https://github.com/martinjankowiak/saasbo/
