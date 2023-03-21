@@ -1,1 +1,1 @@
-from pennylane_kernel import PennylaneKernel
+from .pennylane_kernel import PennylaneKernel

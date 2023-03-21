@@ -89,7 +89,7 @@ class Kernel(ABC):
         ansatz_numpy = self.ansatz.to_numpy()
         measurement_numpy = np.array([Kernel.PAULIS.index(p) for p in self.measurement])
         type_numpy = np.array([self.type.value])
-        return np.concatenate([ansatz_numpy, measurement_numpy, type_numpy]).ravel()
+        return np.concatenate([ansatz_numpy, measurement_numpy, type_numpy], dtype=object).ravel()
 
     @staticmethod
     def from_numpy(array, n_features, n_qubits, n_operations, allow_midcircuit_measurement):

@@ -18,13 +18,13 @@ from mushroom_rl.utils.parameters import Parameter
 from mushroom_rl.utils.dataset import compute_J
 from sklearn.ensemble import ExtraTreesRegressor
 from mushroom_rl.algorithms.value import FQI
-from . import KernelEvaluation, Ansatz, Kernel, Operation
-from . import KernelFactory
+from .core import Ansatz, Kernel, Operation, KernelFactory
+from .evaluator import KernelEvaluator
 
 
 class BaseKernelOptimizer(ABC):
 
-    def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluation):
+    def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluator):
         self.initial_kernel = initial_kernel
         self.X = X
         self.y = y
@@ -74,7 +74,7 @@ class BaseKernelOptimizer(ABC):
 
 class BaseBandwidthKernelOptimizer(ABC):
 
-    def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluation):
+    def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluator):
         self.initial_kernel = initial_kernel
         self.X = X
         self.y = y
@@ -83,7 +83,7 @@ class BaseBandwidthKernelOptimizer(ABC):
 
 class SklearnBayesianOptimizer(BaseKernelOptimizer):
 
-    def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluation):
+    def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluator):
         super().__init__(initial_kernel, X, y, ke)
         self.optimizer = None
 
@@ -132,7 +132,7 @@ class ReinforcementLearningOptimizer(BaseKernelOptimizer):
 
     class KernelEnv(Environment):
 
-        def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluation):
+        def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluator):
             # Save important environment information
             self.initial_kernel = initial_kernel
             self.n_operations = self.initial_kernel.ansatz.n_operations
@@ -201,7 +201,7 @@ class ReinforcementLearningOptimizer(BaseKernelOptimizer):
 
             # Create kernel from state
             kernel = Kernel.from_numpy(self._state[1:], self.n_features, self.n_qubits, self.n_operations, self.allow_midcircuit_measurement)
-            n_operations = self._state[0]
+            n_operations = int(self._state[0])
 
             # Update kernel
             kernel.ansatz.change_operation(n_operations, feature, wires, generator, bandwidth)  # update the operation
@@ -219,7 +219,7 @@ class ReinforcementLearningOptimizer(BaseKernelOptimizer):
             # Return all the information + empty dictionary (used to pass additional information)
             return self._state, reward, absorbing, {}
 
-    def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluation):
+    def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluator):
         self.initial_kernel = copy.deepcopy(initial_kernel)
         self.X = X
         self.y = y
