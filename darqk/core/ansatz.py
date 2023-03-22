@@ -71,7 +71,7 @@ class Ansatz:
         :return: None
         """
         assert 0 <= operation_index < self.n_operations, "Operation index out of bounds"
-        assert -1 <= new_feature < self.n_features, "Feature index out of bounds"
+        assert 0 <= new_feature <= self.n_features, "Feature index out of bounds"
         self.operation_list[operation_index].feature = new_feature
 
     def change_wires(self, operation_index: int, new_wires: List[int]):
@@ -115,7 +115,7 @@ class Ansatz:
         for i in range(self.n_operations):
             generator = np.random.choice(self.get_allowed_operations())
             wires = np.random.choice(list(range(self.n_qubits)), 2, replace=False)
-            feature = np.random.choice(list(range(self.n_features)) + [-1])
+            feature = np.random.choice(list(range(self.n_features + 1)))
             bandwidth = np.random.uniform(0.0, 1.0)
             self.operation_list[i] = Operation(generator, wires, feature, bandwidth)
 

@@ -6,7 +6,7 @@ from ..core import Ansatz, Kernel, KernelType
 def AnsatzTemplate(ansatz: Ansatz, params: np.ndarray, wires: np.ndarray):
     for operation in ansatz.operation_list:
         if "M" not in operation.generator:
-            feature = np.pi if operation.feature < 0 else params[operation.feature]
+            feature = np.pi if operation.feature == ansatz.n_features else params[operation.feature]
             qml.PauliRot(operation.bandwidth * feature, operation.generator, wires=wires[operation.wires])
         elif operation.generator[0] == "M":
             qml.measure(wires[operation.wires[0]])
@@ -65,7 +65,10 @@ class PennylaneKernel(Kernel):
             probabilities = self.observable_phi(x)
             self.last_probabilities = probabilities
             parity = lambda i: 1 if bin(i).count('1') % 2 == 0 else -1
-            return np.sum([parity(i) * probabilities[i] for i in range(len(probabilities))])
+            probabilities = np.array([parity(i) * probabilities[i] for i in range(len(probabilities))])
+            sum_probabilities = np.sum(probabilities)
+            # print(f"{sum_probabilities=} {probabilities=}")
+            return np.sum(probabilities)
 
         elif self.type == KernelType.FIDELITY:
             raise ValueError("phi not available for fidelity kernels")

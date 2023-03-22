@@ -31,5 +31,4 @@ class KernelAlignmentEvaluator(KernelEvaluator):
         :return: kernel target alignment
         """
         Y = np.outer(y, y)
-        norm = np.sqrt(np.sum(K * K)) * y.shape[0]
-        return np.sum(K * Y) / norm
+        return np.sum(K * Y) / (np.linalg.norm(K) * np.linalg.norm(Y))

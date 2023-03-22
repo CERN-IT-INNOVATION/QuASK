@@ -21,7 +21,10 @@ class CenteredKernelAlignmentEvaluator(KernelEvaluator):
         """
         if K is None:
             K = kernel.build_kernel(X, X)
-        return - np.abs(self.kta(CenteredKernelAlignmentEvaluator.center_kernel(K), y))
+        print(K)
+        Kc = CenteredKernelAlignmentEvaluator.center_kernel(K)
+        kta = KernelAlignmentEvaluator.kta(Kc, y)
+        return - np.abs(kta)
 
     @staticmethod
     def center_kernel(K):

@@ -24,8 +24,11 @@ class RidgeGeneralizationEvaluator(KernelEvaluator):
         :param y: labels
         :return: cost of the kernel, the lower the better
         """
+        n_train = len(y) // 2
+        n_test = len(y) - n_train
         krr = KernelRidge(kernel=lambda X1, X2: kernel.build_kernel(X1, X2))
-        krr.fit(X[:len(y) // 2], y[:len(y) // 2])
-        y_pred = np.array(krr.predict(X[len(y) // 2:]))
-        mse = np.linalg.norm(y_pred - y[len(y) // 2:])
+        krr.fit(X[:n_train], y[:n_train])
+        y_pred = np.array(krr.predict(X[n_train:]))
+        mse = np.linalg.norm(y_pred - y[n_train:]) / n_test
         return mse
+

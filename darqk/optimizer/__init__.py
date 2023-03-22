@@ -1,2 +1,5 @@
 from .base_kernel_optimizer import BaseKernelOptimizer
+from .wide_kernel_environment import WideKernelEnvironment
 from .reinforcement_learning_optimizer import ReinforcementLearningOptimizer
+from .greedy_optimizer import GreedyOptimizer
+

@@ -77,9 +77,11 @@ class Kernel(ABC):
         if self.type == KernelType.FIDELITY:
             return cdist(X1, X2, metric=self.kappa)
         else:
-            Phi1 = np.array([self.phi(x) for x in X1])
-            Phi2 = np.array([self.phi(x) for x in X2])
-            return np.inner(Phi1, Phi2)
+            n = X1.shape[0]
+            m = X2.shape[0]
+            Phi1 = np.array([self.phi(x) for x in X1]).reshape((n, 1))
+            Phi2 = np.array([self.phi(x) for x in X2]).reshape((m, 1))
+            return Phi1.dot(Phi2.T)
 
     def to_numpy(self):
         """
@@ -115,3 +117,6 @@ class Kernel(ABC):
 
     def __repr__(self):
         return self.__str__()
+
+    def __copy__(self):
+        return Kernel.from_numpy(self.to_numpy(), self.ansatz.n_features, self.ansatz.n_qubits, self.ansatz.n_operations, self.ansatz.allow_midcircuit_measurement)
