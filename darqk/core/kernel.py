@@ -94,7 +94,7 @@ class Kernel(ABC):
         return np.concatenate([ansatz_numpy, measurement_numpy, type_numpy], dtype=object).ravel()
 
     @staticmethod
-    def from_numpy(array, n_features, n_qubits, n_operations, allow_midcircuit_measurement):
+    def from_numpy(array, n_features, n_qubits, n_operations, allow_midcircuit_measurement, shift_second_wire=False):
         """
         Deserialize the object from a numpy array
         :param array: numpy array
@@ -104,12 +104,14 @@ class Kernel(ABC):
         :param allow_midcircuit_measurement: True if mid-circuit measurement are allowed
         :return: Kernel object (created using default instance in KernelFactory)
         """
+        assert len(array) == 5 * n_operations + n_qubits + 1, f"Size of the array is {len(array)} instead of {5 * n_operations + n_qubits + 1}"
         ansatz_numpy = array[:n_operations*5]
         measurement_numpy = array[n_operations*5:-1]
-        type_numpy = KernelType.FIDELITY if array[-1] == 0 else KernelType.OBSERVABLE
-        ansatz = Ansatz.from_numpy(ansatz_numpy, n_features, n_qubits, n_operations, allow_midcircuit_measurement)
-        measurement = "".join(Kernel.PAULIS[int(i)] for i in measurement_numpy)
-        kernel = KernelFactory.create_kernel(ansatz, measurement, type_numpy)
+        type_numpy = array[-1]
+        ansatz = Ansatz.from_numpy(ansatz_numpy, n_features, n_qubits, n_operations, allow_midcircuit_measurement, shift_second_wire)
+        measurement = "".join(Kernel.PAULIS[np.rint(i).astype(int)] for i in measurement_numpy)
+        the_type = KernelType.convert(type_numpy)
+        kernel = KernelFactory.create_kernel(ansatz, measurement, the_type)
         return kernel
 
     def __str__(self):

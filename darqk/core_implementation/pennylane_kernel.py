@@ -72,3 +72,6 @@ class PennylaneKernel(Kernel):
 
         elif self.type == KernelType.FIDELITY:
             raise ValueError("phi not available for fidelity kernels")
+
+        else:
+            raise ValueError("Unknown type, possible erroneous loading from a numpy array")

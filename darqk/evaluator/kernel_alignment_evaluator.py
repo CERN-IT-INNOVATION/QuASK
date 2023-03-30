@@ -20,7 +20,9 @@ class KernelAlignmentEvaluator(KernelEvaluator):
         """
         if K is None:
             K = kernel.build_kernel(X, X)
-        return - np.abs(KernelAlignmentEvaluator.kta(K, y))
+        the_cost = -1 * np.abs(KernelAlignmentEvaluator.kta(K, y))
+        # assert not np.isnan(the_cost), f"{kernel=} {K=} {y=}"
+        return the_cost if not np.isnan(the_cost) else 1000
 
     @staticmethod
     def kta(K, y):
