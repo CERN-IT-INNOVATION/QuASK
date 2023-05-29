@@ -11,13 +11,20 @@ setup(
     packages=setuptools.find_packages(),
     python_requires='>=3.7.0',
     install_requires=[
-        'openml',
+        'matplotlib',
         'numpy',
-        'scikit-learn',
         'scipy',
+        'click',
+        'scikit-learn',
+        'imbalanced-learn',
+        'prince',
+        'openml',
+        'jax',
+        'jaxlib',
         'PennyLane',
         'PennyLane-qiskit',
-        'jax'
+        'simanneal',
+        'optax',
     ],
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
