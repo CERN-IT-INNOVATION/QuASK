@@ -34,14 +34,7 @@ The documentation for QuASK can be accessed on the website [Read The Docs](https
 
 The software has been tested on Python 3.9.10. We recommend using this version or a newer one. 
 
-You can install the software directly from the repository using the command:
-
-```python3 -m pip install https://github.com/CERN-IT-INNOVATION/QuASK/releases/download/1.0.0-beta/quask-1.0.0b0-py3-none-any.whl```
-
-If the software shows dependencies related problems, download the repository and 
-from the main directory run the command:
-
-```python3 -m pip install -r requirements.txt```
+The library is available on the Python Package Index (PyPI) with ```pip install quask```.
 
 ## Usage
 
