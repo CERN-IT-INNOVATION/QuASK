@@ -7,7 +7,7 @@ setup(
     description='Quantum Advantage Seeker withKernels',
     url='https://github.com/CERN-IT-INNOVATION/QuASK',
     author='Massimiliano Incudini <massimiliano.incudini@univr.it>, Francesco Di Marcantonio <francesco.di.marcantonio@cern.ch>, Michele Grossi <michele.grossi@cern.ch>',
-    license='Apache Software License',
+    license='Apache',
     packages=setuptools.find_packages(),
     python_requires='>=3.7.0',
     install_requires=[

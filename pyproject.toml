@@ -19,6 +19,7 @@ classifiers = [
         "Topic :: Scientific/Engineering :: Physics",
         "Programming Language :: Python :: 3.9",
 ]
+dynamic = ["version", "description","dependencies"]
 
 [project.urls]
 "Homepage" = "https://github.com/CERN-IT-INNOVATION/QuASK"
