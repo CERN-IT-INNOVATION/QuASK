@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='quask',
-    version='1.0.0-beta',
+    version='1.0.1',
     description='Quantum Advantage Seeker withKernels',
     url='https://github.com/CERN-IT-INNOVATION/QuASK',
     author='Massimiliano Incudini <massimiliano.incudini@univr.it>, Francesco Di Marcantonio <francesco.di.marcantonio@cern.ch>, Michele Grossi <michele.grossi@cern.ch>',

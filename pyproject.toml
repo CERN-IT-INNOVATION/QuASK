@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quask"
-version = "1.0.0-beta"
+version = "1.0.1"
 authors = [
   { name="Massimiliano Incudini", email="massimiliano.incudini@univr.it" },
   { name="Francesco Di Marcantonio", email="francesco.di.marcantonio@cern.ch" },
@@ -19,7 +19,7 @@ classifiers = [
         "Topic :: Scientific/Engineering :: Physics",
         "Programming Language :: Python :: 3.9",
 ]
-dynamic = ["version", "description", "dependencies"]
+dynamic = ["license", "dependencies"]
 
 [project.urls]
 "Homepage" = "https://github.com/CERN-IT-INNOVATION/QuASK"
