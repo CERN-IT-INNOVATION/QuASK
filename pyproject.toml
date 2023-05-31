@@ -13,7 +13,7 @@ authors = [
   { name="Francesco Di Marcantonio", email="francesco.di.marcantonio@cern.ch" },
   { name="Michele Grossi", email="michele.grossi@cern.ch" },
 ]
-dynamic = ["version", "description"]
+dynamic = ["dependencies"]
 
 [project.urls]
 "Homepage" = "https://github.com/CERN-IT-INNOVATION/QuASK"
