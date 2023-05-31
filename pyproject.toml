@@ -1,25 +1,19 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = [
+  "setuptools>=61.0",
+  "wheel"
+]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "quask"
-version = "1.0.1"
+version = "1.0.3"
 authors = [
   { name="Massimiliano Incudini", email="massimiliano.incudini@univr.it" },
   { name="Francesco Di Marcantonio", email="francesco.di.marcantonio@cern.ch" },
   { name="Michele Grossi", email="michele.grossi@cern.ch" },
 ]
-description = "A software framework to speed up the research in quantum machine learning"
-readme = "README.md"
-requires-python = ">=3.7"
-classifiers = [
-    "License :: OSI Approved :: Apache Software License",
-        "Operating System :: Unix",
-        "Topic :: Scientific/Engineering :: Physics",
-        "Programming Language :: Python :: 3.9",
-]
-dynamic = ["license", "dependencies"]
+dynamic = ["version", "description"]
 
 [project.urls]
 "Homepage" = "https://github.com/CERN-IT-INNOVATION/QuASK"
