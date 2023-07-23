@@ -39,7 +39,7 @@ from .metrics import (
     calculate_model_complexity,
 )
 from .kernels import the_kernel_register
-from .template_pennylane import PennylaneTrainableKernel
+from .techniques.trainable_kernel import PennylaneTrainableKernel
 
 
 @click.group()
