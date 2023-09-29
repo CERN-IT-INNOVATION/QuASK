@@ -77,14 +77,14 @@ To create some plot of the property related to the generated Gram matrices:
 Please cite the work using the following Bibtex entry:
 
 ```text
-@article{https://doi.org/10.48550/arxiv.2206.15284,
-  doi = {10.48550/ARXIV.2206.15284},
-  url = {https://arxiv.org/abs/2206.15284},
-  author = {Di Marcantonio, Francesco and Incudini, Massimiliano and Tezza, Davide and Grossi, Michele},
-  keywords = {Quantum Physics (quant-ph), Machine Learning (cs.LG), FOS: Physical sciences, FOS: Physical sciences, FOS: Computer and information sciences, FOS: Computer and information sciences},
-  title = {QuASK -- Quantum Advantage Seeker with Kernels},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {Creative Commons Attribution 4.0 International}
+@article{dimarcantonio2023quantum,
+  title={Quantum Advantage Seeker with Kernels (QuASK): a software framework to speed up the research in quantum machine learning},
+  author={Di Marcantonio, Francesco and Incudini, Massimiliano and Tezza, Davide and Grossi, Michele},
+  journal={Quantum Machine Intelligence},
+  volume={5},
+  number={1},
+  pages={20},
+  year={2023},
+  publisher={Springer}
 }
 ```
