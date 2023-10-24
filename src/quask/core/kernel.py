@@ -67,14 +67,15 @@ class Kernel(ABC):
         """
         # if you gave me only one sample
         if len(X1.shape) == 1 and len(X2.shape) == 1:
-            if self.type == KernelType.FIDELITY:
+            if self.type in [KernelType.FIDELITY, KernelType.SWAP_TEST]:
                 return self.kappa(X1, X2)
             else:
                 return self.phi(X1) * self.phi(X2)
+        
         # if you gave me multiple samples
         assert self.ansatz.n_features == X1.shape[1], "Number of features and X1.shape[1] do not match"
         assert self.ansatz.n_features == X2.shape[1], "Number of features and X2.shape[1] do not match"
-        if self.type == KernelType.FIDELITY:
+        if self.type in [KernelType.FIDELITY, KernelType.SWAP_TEST]:
             return cdist(X1, X2, metric=self.kappa)
         else:
             n = X1.shape[0]

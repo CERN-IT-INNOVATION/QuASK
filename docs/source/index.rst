@@ -59,11 +59,12 @@ Contents
 
 .. toctree::
    :maxdepth: 2
-   :caption: Press
+   :caption: About quask
 
    publications
    contribute
    contact_us
+   changelog
    license
 
 
@@ -71,4 +72,4 @@ Acknowledgements
 ----------------
 
 
-todo
+todo todo

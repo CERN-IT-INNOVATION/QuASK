@@ -1,5 +1,5 @@
 from .kernel_evaluator import KernelEvaluator
-from .lie_rank_evaluator import LieRankKernelEvaluator
+from .lie_rank_evaluator import LieRankEvaluator
 from .haar_evaluator import HaarEvaluator
 from .covering_number_evaluator import CoveringNumberEvaluator
 from .kernel_alignment_evaluator import KernelAlignmentEvaluator

@@ -5,7 +5,7 @@ from ..core import Kernel
 from . import KernelEvaluator
 
 
-class LieRankKernelEvaluator(KernelEvaluator):
+class LieRankEvaluator(KernelEvaluator):
     """
     Expressibility and 'Efficient classical simulability' measure based on the rank of the Lie algebra obtained by spanning
     the generators of the circuits.

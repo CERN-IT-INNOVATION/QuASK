@@ -7,8 +7,8 @@ class HaarEvaluator(KernelEvaluator):
     """
     Expressibility measure based on the comparison between the distribution of states obtained with an Haar random circuit and
     the one obtained with the current ansatz.
-    See: Sim, Sukin, Peter D. Johnson, and Alán Aspuru‐Guzik. "Expressibility and entangling capability of parameterized quantum
-    circuits for hybrid quantum‐classical algorithms." Advanced Quantum Technologies 2.12 (2019): 1900070.
+    See: Sim, Sukin, Peter D. Johnson, and Alán Aspuru-Guzik. "Expressibility and entangling capability of parameterized quantum
+    circuits for hybrid quantum-classical algorithms." Advanced Quantum Technologies 2.12 (2019): 1900070.
     """
 
     def __init__(self, n_bins: int, n_samples: int):

@@ -1,3 +1,0 @@
-Ensemble of kernel machines
-===========================
-

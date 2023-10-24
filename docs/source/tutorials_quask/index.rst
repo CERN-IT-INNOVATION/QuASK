@@ -4,7 +4,7 @@ Advanced use of QuASK
 .. toctree::
     :maxdepth: 2
 
-    quask_0_backend
+    quask_0_backends
     quask_1_preprocessing
     quask_2_evaluators
     quask_3_optimizers

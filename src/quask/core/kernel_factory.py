@@ -13,7 +13,7 @@ class KernelFactory:
         Create a kernel object using the default class chosen
         :param ansatz: Ansatz object representing the unitary transformation
         :param measurement: Pauli string representing the measurement
-        :param type: type of kernel, fidelity or observable
+        :param type: type of kernel, fidelity, swap test or observable
         :return: kernel object of the default concrete class
         """
         from ..core_implementation import PennylaneKernel
