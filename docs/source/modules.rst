@@ -114,11 +114,6 @@ Package ``quask.optimizer``
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: quask.optimizer.tight_kernel_environment
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 .. automodule:: quask.optimizer.wide_kernel_environment
    :members:
    :undoc-members:

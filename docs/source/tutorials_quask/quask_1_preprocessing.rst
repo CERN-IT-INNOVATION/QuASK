@@ -1,3 +1,0 @@
-Preprocessing techniques in *quask*
-===================================
-
