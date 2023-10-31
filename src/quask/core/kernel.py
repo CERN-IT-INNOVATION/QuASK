@@ -13,7 +13,8 @@ class Kernel(ABC):
 
     def __init__(self, ansatz: Ansatz, measurement: str, type: KernelType):
         """
-        Initialization
+        Initialization.
+
         :param ansatz: Ansatz object representing the unitary transformation
         :param measurement: Pauli string representing the measurement
         :param type: type of kernel, fidelity or observable
@@ -27,7 +28,8 @@ class Kernel(ABC):
 
     def get_last_probabilities(self):
         """
-        Get the last kernel value calculated
+        Get the last kernel value calculated.
+
         :return: last probability array
         """
         return np.array(self.last_probabilities)
@@ -35,7 +37,8 @@ class Kernel(ABC):
     @abstractmethod
     def kappa(self, x1, x2) -> float:
         """
-        Calculate the kernel given two datapoints
+        Calculate the kernel given two datapoints.
+
         :param x1: first data point
         :param x2: second data point
         :return: Kernel similarity between the two data points
@@ -45,7 +48,8 @@ class Kernel(ABC):
     @abstractmethod
     def phi(self, x) -> float:
         """
-        Calculate the feature map of a data point
+        Calculate the feature map of a data point.
+
         :param x: data point
         :return: feature map of the datapoint as numpy array
         """
@@ -53,14 +57,16 @@ class Kernel(ABC):
 
     def get_allowed_operations(self):
         """
-        Get the list of allowed operations
+        Get the list of allowed operations.
+
         :return:  list of generators allowed (the information is saved in the ansatz)
         """
         return self.ansatz.get_allowed_operations()
 
     def build_kernel(self, X1: np.ndarray, X2: np.ndarray) -> np.ndarray:
         """
-        Build a kernel
+        Build a kernel.
+
         :param X1: a single datapoint or a list of datapoints
         :param X2: a single datapoint or a list of datapoints
         :return: a single or a matrix of kernel inner products
@@ -86,7 +92,8 @@ class Kernel(ABC):
 
     def to_numpy(self):
         """
-        Serialize the kernel object as a numpy array
+        Serialize the kernel object as a numpy array.
+
         :return: numpy array
         """
         ansatz_numpy = self.ansatz.to_numpy()
@@ -97,7 +104,8 @@ class Kernel(ABC):
     @staticmethod
     def from_numpy(array, n_features, n_qubits, n_operations, allow_midcircuit_measurement, shift_second_wire=False):
         """
-        Deserialize the object from a numpy array
+        Deserialize the object from a numpy array.
+        
         :param array: numpy array
         :param n_features: number of feature that can be used to parametrize the operation
         :param n_qubits: number of qubits of the circuit

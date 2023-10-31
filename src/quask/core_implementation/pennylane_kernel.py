@@ -25,10 +25,25 @@ def ChangeBasis(measurement: str):
 
 class PennylaneKernel(Kernel):
 
-    def __init__(self, ansatz: Ansatz, measurement: str, type: KernelType):
-        super().__init__(ansatz, measurement, type)
+    def create_device(self, n_qubits): 
+        return qml.device(self.device_name, wires=n_qubits, shots=self.n_shots)
+    
+    def __init__(self, ansatz: Ansatz, measurement: str, type: KernelType, device_name: str = "default.qubit", n_shots: int = None):
+        """
+        Initialization.
 
-        dev = qml.device("default.qubit", wires=self.ansatz.n_qubits, shots=None)
+        :param ansatz: Ansatz object representing the unitary transformation
+        :param measurement: Pauli string representing the measurement
+        :param type: type of kernel, fidelity or observable
+        :param device_name: name of the device, 'default.qubit' for noiseless simulation
+        :param n_shots: number of shots when sampling the solution, None to have infinity
+        """
+        
+        super().__init__(ansatz, measurement, type)
+        self.device_name = device_name
+        self.n_shots = n_shots
+
+        dev = self.create_device(self.ansatz.n_qubits)
         wires = np.array(list(range(self.ansatz.n_qubits)))
         measurement_wires = np.array([i for i in wires if measurement[i] != 'I'])
         if len(measurement_wires) == 0:
@@ -51,12 +66,32 @@ class PennylaneKernel(Kernel):
 
         self.observable_phi = observable_phi
 
+        dev_swap = self.create_device(1+2*self.ansatz.n_qubits)
+        n = self.ansatz.n_qubits
+
+        @qml.qnode(dev_swap)
+        def swap_kernel(x1, x2):
+            qml.Hadamard(wires=[0])
+            AnsatzTemplate(self.ansatz, x1, wires=1+wires)
+            AnsatzTemplate(self.ansatz, x2, wires=1+n+wires)
+            for j in measurement_wires:
+                qml.CSWAP(wires=[0, 1+j, 1+n+j])
+            qml.Hadamard(wires=[0])
+            return qml.probs(wires=[0])
+
+        self.swap_kernel = swap_kernel
+
     def kappa(self, x1, x2) -> float:
         if self.type == KernelType.OBSERVABLE:
             return self.phi(x1) * self.phi(x2)
 
         elif self.type == KernelType.FIDELITY:
             probabilities = self.fidelity_kernel(x1, x2)
+            self.last_probabilities = probabilities
+            return probabilities[0]
+        
+        elif self.type == KernelType.SWAP_TEST:
+            probabilities = self.swap_kernel(x1, x2)
             self.last_probabilities = probabilities
             return probabilities[0]
 
@@ -66,12 +101,13 @@ class PennylaneKernel(Kernel):
             self.last_probabilities = probabilities
             parity = lambda i: 1 if bin(i).count('1') % 2 == 0 else -1
             probabilities = np.array([parity(i) * probabilities[i] for i in range(len(probabilities))])
-            sum_probabilities = np.sum(probabilities)
+            # sum_probabilities = np.sum(probabilities)
             # print(f"{sum_probabilities=} {probabilities=}")
             return np.sum(probabilities)
 
-        elif self.type == KernelType.FIDELITY:
+        elif self.type in [KernelType.FIDELITY, KernelType.SWAP_TEST]:
             raise ValueError("phi not available for fidelity kernels")
 
         else:
             raise ValueError("Unknown type, possible erroneous loading from a numpy array")
+        
