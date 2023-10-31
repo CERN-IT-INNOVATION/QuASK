@@ -1,2 +1,9 @@
 *.pyc
-docs/build*
+docs/build/*
+docs/source/notebooks/.ipynb_checkpoints/*
+src/quask/__pycache__/*
+src/quask/core/__pycache__/*
+src/quask/core_implementation/__pycache__/*
+src/quask/evaluator/__pycache__/*
+src/quask/optimizer/__pycache__/*
+.ipynb_checkpoints/*
