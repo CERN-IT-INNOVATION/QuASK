@@ -1,12 +1,5 @@
 import numpy as np
 import copy
-from mushroom_rl.core import Environment, MDPInfo
-from mushroom_rl.utils.spaces import Discrete
-from mushroom_rl.core import Core
-from mushroom_rl.algorithms.value import SARSALambda
-from mushroom_rl.policy import EpsGreedy
-from mushroom_rl.utils.parameters import Parameter
-from mushroom_rl.utils.dataset import compute_J
 from ..core import Operation, Ansatz, Kernel, KernelFactory
 from ..evaluator import KernelEvaluator
 from . import BaseKernelOptimizer
@@ -25,6 +18,12 @@ class ReinforcementLearningOptimizer(BaseKernelOptimizer):
         :param y: labels
         :param ke: kernel evaluator object
         """
+        from mushroom_rl.core import Environment
+        from mushroom_rl.core import Core
+        from mushroom_rl.algorithms.value import SARSALambda
+        from mushroom_rl.policy import EpsGreedy
+        from mushroom_rl.utils.parameters import Parameter
+        from mushroom_rl.utils.dataset import compute_J
         self.initial_kernel = copy.deepcopy(initial_kernel)
         self.X = X
         self.y = y
@@ -42,7 +41,12 @@ class ReinforcementLearningOptimizer(BaseKernelOptimizer):
         :param final_episodes:
         :return:
         """
-
+        from mushroom_rl.core import Environment
+        from mushroom_rl.core import Core
+        from mushroom_rl.algorithms.value import SARSALambda
+        from mushroom_rl.policy import EpsGreedy
+        from mushroom_rl.utils.parameters import Parameter
+        from mushroom_rl.utils.dataset import compute_J
         # Policy
         epsilon = Parameter(value=1.)
         pi = EpsGreedy(epsilon=epsilon)

@@ -4,7 +4,7 @@ from ..core import Kernel
 from . import KernelEvaluator
 
 
-class SpectralBiasKernelEvaluator(KernelEvaluator):
+class SpectralBiasEvaluator(KernelEvaluator):
     """
     Kernel compatibility measure based on the spectral bias framework.
     See: Canatar, Abdulkadir, Blake Bordelon, and Cengiz Pehlevan. "Spectral bias and task-model alignment explain generalization
@@ -99,3 +99,4 @@ class SpectralBiasKernelEvaluator(KernelEvaluator):
     def __str__(self):
         (Lambda, Phi, w, a, C, powers) = self.last_result
         return f"""{Lambda=} {Phi=} {w=} {a=} {C=} {powers=}"""
+

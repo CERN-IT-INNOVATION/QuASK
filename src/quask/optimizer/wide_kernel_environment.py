@@ -10,6 +10,10 @@ class WideKernelEnvironment(Environment):
     Implementation of a Mushroom-RL Environment for our problem
     """
 
+    @staticmethod
+    def setup():
+        WideKernelEnvironment.register()
+
     def __init__(self, initial_kernel: Kernel, X: np.ndarray, y: np.ndarray, ke: KernelEvaluator):
         """
         Initialization
@@ -147,4 +151,3 @@ class WideKernelEnvironment(Environment):
         return self._state, reward, absorbing, {}
 
 
-WideKernelEnvironment.register()
