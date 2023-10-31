@@ -9,6 +9,11 @@ Modules
 Package ``quask.core``
 ----------------------
 
+.. automodule:: quask.core.operation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 .. automodule:: quask.core.ansatz
    :members:
    :undoc-members:

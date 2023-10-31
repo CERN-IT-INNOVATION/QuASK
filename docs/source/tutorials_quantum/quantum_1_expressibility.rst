@@ -1,14 +1,17 @@
 Expressibility in quantum kernels
 =================================
 
-Intro…
-
 .. code:: ipython3
 
     import sys
     import os
     # to import quask, move from docs/source/notebooks to src
     # sys.path.append('../../../src')
+
+In this tutorial, we start to charatetize the properties of a quantum
+kernel. The *expressibility* is definitively the most important. *quask*
+has some built in facilities to evaluate a quantum kernel from this
+perspective.
 
 Expressibility of a parameterized quantum circuit
 -------------------------------------------------
@@ -25,7 +28,7 @@ as:
 
    A = \int_\text{Haar} (\ketbra{\phi}{\phi})^{\otimes t} d\phi - \int_\Theta (U(\mathbf{\theta}) \ketbra{0}{0} U^\dagger (\mathbf{\theta}))^{\otimes t} d\mathbf{\theta},
 
-where :math:`t` is an integer with :math:`t \ge 2`.
+where :math:`t` is an integer with :math:`t \ge 2` [sim19].
 
 The super-operator :math:`A` quantifies the extent to which the ensemble
 of states, obtained by initiating the system in :math:`\ket{0}` and
@@ -71,7 +74,19 @@ calculate :math:`||A||`. It can be used as follows,
 
 .. code:: ipython3
 
+    from quask.core import Ansatz, Kernel, KernelFactory, KernelType
     from quask.evaluator import HaarEvaluator
+    
+    N_FEATURES = 2
+    N_OPERATIONS = 3
+    N_QUBITS = 2
+    ansatz = Ansatz(n_features=N_FEATURES, n_qubits=N_QUBITS, n_operations=N_OPERATIONS)
+    ansatz.initialize_to_identity()
+    ansatz.change_operation(0, new_feature=0, new_wires=[0, 1], new_generator="ZZ", new_bandwidth=1.0)
+    ansatz.change_operation(1, new_feature=1, new_wires=[0, 1], new_generator="XX", new_bandwidth=1.0)
+    ansatz.change_operation(2, new_feature=2, new_wires=[0, 1], new_generator="IX", new_bandwidth=0.123)
+    kernel = KernelFactory.create_kernel(ansatz, "Z" * N_QUBITS, KernelType.FIDELITY)
+    
     he = HaarEvaluator(n_bins=40, n_samples=10000)
     cost = he.evaluate(kernel=kernel, K=None, X=None, y=None)
     print(f"Cost (norm of A): {cost:3.5f}")
@@ -135,8 +150,8 @@ address this, the search can be truncated once a predefined threshold
 
 .. code:: ipython3
 
-    from quask.evaluator import LieRankKernelEvaluator
-    lre = LieRankKernelEvaluator(T=500)
+    from quask.evaluator import LieRankEvaluator
+    lre = LieRankEvaluator(T=500)
     cost = lre.evaluate(kernel=kernel, K=None, X=None, y=None)
     print(f"Cost (-1 * rank of DLA): {cost:3.5f}")
 
@@ -154,10 +169,11 @@ learning has significantly contributed to the theoretical development of
 various tools. It has been demonstrated that the rank of the DLA serves
 as a proxy for expressibility. Essentially, the more generators a
 unitary transformation :math:`U` possesses, the greater the capacity to
-map quantum states across the Hilbert space of the quantum system.
+map quantum states across the Hilbert space of the quantum system
+[lar21].
 
-However, it’s worth noting that this measure lacks extreme precision.
-For instance, it doesn’t account for the density of the distribution of
+However, it’s worth noting that this measure lacks some precision. For
+instance, it doesn’t account for the density of the distribution of
 quantum states, a consideration addressed by the norm of the
 super-operator :math:`A`. Moreover, when we introduce a bandwidth
 parameter :math:`\beta` to restrict the rotational angles, we
@@ -169,13 +185,30 @@ The rank of the DLA also sheds light on another intriguing aspect. Some
 relatively simple quantum circuits can be efficiently simulated on
 classical computers, rendering the use of quantum hardware redundant.
 This is particularly evident for circuits consisting solely of
-single-qubit gates. Research by (Somma) has established that unitary
-transformations with a polynomial number of generators can be
-efficiently simulated in polynomial time on classical hardware. While
-the reverse is not universally proven, having a multitude of generators
-offers favorable evidence that can be used to speculate that the chosen
-quantum circuit is challenging to simulate classically.
+single-qubit gates. [som06] has established that unitary transformations
+with a polynomial number of generators can be efficiently simulated in
+polynomial time on classical hardware. While the reverse is not
+universally proven, having a multitude of generators offers favorable
+evidence that can be used to speculate that the chosen quantum circuit
+is challenging to simulate classically.
 
-References and acknowledgements
--------------------------------
+References
+----------
 
+[sim19] Sim, Sukin, Peter D. Johnson, and Alán Aspuru‐Guzik.
+“Expressibility and entangling capability of parameterized quantum
+circuits for hybrid quantum‐classical algorithms.” Advanced Quantum
+Technologies 2.12 (2019): 1900070.
+
+[lar21] Larocca, Martin, et al. “Diagnosing barren plateaus with tools
+from quantum optimal control.” Quantum 6 (2022): 824.
+
+[som06] Somma, Rolando, et al. “Efficient solvability of Hamiltonians
+and limits on the power of some quantum computational models.” Physical
+review letters 97.19 (2006): 190501.
+
+.. code:: ipython3
+
+    .. note::
+    
+       Author's note.

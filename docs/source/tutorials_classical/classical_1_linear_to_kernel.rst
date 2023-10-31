@@ -17,7 +17,7 @@ learning a target function, denoted as :math:`f`. It requires a dataset
 of samples, :math:`\{ (\mathbf{x}^j, y^j) \}_{j=1}^m`. Each feature
 vector is represented as :math:`\mathbf{x}^j \in \mathbb{R}^d`, and has
 been sampled i.i.d. from some unknown probability distribution
-:math:`p(\mathbf{x})`. The labels are defined as
+:math:`p(\mathbf{x})`. The labels are real numbers, defined as
 :math:`y^j = f(\mathbf{x}^j) + \varepsilon^i`, with each
 :math:`\varepsilon^i` representing random Gaussian noise with zero mean
 and fixed variance.
@@ -123,7 +123,8 @@ which results in the following solution,
 
 
 .. warning ::
-    When using linear regression, we are making certain assumptions, such as assuming that the target function is linear, the data has been independently and identically distributed (i.i.d.) from some distribution, and the noise's variance is constant. If the target function does _not_ adhere to these assumptions, it will be challenging to solve the learning task with a linear classifier, and we should consider choosing a different, more suitable machine learning model.
+
+    When using linear regression, we are making certain assumptions, such as assuming that the target function is linear, the data has been independently and identically distributed (i.i.d.) from some distribution, and the noise's variance is constant. If the target function does *not* adhere to these assumptions, it will be challenging to solve the learning task with a linear classifier, and we should consider choosing a different, more suitable machine learning model.
 
 Using the capabilities of the *scikit-learn* framework instead of
 writing everything from scratch with NumPy is much easier and less
@@ -223,31 +224,49 @@ Solving the Ridge regression with Lagrangian multipliers
 
 When considering the following objective function,
 
-.. math:: \mathcal{L}(\mathbf{w}) = \sum_{j=1}^m (\mathbf{w}^\top \mathbf{x}^j - y^j)^2 + \lambda \langle \mathbf{w}, \mathbf{w}\rangle,
+.. math:: \mathcal{L}(\mathbf{w}) = \frac{1}{2}\sum_{j=1}^m (\mathbf{w}^\top \mathbf{x}^j - y^j)^2 + \frac{\lambda}{2} \langle \mathbf{w}, \mathbf{w}\rangle,
 
 the optimization problem :math:`\arg\min_w \mathcal{L}(w)` is
 unconstrained, and it is solved analytically without the Lagrangian
-multiplier method.
+multiplier method. The :math:`1/2` factor simplifies the constant when
+taking the derivative and does not influence the result of the
+optimization.
 
 We can, although, convert this problem into a constraint optimization.
 It seems that we are making things more difficult, but truly this way
 will reveal important insights. We introduce the variables
 :math:`\mathbf{z}_j = \mathbf{w}^\top \mathbf{x}^j - y^j`, and this
 variable can be associated with the constraint
-:math:`h_j(\mathbf{z}, \mathbf{w}) \equiv \mathbf{w}^\top \mathbf{x}^j - y^j - \mathbf{z}_j = 0`.
+:math:`h_j(\mathbf{z}, \mathbf{w}) \equiv \mathbf{z}_j - \mathbf{w}^\top \mathbf{x}^j + y^j = 0`.
 The optimization problem becomes
 
 .. math::
 
    \begin{array}{rl} 
-   \arg\min_w & \langle z, z \rangle + \lambda \langle w, w \rangle \\ 
+   \arg\min_w & \frac{1}{2} \langle z, z \rangle + \frac{\lambda}{2} \langle w, w \rangle \\ 
+   \text{constrained to} & h_j(w) = 0, \text{with }j = 1, ..., m
+   \end{array}
+
+Now, a trick to make the result look nicer is to multiply the objective
+function by :math:`1/\lambda`, while the constraints remain untouched.
+Again, this does not change the overall result.
+
+.. math::
+
+   \begin{array}{rl} 
+   \arg\min_w & \frac{1}{2\lambda} \langle z, z \rangle + \frac{1}{2} \langle w, w \rangle \\ 
    \text{constrained to} & h_j(w) = 0, \text{with }j = 1, ..., m
    \end{array}
 
 For each constraint, we define a Lagrangian multiplier :math:`\alpha_j`.
 The associated Lagrangian is:
 
-.. math:: \mathcal{L}(\mathbf{w}, \mathbf{z}, \mathbf{\alpha}) = \langle z, z \rangle + \lambda \langle \mathbf{w}, \mathbf{w}\rangle + \sum_{j=1}^m \alpha_j (x^j w -y^j -z^j).
+.. math::
+
+   \mathcal{L}(\mathbf{w}, \mathbf{z}, \mathbf{\alpha}) 
+   = \frac{1}{2\lambda} \langle \mathbf{z}, \mathbf{z} \rangle 
+   + \frac{1}{2} \langle \mathbf{w}, \mathbf{w}\rangle
+   + \mathbf{\alpha}^\top (\mathbf{z} - X \mathbf{w} + \mathbf{y}).
 
 Solving this problem in its primal form leads to the solution that we
 have already found. However, if we solve the dual form,
@@ -259,33 +278,45 @@ we obtain that
 .. math::
 
    \begin{array}{rl} 
-   \frac{\partial \mathcal{L}}{\partial \mathbf{z}_j} = 0 & \implies \mathbf{z}_j = \mathbf{\alpha}_j, \\
-   \frac{\partial \mathcal{L}}{\partial \mathbf{w}_j} = 0 & \implies \mathbf{w}_j = - \frac{1}{\lambda} \sum_{k=1}^m \mathbf{\alpha}_j x^j.
+   \frac{\partial \mathcal{L}}{\partial \mathbf{w}} = \mathbf{w} - \mathbf{\alpha}^\top X = 0 & \implies \mathbf{w}^\top = X^\top \mathbf{\alpha}. \\
+   \frac{\partial \mathcal{L}}{\partial \mathbf{z}} = \frac{1}{\lambda} \mathbf{z} + \mathbf{\alpha} = 0 & \implies \mathbf{z} =  - \lambda \mathbf{\alpha}.
    \end{array}
 
-This latter equation is especially important, as each weight of the
-model is expressed as a linear combination of the elements in the
-training set. Once substituted :math:`w` and :math:`z`, the remaining
-objective takes the form:
+Once substituted :math:`w` and :math:`z`, the remaining objective takes
+the form:
 
 .. math::
 
    \begin{array}{rl}
-   \mathcal{L}(\mathbf{\alpha}) & = 
-   \langle \alpha, \alpha \rangle
-   + \lambda \left\langle - \frac{1}{\lambda} \sum_{k=1}^m \mathbf{\alpha}_k x^k, - \frac{1}{\lambda} \sum_{k=1}^m \mathbf{\alpha}_k x^k \right\rangle
-   + \sum_{j=1}^m \alpha_j \left( - \frac{1}{\lambda} \sum_{k=1}^m \mathbf{\alpha}_k x^k x^j - y^j - \alpha^j\right) \\
-   & = - \sum_{j=1}^m \alpha_j^2 - \frac{1}{\lambda}\sum_{j,k=1}^m \alpha_j \alpha_k \langle x^j, x^k \rangle - 2\sum_{j=1}^m \alpha_j y^j \\
-   & = -\langle \alpha, \alpha \rangle - \frac{1}{\lambda} \alpha^\top G \alpha - 2 \langle \alpha, y\rangle
+   \mathcal{L}(\mathbf{\alpha}) 
+   & = \frac{1}{2\lambda} \langle -\lambda\mathbf{\alpha}, -\lambda\mathbf{\alpha} \rangle 
+   + \frac{1}{2} \langle X^\top \mathbf{\alpha}, X^\top \mathbf{\alpha}\rangle
+   + \mathbf{\alpha}^\top (-\lambda\mathbf{\alpha} - X X^\top \mathbf{\alpha} + \mathbf{y}) \\
+   & = \frac{\lambda}{2} \mathbf{\alpha}^\top \mathbf{\alpha}
+   + \frac{1}{2} \mathbf{\alpha}^\top X X^\top \mathbf{\alpha}
+   - \lambda \mathbf{\alpha}^\top \mathbf{\alpha}
+   - \mathbf{\alpha}^\top X X^\top \mathbf{\alpha}
+   + \mathbf{\alpha}^\top \mathbf{y} \\
+   & = - \frac{\lambda}{2} \mathbf{\alpha}^\top \mathbf{\alpha}
+   - \frac{1}{2} \mathbf{\alpha}^\top X X^\top \mathbf{\alpha}
+   + \mathbf{\alpha}^\top \mathbf{y} \\
+   & = - \frac{1}{2} \mathbf{\alpha}^\top (\lambda I) \mathbf{\alpha}
+   - \frac{1}{2} \mathbf{\alpha}^\top X X^\top \mathbf{\alpha}
+   + \mathbf{\alpha}^\top \mathbf{y} \\
+   & = - \frac{1}{2} \mathbf{\alpha}^\top (X X^\top + \lambda I) \mathbf{\alpha}
+   + \mathbf{\alpha}^\top \mathbf{y} \\
+   & = - \frac{1}{2} \mathbf{\alpha}^\top (G + \lambda I) \mathbf{\alpha}
+   + \mathbf{\alpha}^\top \mathbf{y} 
    \end{array}
 
-where :math:`G` is the Gram matrix of the the inner products between the
-vectors :math:`x^1, ..., x^m`, and corresponds to
-:math:`G_{j,k} = \langle x^j, x^k \rangle`.
+where :math:`G = X X^\top` is the Gram matrix of the inner products
+between :math:`x^1, ..., x^m`. The solution is
+
+.. math:: \nabla_\alpha \mathcal{L} = - (G + \lambda I) \alpha + \mathbf{y} = 0 \implies \tilde\alpha = (G + \lambda I)^{-1} \mathbf{y}.
 
 Now, we have two ways of expressing the same Ridge regressor: \* In the
 primal form, we have
-:math:`\tilde{f}(\mathbf{x}) = \sum_{j=1}^d \mathbf{w}_j \mathbf{x}_j`.
+:math:`\tilde{f}(\mathbf{x}) = \sum_{j=1}^d \mathbf{w}_j \mathbf{x}^j`.
 \* In the dual form, we have
 :math:`\tilde{f}(\mathbf{x}) = \sum_{j=1}^m \alpha_j \langle \mathbf{x}, \mathbf{x}^j \rangle`.
 
@@ -293,9 +324,9 @@ The primal form has the advantage that, in case we are dealing with a
 large amount of data (:math:`m \gg d`), the regressor is much more
 efficient. The dual form has the advantage of expressing the regressor
 in terms of its similarity to the elements of the training set, instead
-of on :math:`\mathbf{x}` itself. This leads to new possibilities because
-by changing the notion of ‘similarity,’ we can create much more powerful
-models.ossibilities by redefining the concept of ‘similarity.’
+of on :math:`\mathbf{x}` itself. This leads to new possibilities:
+changing the notion of ‘similarity’ allows the creation of much more
+powerful models.
 
 References
 ----------
