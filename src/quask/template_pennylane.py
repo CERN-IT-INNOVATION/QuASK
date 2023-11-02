@@ -208,7 +208,7 @@ def projected_xyz_embedding(embedding, X):
         )
 
     # build the gram matrix
-    X_proj = [proj_feature_map(x) for x in X]
+    X_proj = np.array([proj_feature_map(x) for x in X]) # This array should be numpy array as it being a list causes an error.
 
     return X_proj
 
@@ -277,14 +277,22 @@ def pennylane_quantum_kernel(feature_map, X_1, X_2=None):
         qml.adjoint(feature_map)(x2, wires=range(N))
         return qml.expval(qml.Hermitian(projector, wires=range(N)))
 
+
     # build the gram matrix
     gram = np.zeros(shape=(X_1.shape[0], X_2.shape[0]))
+    # Training
+    if X_1.shape[0] == X_2.shape[0] and np.allclose(X_1,X_2):
+        for i in range(X_1.shape[0]):
+            for j in range(i, X_2.shape[0]):
+                gram[i][j] = kernel(X_1[i], X_2[j])
+                gram[j][i] = gram[i][j]
+        return gram
+    # Testing
     for i in range(X_1.shape[0]):
-        for j in range(i, X_2.shape[0]):
+        for j in range(X_2.shape[0]):
             gram[i][j] = kernel(X_1[i], X_2[j])
-            gram[j][i] = gram[i][j]
-
     return gram
+
 
 
 def pennylane_projected_quantum_kernel(feature_map, X_1, X_2=None, params=[1.0]):
