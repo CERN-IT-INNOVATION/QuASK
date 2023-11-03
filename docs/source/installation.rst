@@ -2,89 +2,61 @@
 Installation
 ===================
 
-.. note::
-    Ensure you have at least Python 3.10 installed.
+In this section, we will show you how to install *quask* on your local platform. The software is meant to run
+on Python 3 with a version equal to or higher than 3.8. The software has been tested on Ubuntu 22.04; however,
+any platform supporting Python should be able to run *quask* successfully.
 
-Installation via `pip`
-======================
+We recommend installing *quask* in a virtual environment. You can follow this guide or simply run:
 
-_Quask_ has been designed to work on a Python3 environment and requires version 3.10 or higher. 
-The easiest way to use _quask_ is by installing it in your Python3 environment via the _pip_ packet manager. Usually, this latter tool is already installed, however, we can check it is correctly installed via:
+.. code:: sh
 
--- code-block:: sh
+   python3 -m venv my_quask_env
+   source my_quask_env/bin/activate
 
-    python3 -m ensurepip --upgrade
+Afterward, you can install *quask* using the *pip* package manager. You can check if you have the latest version of *pip* with:
 
-You can install "QuASK" using `pip` by running the following command:
+.. code:: sh
 
-.. code-block:: sh
+   python3 -m ensurepip --upgrade
 
-    pip install quask
+Then, install *quask* by running the command:
 
-Alternatively, you can download and install a specific release from GitHub:
+.. code:: sh
 
-.. code-block:: sh
+   python3 -m pip -U quask==2.0.0-alpha1
 
-    pip install https://github.com/CERN-IT-INNOVATION/QuASK/releases/download/1.0.0-beta/quask-1.0.0b0-py3-none-any.whl
+Finally, you need to install one or more quantum SDKs as a backend for *quask*. If you plan to work with Qiskit, run:
+
+.. code:: sh
+
+   python3 -m pip install qiskit qiskit-aer qiskit_ibm_runtime
+
+If you plan to work with Pennylane, run:
+
+.. code:: sh
+
+   python3 -m pip install pennylane
+
+If you plan to work with Amazon Braket, run:
+
+.. code:: sh
+
+   python3 -m pip install pennylane amazon-braket-sdk amazon-braket-pennylane-plugin
+
+If you plan to work with Qibo, run:
+
+.. code:: sh
+
+   python3 -m pip install qibo
 
 Dependencies
 ============
 
-QuASK has the following dependencies, which can be installed using `pip`:
+There are a few software dependencies used by a small subset of features that are not installed by default
+with *quask*, mainly due to their significant space requirements. You can install them separately.
 
-- `dependency1`
-- `dependency2`
-- `dependency3`
+To support the creation of reinforcement learning agents for quantum kernel optimization, run:
 
-To install these dependencies, run:
+.. code:: sh
 
-.. code-block:: sh
-
-    pip install dependency1 dependency2 dependency3
-
-Installation from Source
-========================
-
-To install "QuASK" from the source code, follow these steps:
-
-1. Download the source code repository
-
-   .. code-block:: sh
-
-      git clone https://github.com/CERN-IT-INNOVATION/QuASK.git
-
-2. Change to the QuASK source code directory:
-
-   .. code-block:: sh
-
-      cd quask
-
-3. Install the required dependencies listed in `requirements.txt` using Python 3's `pip`:
-
-   .. code-block:: sh
-
-      python3 -m pip install -r requirements.txt
-
-4. Install QuASK itself:
-
-   .. code-block:: sh
-
-      pip install .
-
-Running with Docker
-===================
-
-To run "QuASK" using Docker, ensure Docker is installed on your system. Follow these steps:
-
-1. Build a Docker image from the QuASK source code:
-
-   .. code-block:: sh
-
-      docker build -t quask .
-
-2. Run a Docker container based on the image:
-
-   .. code-block:: sh
-
-      docker run quask
-
+   python3 -m pip install mushroom-rl

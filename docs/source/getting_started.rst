@@ -27,43 +27,19 @@ Fast installation
 The easiest way to use *quask* is by installing it in your Python3
 environment (version >= 3.10) via the *pip* packet manager,
 
-.. code:: ipython3
+.. code:: sh
 
-    # !python3 -m pip install quask==2.0.0-alpha1
+    python3 -m pip install quask==2.0.0-alpha1
 
 You also need any quantum SDK installed on your system. For example, we
 can install Qiskit. For more information about the installation process,
 you can see `the Installation section <installation.html>`__.
 
-.. code:: ipython3
+.. code:: sh
 
-    # !python3 -m pip install qiskit qiskit_ibm_runtime
-    # !python3 -m pip install qiskit_ibm_runtime --upgrade
-    !python3 -m pip install qiskit-aer
-
-
-.. parsed-literal::
-
-    Requirement already satisfied: qiskit-aer in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (0.12.2)
-    Requirement already satisfied: qiskit-terra>=0.21.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-aer) (0.25.1)
-    Requirement already satisfied: numpy>=1.16.3 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-aer) (1.23.5)
-    Requirement already satisfied: scipy>=1.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-aer) (1.11.2)
-    Requirement already satisfied: rustworkx>=0.13.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (0.13.1)
-    Requirement already satisfied: ply>=3.10 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (3.11)
-    Requirement already satisfied: psutil>=5 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (5.9.5)
-    Requirement already satisfied: sympy>=1.3 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (1.12)
-    Requirement already satisfied: dill>=0.3 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (0.3.7)
-    Requirement already satisfied: python-dateutil>=2.8.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (2.8.2)
-    Requirement already satisfied: stevedore>=3.0.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (5.1.0)
-    Requirement already satisfied: symengine<0.10,>=0.9 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (0.9.2)
-    Requirement already satisfied: typing-extensions in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (4.8.0)
-    Requirement already satisfied: six>=1.5 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from python-dateutil>=2.8.0->qiskit-terra>=0.21.0->qiskit-aer) (1.16.0)
-    Requirement already satisfied: pbr!=2.1.0,>=2.0.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from stevedore>=3.0.0->qiskit-terra>=0.21.0->qiskit-aer) (5.11.1)
-    Requirement already satisfied: mpmath>=0.19 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from sympy>=1.3->qiskit-terra>=0.21.0->qiskit-aer) (1.3.0)
-    
-    [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m A new release of pip is available: [0m[31;49m23.2.1[0m[39;49m -> [0m[32;49m23.3.1[0m
-    [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m To update, run: [0m[32;49mpip install --upgrade pip[0m
-
+    python3 -m pip install qiskit qiskit_ibm_runtime
+    python3 -m pip install qiskit_ibm_runtime --upgrade
+    python3 -m pip install qiskit-aer
 
 You can check if the installation has been successful by running the
 command:

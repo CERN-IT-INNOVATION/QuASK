@@ -2,26 +2,18 @@
 Changelog
 ===============
 
-Version 1.0.0 (2023-10-25)
----------------------------
+Version 2.0.0-alpha1 (2023-11-03)
+---------------------------------
 
 **Features**
 
-- Added a new feature that improves user experience.
-- Implemented a highly requested feature for better functionality.
+- The new release!
+- New API
+- Added new backends
+- Added tutorials
 
-**Bug Fixes**
-
-- Fixed a critical bug that caused application crashes.
-- Addressed several minor bugs and issues to enhance stability.
-
-**Improvements**
-
-- Made significant performance improvements for faster execution.
-- Enhanced the user interface for a more intuitive design.
-
-Version 0.1.0 (2023-10-10)
----------------------------
+Version 1.0.0-beta (Jul 1, 2022)
+--------------------------------
 
 **Initial Release**
 

@@ -34,9 +34,16 @@ Then [advanced features of _quask_](https://quask.readthedocs.io/en/latest/tutor
 
 Finally, [look here for some applications](https://quask.readthedocs.io/en/latest/tutorials_applications/index.html). 
 
-## Test
 
-The test platform of _quask_ is currently under development. 
+## Source
+
+### Deployment to PyPI
+
+The software is uploaded to [PyPI](https://pypi.org/project/quask/).
+
+### Test
+
+The suite of test for _quask_ is currently under development. 
 
 ## Documentation 
 
@@ -80,7 +87,7 @@ The UML diagrams are created via:
 
 ## Acknowledgements
 
-The platform has been developed with the contribution of [Massimiliano Incudini](incud.github.io), Francesco Di Marcantonio, Davide Tezza, Roman Wixinger, Sofia Vallecorsa, and [Michele Grossi](https://scholar.google.com/citations?user=cnfcO7cAAAAJ&hl=en). 
+The platform has been developed with the contribution of [Massimiliano Incudini](https://incud.github.io), Francesco Di Marcantonio, Davide Tezza, Roman Wixinger, Sofia Vallecorsa, and [Michele Grossi](https://scholar.google.com/citations?user=cnfcO7cAAAAJ&hl=en). 
 
 If you have used _quask_ for your project, please consider citing us.
 
