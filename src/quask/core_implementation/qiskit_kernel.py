@@ -1,24 +1,46 @@
 import numpy as np
 from ..core import Ansatz, Kernel, KernelType
 
-from qiskit import BasicAer, QuantumCircuit, ParameterVector
+from qiskit import Aer, BasicAer, QuantumCircuit
+from qiskit.circuit import ParameterVector
 from qiskit.circuit.library import PauliEvolutionGate
 from qiskit_ibm_runtime import QiskitRuntimeService
 from qiskit.quantum_info import SparsePauliOp
-from qiskit_ibm_runtime import QiskitRuntimeService, Sampler, Estimator, Options
-
+from qiskit_ibm_runtime import Sampler as IbmSampler
+from qiskit_ibm_runtime import Estimator as IbmEstimator
+from qiskit_ibm_runtime import Options
+from qiskit_aer.primitives import Sampler as AerSampler
+from qiskit_aer.primitives import Estimator as AerEstimator
 
 class QiskitKernel(Kernel):
 
     def get_estimator(self):
-        return Estimator(self.backend, options=self.options)
+        if self.platform == "Aer":
+            return AerEstimator(
+                backend_options={"method": "statevector"}, 
+                run_options={"shots": self.n_shots})
+        else:
+            options = Options()
+            options.optimization_level = self.optimization_level
+            options.resilience_level = self.resilience_level
+            return IbmEstimator(backend=self.backend, options=self.options)
     
     def get_sampler(self):
-        return Sampler(self.backend, options=self.options)
+        if self.platform == "Aer":
+            return AerSampler(
+                backend_options={"method": "statevector"}, 
+                run_options={"shots": self.n_shots})
+        else:
+            options = Options()
+            options.optimization_level = self.optimization_level
+            options.resilience_level = self.resilience_level
+            return IbmSampler(backend=self.backend, options=self.options)
 
     def get_qiskit_ansatz(self):
-        params = ParameterVector('ansatz', self.ansatz.n_features+1)
+        n_params = self.ansatz.n_features + 1
+        params = ParameterVector('p', n_params)
         qc = QuantumCircuit(self.ansatz.n_qubits)
+        qc.rx(0.0*np.prod(params), 0) # fake instruction to include all parameters in the quantum circuit
         for operation in self.ansatz.operation_list:
             operator = SparsePauliOp(operation.generator)
             rotation = operation.bandwidth*params[operation.feature]
@@ -27,8 +49,8 @@ class QiskitKernel(Kernel):
         return qc
 
     def __init__(self, ansatz: Ansatz, measurement: str, type: KernelType, 
-                 platform="BasicAer", backend="qasm_simulator", n_shots=2048,
-                 optimization_level=2, resilience_level=2, token=None):
+                 platform="Aer", backend="qasm_simulator", n_shots=2048,
+                 optimization_level=2, resilience_level=2):
         """
         Initialization.
 
@@ -39,21 +61,12 @@ class QiskitKernel(Kernel):
         :param n_shots: number of shots when sampling the solution, None to have infinity
         """
         super().__init__(ansatz, measurement, type)
-        assert platform in ["BasicAer", "QiskitRuntimeService"]
+        assert platform in ["Aer", "QiskitRuntimeService"]
         self.platform = platform
         self.backend_name = backend
         self.n_shots = n_shots
         self.optimization_level = optimization_level
         self.resilience_level = resilience_level
-
-        self.options = Options()
-        self.options.optimization_level = self.optimization_level
-        self.options.resilience_level = self.resilience_level
-
-        if self.platform == "QiskitRuntimeService":
-            self.backend = QiskitRuntimeService(token=token).backend(self.backend)
-        elif self.platform == "BasicAer":
-            self.backend = BasicAer.backend(self.backend)
         
 
     def kappa(self, x1, x2) -> float:
@@ -65,9 +78,9 @@ class QiskitKernel(Kernel):
 
         elif self.type == KernelType.FIDELITY:
             qc = QuantumCircuit(self.ansatz.n_qubits, self.ansatz.n_qubits)
-            qc.append(self.get_qiskit_ansatz.bind_parameters(x1.tolist() + [1.0]), range(self.ansatz.n_qubits))
-            qc.append(self.get_qiskit_ansatz.bind_parameters(x1.tolist() + [1.0]).inverse(), range(self.ansatz.n_qubits))
-            qc.measure_all()
+            qc.append(self.get_qiskit_ansatz().bind_parameters(x1.tolist() + [1.0]), range(self.ansatz.n_qubits))
+            qc.append(self.get_qiskit_ansatz().bind_parameters(x2.tolist() + [1.0]).inverse(), range(self.ansatz.n_qubits))
+            qc.measure(range(self.ansatz.n_qubits), range(self.ansatz.n_qubits))
             job = self.get_sampler().run(qc)
             probabilities = job.result().quasi_dists[0]
             return probabilities.get(0, 0.0)
@@ -75,8 +88,8 @@ class QiskitKernel(Kernel):
         elif self.type == KernelType.SWAP_TEST:
             qc = QuantumCircuit(1+2*self.ansatz.n_qubits, 1)
             qc.h(0)
-            qc.append(self.get_qiskit_ansatz.bind_parameters(x1.tolist() + [1.0]), range(1, 1+self.ansatz.n_qubits))
-            qc.append(self.get_qiskit_ansatz.bind_parameters(x1.tolist() + [1.0]), range(self.ansatz.n_qubits))
+            qc.append(self.get_qiskit_ansatz().bind_parameters(x1.tolist() + [1.0]), range(1, 1+self.ansatz.n_qubits))
+            qc.append(self.get_qiskit_ansatz().bind_parameters(x2.tolist() + [1.0]), range(self.ansatz.n_qubits))
             for i in range(self.ansatz.n_qubits):
                 qc.cswap(0, 1+i, 1+self.ansatz.n_qubits+i)
             qc.h(0)

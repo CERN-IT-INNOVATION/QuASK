@@ -29,9 +29,9 @@ class SpectralBiasEvaluator(KernelEvaluator):
         """
         if K is None:
             K = kernel.build_kernel(X, X)
-        Lambda, Phi = SpectralBiasKernelEvaluator.decompose_kernel(K)
-        w, a = SpectralBiasKernelEvaluator.calculate_weights(Lambda, Phi, y)
-        C, powers = SpectralBiasKernelEvaluator.cumulative_power_distribution(w, Lambda, self.n_eigenvalues_cut)
+        Lambda, Phi = SpectralBiasEvaluator.decompose_kernel(K)
+        w, a = SpectralBiasEvaluator.calculate_weights(Lambda, Phi, y)
+        C, powers = SpectralBiasEvaluator.cumulative_power_distribution(w, Lambda, self.n_eigenvalues_cut)
         self.last_result = (Lambda, Phi, w, a, C, powers)
         return C
 

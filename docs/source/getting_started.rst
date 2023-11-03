@@ -4,20 +4,22 @@ Getting started
 .. code:: ipython3
 
     import sys
-    sys.path.append('./src')
+    import os
+    # to import quask, move from docs/source/notebooks to src
+    sys.path.append('../../../src')
 
 Are you curious to know if *quask* is the right library for your
 project? Here is a quick and straightforward guide on how to get started
-using this tool. We will see: 1. how to quickly install the framework;
-2. what are the main components of *quask* and how to use them; 3. how
-to solve a toy classification problem using quantum kernels via the
-*quask* application programming interface. 4. how to solve a toy
-classification problem using quantum kernels via the *quask*
-command-line interface.
+using this tool. We will see:
+
+1. how to quickly install the framework;
+2. what are the main components of *quask* and how to use them;
+3. how to solve a toy classification problem using quantum kernels via
+   the *quask* application programming interface.
 
 .. warning::
 
-    This first tutorial illustrates the functionalities of the framework. It presumes a pre-existing knowledge of kernel methods and quantum computing. For a more beginner's level introduction, take a look at the [Learn](learn) page. 
+    This first tutorial illustrates the functionalities of the framework. It presumes a pre-existing knowledge of kernel methods and quantum computing. For a more beginner's level introduction, take a look at the `Intro to classical kernels <tutorials_classical/index.html>`__ page. 
 
 Fast installation
 -----------------
@@ -27,15 +29,49 @@ environment (version >= 3.10) via the *pip* packet manager,
 
 .. code:: ipython3
 
-    !python3 -m pip install quask
+    # !python3 -m pip install quask==2.0.0-alpha1
 
-For more information about the installation process, you can see
-`here <xxx>`__. You can check if the installation has been successful by
-running the command:
+You also need any quantum SDK installed on your system. For example, we
+can install Qiskit. For more information about the installation process,
+you can see `the Installation section <installation.html>`__.
 
 .. code:: ipython3
 
-    !python3 -m quask
+    # !python3 -m pip install qiskit qiskit_ibm_runtime
+    # !python3 -m pip install qiskit_ibm_runtime --upgrade
+    !python3 -m pip install qiskit-aer
+
+
+.. parsed-literal::
+
+    Requirement already satisfied: qiskit-aer in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (0.12.2)
+    Requirement already satisfied: qiskit-terra>=0.21.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-aer) (0.25.1)
+    Requirement already satisfied: numpy>=1.16.3 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-aer) (1.23.5)
+    Requirement already satisfied: scipy>=1.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-aer) (1.11.2)
+    Requirement already satisfied: rustworkx>=0.13.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (0.13.1)
+    Requirement already satisfied: ply>=3.10 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (3.11)
+    Requirement already satisfied: psutil>=5 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (5.9.5)
+    Requirement already satisfied: sympy>=1.3 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (1.12)
+    Requirement already satisfied: dill>=0.3 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (0.3.7)
+    Requirement already satisfied: python-dateutil>=2.8.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (2.8.2)
+    Requirement already satisfied: stevedore>=3.0.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (5.1.0)
+    Requirement already satisfied: symengine<0.10,>=0.9 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (0.9.2)
+    Requirement already satisfied: typing-extensions in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from qiskit-terra>=0.21.0->qiskit-aer) (4.8.0)
+    Requirement already satisfied: six>=1.5 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from python-dateutil>=2.8.0->qiskit-terra>=0.21.0->qiskit-aer) (1.16.0)
+    Requirement already satisfied: pbr!=2.1.0,>=2.0.0 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from stevedore>=3.0.0->qiskit-terra>=0.21.0->qiskit-aer) (5.11.1)
+    Requirement already satisfied: mpmath>=0.19 in /mnt/c/Users/massi/Documents/progetti/tutorial-2023-09-28/my_venv/lib/python3.10/site-packages (from sympy>=1.3->qiskit-terra>=0.21.0->qiskit-aer) (1.3.0)
+    
+    [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m A new release of pip is available: [0m[31;49m23.2.1[0m[39;49m -> [0m[32;49m23.3.1[0m
+    [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m To update, run: [0m[32;49mpip install --upgrade pip[0m
+
+
+You can check if the installation has been successful by running the
+command:
+
+.. code:: ipython3
+
+    import quask
+    print(quask.__version__)
 
 In this way, *quask* has been started as a standalone application,
 meaning it can be used via the command line without the need for coding.
@@ -107,7 +143,7 @@ All the gates are parameterized by a single real-valued parameter,
 parameter :math:`0 < \beta < 1`. We can characterize each parametric
 gate by the following:
 
--  The feature that paramet:raw-latex:`\erizes `the rotation, with
+-  The feature that parameterizes the rotation, with
    :math:`0 \le f \le N\_FEATURES - 1`, or the constant feature
    :math:`1`. The constant features allow us to construct
    non-parameterized gates.
@@ -129,16 +165,18 @@ method of calculation. This can be done using the fidelity test or by
 computing the expectation value of some observable. Additionally, we
 need to specify the backend to be used.
 
-Both of these tasks are managed by the ``KernelFactory`` object. To
-create the commonly used fidelity kernel, we provide the ansatz, the
-basis on which we will perform the measurement (typically the
-computational basis), and the type of kernel to the ``create_kernel``
-method. By default, ``KernelFactory`` creates objects that rely on the
-noiseless, infinite-shot simulation of Pennylane as a backen"
+Currently, we support Qiskit, Pennylane, and Braket. More detailed
+information is available at the `Backends in
+quask <tutorials_quask/quask_0_backends.html>`__ tutorial. Here, we
+suppose to use Qiskit as a backend, which has to be installed
+separately. To create the commonly used fidelity kernel, we provide the
+ansatz, the basis on which we will perform the measurement (typically
+the computational basis), and the type of kernel.
 
 .. code:: ipython3
 
-    kernel = KernelFactory.create_kernel(ansatz, "Z" * N_QUBITS, KernelType.FIDELITY)
+    from quask.core_implementation import QiskitKernel
+    kernel = QiskitKernel(ansatz, "Z" * N_QUBITS, KernelType.FIDELITY)
 
 To test if the kernel object function correctly we can call the kernel
 function on a pair of data point.
@@ -153,8 +191,24 @@ function on a pair of data point.
 
 .. parsed-literal::
 
-    The kernel value between x1 and x2 is 0.8115094744693602
+    The kernel value between x1 and x2 is 0.4033203125
 
+
+We can decouple the actual backend used from the high-level APIs. The
+decoupling is managed by the ``KernelFactory`` class. to the
+``create_kernel`` method. By default, ``KernelFactory`` creates objects
+that rely on the noiseless, infinite-shot simulation of Pennylane as a
+backend. To use the ``KernelFactory`` class, you first have to set up
+with backend are you using.
+
+.. code:: ipython3
+
+    def create_qiskit_noiseless(ansatz: Ansatz, measurement: str, type: KernelType):
+        return QiskitKernel(ansatz, measurement, type, n_shots=None)
+    
+    KernelFactory.add_implementation('qiskit_noiseless', create_qiskit_noiseless)
+    KernelFactory.set_current_implementation('qiskit_noiseless')
+    kernel = KernelFactory.create_kernel(ansatz, "Z" * N_QUBITS, KernelType.FIDELITY) # QiskitKernel
 
 Solve the iris dataset classification using *quask*
 ---------------------------------------------------
@@ -260,7 +314,7 @@ Finally, we can calculate the accuracy with respect to the testing set.
 
 .. parsed-literal::
 
-    Accuracy: 1.0
+    Accuracy: 0.4
 
 
 Among the features of *quask* is the ability to evaluate the kernel
@@ -279,110 +333,5 @@ kernel is suited for the task.
 
 .. parsed-literal::
 
-    [[1.00000000e+00 4.89292604e-02 5.61098565e-04 3.87571927e-01
-      5.45370834e-03 3.79636451e-04 5.76552136e-03 1.08603459e-01
-      2.67927862e-01 8.94773943e-02 8.98037079e-02 4.24326637e-02
-      9.35171738e-01 6.05858881e-03 6.34486816e-02 4.42964282e-01
-      7.33510591e-02 9.28627143e-01 4.34383010e-05 4.34770675e-01]
-     [4.89292604e-02 1.00000000e+00 2.66233769e-01 2.17340413e-02
-      8.75294231e-01 8.23077497e-01 8.07548215e-01 1.52085452e-03
-      2.13056454e-01 4.12585574e-01 1.26047895e-01 7.48474714e-01
-      6.07933870e-02 8.50410311e-01 4.20153838e-01 5.22882217e-03
-      5.38461208e-01 3.93644055e-03 8.04601697e-01 1.83697718e-04]
-     [5.61098565e-04 2.66233769e-01 1.00000000e+00 3.54465241e-03
-      3.83608235e-01 3.26408607e-01 5.76120016e-01 6.28718631e-02
-      5.28589001e-01 5.65151488e-01 6.01313112e-01 4.51458552e-01
-      1.62970659e-02 5.87594583e-01 8.67702014e-01 1.80666760e-03
-      8.12918749e-01 5.16755129e-03 5.45609430e-01 4.36547266e-03]
-     [3.87571927e-01 2.17340413e-02 3.54465241e-03 1.00000000e+00
-      7.50832968e-03 7.47361610e-03 1.30470578e-03 7.50701465e-01
-      1.23857308e-01 1.61638232e-01 2.01724167e-02 9.82165842e-02
-      2.26991333e-01 2.38322936e-02 8.79582305e-02 9.49471680e-01
-      1.20398545e-01 5.02212517e-01 1.97975780e-03 9.35171738e-01]
-     [5.45370834e-03 8.75294231e-01 3.83608235e-01 7.50832968e-03
-      1.00000000e+00 9.53597805e-01 9.10722663e-01 2.28325548e-02
-      1.18120808e-01 2.73646510e-01 9.25276818e-02 5.62945925e-01
-      4.38571430e-03 8.23721888e-01 4.14103943e-01 1.17677244e-04
-      5.60063357e-01 5.96859369e-03 9.56940059e-01 5.18492165e-03]
-     [3.79636451e-04 8.23077497e-01 3.26408607e-01 7.47361610e-03
-      9.53597805e-01 1.00000000e+00 8.66174247e-01 1.03957344e-01
-      7.86301365e-02 1.67980531e-01 8.25828874e-02 4.31596355e-01
-      2.60365423e-03 7.25050907e-01 3.11865382e-01 3.42188598e-02
-      4.31641751e-01 2.65748298e-02 9.04150561e-01 5.74679895e-02]
-     [5.76552136e-03 8.07548215e-01 5.76120016e-01 1.30470578e-03
-      9.10722663e-01 8.66174247e-01 1.00000000e+00 5.92603541e-02
-      2.01727657e-01 4.16675275e-01 1.98975392e-01 6.74874993e-01
-      1.11164327e-02 9.20594812e-01 5.74008249e-01 2.02255279e-02
-      6.68546478e-01 5.14278253e-02 9.63702286e-01 4.00515300e-02]
-     [1.08603459e-01 1.52085452e-03 6.28718631e-02 7.50701465e-01
-      2.28325548e-02 1.03957344e-01 5.92603541e-02 1.00000000e+00
-      7.47453343e-04 4.38752639e-02 3.92937859e-02 3.08599161e-02
-      5.61004733e-02 1.89937463e-03 1.39376891e-04 7.93505188e-01
-      2.37867687e-03 2.44532628e-01 3.38417895e-02 7.93505188e-01]
-     [2.67927862e-01 2.13056454e-01 5.28589001e-01 1.23857308e-01
-      1.18120808e-01 7.86301365e-02 2.01727657e-01 7.47453343e-04
-      1.00000000e+00 7.89402450e-01 8.80023496e-01 4.93119682e-01
-      1.54974627e-01 3.55202392e-01 7.69916994e-01 7.61312367e-02
-      6.11360934e-01 1.68214268e-01 1.60369878e-01 7.56441991e-02]
-     [8.94773943e-02 4.12585574e-01 5.65151488e-01 1.61638232e-01
-      2.73646510e-01 1.67980531e-01 4.16675275e-01 4.38752639e-02
-      7.89402450e-01 1.00000000e+00 5.99726728e-01 8.40125149e-01
-      3.01654165e-02 6.34573846e-01 8.56268929e-01 1.07600751e-01
-      7.69073654e-01 5.45790939e-02 3.44767200e-01 9.30084394e-02]
-     [8.98037079e-02 1.26047895e-01 6.01313112e-01 2.01724167e-02
-      9.25276818e-02 8.25828874e-02 1.98975392e-01 3.92937859e-02
-      8.80023496e-01 5.99726728e-01 1.00000000e+00 3.20331875e-01
-      3.18053719e-02 2.82488104e-01 6.95523790e-01 4.63747547e-04
-      4.96063235e-01 2.55858322e-02 1.44965418e-01 1.36417365e-03]
-     [4.24326637e-02 7.48474714e-01 4.51458552e-01 9.82165842e-02
-      5.62945925e-01 4.31596355e-01 6.74874993e-01 3.08599161e-02
-      4.93119682e-01 8.40125149e-01 3.20331875e-01 1.00000000e+00
-      2.07688629e-02 8.82913053e-01 7.20908889e-01 5.80084585e-02
-      7.66990411e-01 1.23624617e-02 6.13880202e-01 3.61699023e-02]
-     [9.35171738e-01 6.07933870e-02 1.62970659e-02 2.26991333e-01
-      4.38571430e-03 2.60365423e-03 1.11164327e-02 5.61004733e-02
-      1.54974627e-01 3.01654165e-02 3.18053719e-02 2.07688629e-02
-      1.00000000e+00 6.82582940e-04 1.06426067e-02 2.89020648e-01
-      1.78243187e-02 8.27034134e-01 1.67471438e-03 2.83479135e-01]
-     [6.05858881e-03 8.50410311e-01 5.87594583e-01 2.38322936e-02
-      8.23721888e-01 7.25050907e-01 9.20594812e-01 1.89937463e-03
-      3.55202392e-01 6.34573846e-01 2.82488104e-01 8.82913053e-01
-      6.82582940e-04 1.00000000e+00 7.17318506e-01 3.03914937e-03
-      8.17578421e-01 3.09079697e-03 8.91750836e-01 1.49582393e-05]
-     [6.34486816e-02 4.20153838e-01 8.67702014e-01 8.79582305e-02
-      4.14103943e-01 3.11865382e-01 5.74008249e-01 1.39376891e-04
-      7.69916994e-01 8.56268929e-01 6.95523790e-01 7.20908889e-01
-      1.06426067e-02 7.17318506e-01 1.00000000e+00 3.87049451e-02
-      9.44768388e-01 2.31083668e-02 5.33304985e-01 2.72592412e-02]
-     [4.42964282e-01 5.22882217e-03 1.80666760e-03 9.49471680e-01
-      1.17677244e-04 3.42188598e-02 2.02255279e-02 7.93505188e-01
-      7.61312367e-02 1.07600751e-01 4.63747547e-04 5.80084585e-02
-      2.89020648e-01 3.03914937e-03 3.87049451e-02 1.00000000e+00
-      6.61413011e-02 6.16793383e-01 3.03587188e-03 9.84606676e-01]
-     [7.33510591e-02 5.38461208e-01 8.12918749e-01 1.20398545e-01
-      5.60063357e-01 4.31641751e-01 6.68546478e-01 2.37867687e-03
-      6.11360934e-01 7.69073654e-01 4.96063235e-01 7.66990411e-01
-      1.78243187e-02 8.17578421e-01 9.44768388e-01 6.61413011e-02
-      1.00000000e+00 3.13692614e-02 6.79415356e-01 4.35228947e-02]
-     [9.28627143e-01 3.93644055e-03 5.16755129e-03 5.02212517e-01
-      5.96859369e-03 2.65748298e-02 5.14278253e-02 2.44532628e-01
-      1.68214268e-01 5.45790939e-02 2.55858322e-02 1.23624617e-02
-      8.27034134e-01 3.09079697e-03 2.31083668e-02 6.16793383e-01
-      3.13692614e-02 1.00000000e+00 2.14014614e-02 6.18378174e-01]
-     [4.34383010e-05 8.04601697e-01 5.45609430e-01 1.97975780e-03
-      9.56940059e-01 9.04150561e-01 9.63702286e-01 3.38417895e-02
-      1.60369878e-01 3.44767200e-01 1.44965418e-01 6.13880202e-01
-      1.67471438e-03 8.91750836e-01 5.33304985e-01 3.03587188e-03
-      6.79415356e-01 2.14014614e-02 1.00000000e+00 1.33895815e-02]
-     [4.34770675e-01 1.83697718e-04 4.36547266e-03 9.35171738e-01
-      5.18492165e-03 5.74679895e-02 4.00515300e-02 7.93505188e-01
-      7.56441991e-02 9.30084394e-02 1.36417365e-03 3.61699023e-02
-      2.83479135e-01 1.49582393e-05 2.72592412e-02 9.84606676e-01
-      4.35228947e-02 6.18378174e-01 1.33895815e-02 1.00000000e+00]]
-    The cost according to the Centered-KTA is: -0.2798265561667427
+    The cost according to the Centered-KTA is: -0.0441181503241057
 
-
-Solve the iris dataset classification using *quask* from the command line
--------------------------------------------------------------------------
-
-TODO

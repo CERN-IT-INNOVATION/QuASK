@@ -1,13 +1,6 @@
 Quantum kernels
 ===============
 
-.. code:: ipython3
-
-    import sys
-    import os
-    # to import quask, move from docs/source/notebooks to src
-    sys.path.append('../../../src')
-
 The quantum kernel maps the classical data into the Hilbert space of a
 quantum system, then the pair of encoded samples are tested via the
 overlap test or the swap test, simple procedure that allows to estimate
@@ -46,7 +39,6 @@ each of the gates of the underlying quantum circuit is an ``Operation``.
 Any operation corresponds to a two-qubit gate in the form
 
 .. math::
-
 
    U(\theta) = \exp\left(-i \frac{\beta \theta}{2} \sigma_1^{(p)} \sigma_2^{(q)}\right),
 

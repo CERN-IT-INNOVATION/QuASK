@@ -2,7 +2,7 @@
 License
 =======
 
-The "QuASK" software is distributed under the Apache License 2.0.
+The _quask_ software is distributed under the Apache License 2.0.
 
 Below is the text of the Apache License 2.0:
 

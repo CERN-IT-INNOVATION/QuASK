@@ -1,13 +1,6 @@
 Expressibility in quantum kernels
 =================================
 
-.. code:: ipython3
-
-    import sys
-    import os
-    # to import quask, move from docs/source/notebooks to src
-    # sys.path.append('../../../src')
-
 In this tutorial, we start to charatetize the properties of a quantum
 kernel. The *expressibility* is definitively the most important. *quask*
 has some built in facilities to evaluate a quantum kernel from this

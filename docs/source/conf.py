@@ -22,7 +22,7 @@ copyright = '2023, Massimiliano Incudini, Michele Grossi'
 author = 'Massimiliano Incudini, Michele Grossi'
 
 # The full version, including alpha/beta/rc tags
-release = '2.0.0'
+release = '2.0.0-alpha1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -44,7 +44,7 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
-autodoc_mock_imports = ["skopt", "skopt.space", "django", "mushroom_rl", "opytimizer", "pennylane", "qiskit"]
+autodoc_mock_imports = ["skopt", "skopt.space", "django", "mushroom_rl", "opytimizer", "pennylane", "qiskit", "qiskit_ibm_runtime", "qiskit_aer"]
 
 # -- Options for HTML output -------------------------------------------------
 
