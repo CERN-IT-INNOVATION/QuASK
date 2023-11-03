@@ -21,7 +21,7 @@ Why *quask*?
 
 You may want to use *quask* for several compelling reasons:
 
-- You want to implement complex features with minimal code and in a short timeframe, such as evaluating the spectral bias of a quantum kernel in alignment with the Task Model or creating reinforcement learning agents that optimize quantum circuits to enhance classifier performance. *quask* offers a solution that requires just a few lines of code, as opposed to weeks of developmenton most quantum SDKs laking these features. 
+- You want to implement complex features with minimal code and in a short timeframe, such as evaluating the spectral bias of a quantum kernel with the *Task Model alignment* or creating reinforcement learning agents that optimize quantum circuits to enhance classifier performance. *quask* offers a solution that requires just a few lines of code, as opposed to weeks of developmenton most quantum SDKs laking these features. 
 - You want to use a high-level software API that can be seamlessly compiled to work with the most widely used quantum SDKs like Qiskit, Pennylane, Braket, Qibo, and more. This is advantageous if you prefer not to be tied to a specific hardware vendor's platform, allowing for flexibility when changing hardware. Additionally, *quask*'s modular platform enables you to easily configure custom backends to harness specific low-level features from vendors when required.
 - You want a platform to learn about quantum kernels or to use the source code as a reference  implementation for theoretical constructs that lack practical details on how to build them.
 
