@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quask.datasets &mdash; QuASK 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> QuASK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_use.html">How to use it</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">QuASK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>quask.datasets</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for quask.datasets</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module dedicated to the generation and retrieval of classical and quantum datasets.</span>
+
+<span class="sd">Args:</span>
+<span class="sd">    the_dataset_register: singleton global instance of DatasetRegister</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">openml</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="download_dataset_openml"><a class="viewcode-back" href="../../quask.html#quask.datasets.download_dataset_openml">[docs]</a><span class="k">def</span> <span class="nf">download_dataset_openml</span><span class="p">(</span><span class="n">the_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download a dataset from OpenML platform given the ID of the dataset.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        the_id: ID of the dataset (int)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple (X, y) of numpy ndarray having shapes (d,n) and (n,)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">openml</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="n">the_id</span><span class="p">)</span>
+    <span class="c1"># get dataset</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">attribute_names</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span>
+        <span class="n">dataset_format</span><span class="o">=</span><span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">default_target_attribute</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="download_dataset_openml_by_name"><a class="viewcode-back" href="../../quask.html#quask.datasets.download_dataset_openml_by_name">[docs]</a><span class="k">def</span> <span class="nf">download_dataset_openml_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download a dataset from OpenML platform given the name of the dataset</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name: name of the dataset (str)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple (X, y) of numpy ndarray having shapes (d,n) and (n,)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get the list of all datasets in OpenML platform</span>
+    <span class="n">openml_df</span> <span class="o">=</span> <span class="n">openml</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">list_datasets</span><span class="p">(</span><span class="n">output_format</span><span class="o">=</span><span class="s2">&quot;dataframe&quot;</span><span class="p">)</span>
+    <span class="c1"># retrieve the dataset id</span>
+    <span class="n">the_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">openml_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;name == &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;did&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">download_dataset_openml_by_name</span><span class="p">(</span><span class="n">the_id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_dataset_quantum"><a class="viewcode-back" href="../../quask.html#quask.datasets.get_dataset_quantum">[docs]</a><span class="k">def</span> <span class="nf">get_dataset_quantum</span><span class="p">(</span><span class="n">the_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function calls already preprocessed datasets with quantum labels.</span>
+<span class="sd">    These examples are identified with a specific id.</span>
+<span class="sd">    </span>
+<span class="sd">    The available datasets at the moment are:</span>
+
+<span class="sd">        - Fashion-MNIST with 2 features and encoding E1</span>
+<span class="sd">        - Fashion-MNIST with 4 features and encoding E2</span>
+<span class="sd">        - Fashion-MNIST with 8 features and encoding E3</span>
+<span class="sd">    </span>
+<span class="sd">    These datasets can be used to benchmark the performace of our</span>
+<span class="sd">    classical and quantum kernels to verify the power of data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        the_id: parameter able to distinguish between quantum dataset</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple (X, y) of numpy ndarray having shapes (d,n) and (n,)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">importlib.resources</span> <span class="k">as</span> <span class="nn">pkg_resources</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="c1"># Try backported to PY&lt;37 `importlib_resources`.</span>
+        <span class="kn">import</span> <span class="nn">importlib_resources</span> <span class="k">as</span> <span class="nn">pkg_resources</span>
+
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">resources</span>
+
+    <span class="k">if</span> <span class="n">the_id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+            <span class="n">pkg_resources</span><span class="o">.</span><span class="n">open_text</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span> <span class="s2">&quot;X_Q_Fashion-MNIST_720_2_E1&quot;</span><span class="p">),</span>
+            <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+            <span class="n">pkg_resources</span><span class="o">.</span><span class="n">open_text</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span> <span class="s2">&quot;y_Q_Fashion-MNIST_720_2_E1&quot;</span><span class="p">),</span>
+            <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">the_id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+            <span class="n">pkg_resources</span><span class="o">.</span><span class="n">open_text</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span> <span class="s2">&quot;X_Q_Fashion-MNIST_720_4_E2&quot;</span><span class="p">),</span>
+            <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+            <span class="n">pkg_resources</span><span class="o">.</span><span class="n">open_text</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span> <span class="s2">&quot;y_Q_Fashion-MNIST_720_4_E2&quot;</span><span class="p">),</span>
+            <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">the_id</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+            <span class="n">pkg_resources</span><span class="o">.</span><span class="n">open_text</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span> <span class="s2">&quot;X_Q_Fashion-MNIST_720_8_E3&quot;</span><span class="p">),</span>
+            <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+            <span class="n">pkg_resources</span><span class="o">.</span><span class="n">open_text</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span> <span class="s2">&quot;y_Q_Fashion-MNIST_720_8_E3&quot;</span><span class="p">),</span>
+            <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="DatasetRegister"><a class="viewcode-back" href="../../quask.html#quask.datasets.DatasetRegister">[docs]</a><span class="k">class</span> <span class="nc">DatasetRegister</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List of datasets available in this module. The object is iterable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Init method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="DatasetRegister.register"><a class="viewcode-back" href="../../quask.html#quask.datasets.DatasetRegister.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">,</span> <span class="n">information_nature</span><span class="p">,</span> <span class="n">get_dataset</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Register a new dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset_name: name of the dataset</span>
+<span class="sd">            dataset_type: &#39;regression&#39; or &#39;classification&#39;</span>
+<span class="sd">            information_nature: &#39;classical&#39; or &#39;quantum&#39;</span>
+<span class="sd">            get_dataset: function pointer to a zero-parameter function returning (X, y)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">dataset_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;regression&quot;</span><span class="p">,</span> <span class="s2">&quot;classification&quot;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">information_nature</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;classical&quot;</span><span class="p">,</span> <span class="s2">&quot;quantum&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">dataset_name</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">dataset_type</span><span class="p">,</span>
+                <span class="s2">&quot;information&quot;</span><span class="p">:</span> <span class="n">information_nature</span><span class="p">,</span>
+                <span class="s2">&quot;get_dataset&quot;</span><span class="p">:</span> <span class="n">get_dataset</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span></div>
+
+
+<span class="n">the_dataset_register</span> <span class="o">=</span> <span class="n">DatasetRegister</span><span class="p">()</span>
+<span class="n">the_dataset_register</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s2">&quot;iris&quot;</span><span class="p">,</span> <span class="s2">&quot;classification&quot;</span><span class="p">,</span> <span class="s2">&quot;classical&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">download_dataset_openml</span><span class="p">(</span><span class="mi">61</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">the_dataset_register</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s2">&quot;Fashion-MNIST&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;classification&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;classical&quot;</span><span class="p">,</span>
+    <span class="k">lambda</span><span class="p">:</span> <span class="n">download_dataset_openml</span><span class="p">(</span><span class="mi">40996</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">the_dataset_register</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s2">&quot;liver-disorders&quot;</span><span class="p">,</span> <span class="s2">&quot;regression&quot;</span><span class="p">,</span> <span class="s2">&quot;classical&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">download_dataset_openml</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">the_dataset_register</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s2">&quot;delta_elevators&quot;</span><span class="p">,</span> <span class="s2">&quot;regression&quot;</span><span class="p">,</span> <span class="s2">&quot;classical&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">download_dataset_openml</span><span class="p">(</span><span class="mi">198</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">the_dataset_register</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s2">&quot;Q_Fashion-MNIST_2_E1&quot;</span><span class="p">,</span> <span class="s2">&quot;regression&quot;</span><span class="p">,</span> <span class="s2">&quot;quantum&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">get_dataset_quantum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">the_dataset_register</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s2">&quot;Q_Fashion-MNIST_4_E2&quot;</span><span class="p">,</span> <span class="s2">&quot;regression&quot;</span><span class="p">,</span> <span class="s2">&quot;quantum&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">get_dataset_quantum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">the_dataset_register</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s2">&quot;Q_Fashion-MNIST_8_E3&quot;</span><span class="p">,</span> <span class="s2">&quot;regression&quot;</span><span class="p">,</span> <span class="s2">&quot;quantum&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">get_dataset_quantum</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">)</span>
+
+
+<span class="c1"># class Data:</span>
+<span class="c1">#     def __init__(self,</span>
+<span class="c1">#                  data: Optional[float] = None,</span>
+<span class="c1">#                  n_datapoints: Optional[int] = None,</span>
+<span class="c1">#                  n_features: Optional[int] = None,</span>
+<span class="c1">#                  features: Optional[list] = None,</span>
+<span class="c1">#                  filename: Optional[str] = None,</span>
+<span class="c1">#                  path: Optional[str] = None,</span>
+<span class="c1">#                  ):</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         init</span>
+<span class="c1">#</span>
+<span class="c1">#         This function initializes the class with the following attributes.</span>
+<span class="c1">#</span>
+<span class="c1">#         n_features: int number of features of each datapoint</span>
+<span class="c1">#         n_datapoints: int number of datapoints in the dataset</span>
+<span class="c1">#         features: list of strings labelling each feature</span>
+<span class="c1">#         datatype: string &#39;train&#39;, &#39;test&#39;, or &#39;validation&#39;</span>
+<span class="c1">#         origin: string &#39;bkg&#39; or &#39;sig&#39; to identify the initial dataset containing</span>
+<span class="c1">#                 only background or signal events only</span>
+<span class="c1">#         path: string indicating the file path</span>
+<span class="c1">#</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         self.data = data</span>
+<span class="c1">#         self.n_datapoints = n_datapoints</span>
+<span class="c1">#         self.n_features = n_features</span>
+<span class="c1">#         self.features = features</span>
+<span class="c1">#         self.filename = filename</span>
+<span class="c1">#         self.path = path</span>
+<span class="c1">#</span>
+<span class="c1">#     def data_load(self, datatype):</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         load background/signal</span>
+<span class="c1">#</span>
+<span class="c1">#         This function loads the background and signal dataset.</span>
+<span class="c1">#</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         # fetching the dataset from CERNBox drive</span>
+<span class="c1">#</span>
+<span class="c1">#         url = &#39;https://cernbox.cern.ch/index.php/s/WAKFsaxC9aSW59R?path=%2Finput_ae&#39;</span>
+<span class="c1">#         if datatype == &#39;train&#39;:</span>
+<span class="c1">#             name = &#39;x_data_minmax_7.20e+05_train.npy&#39;</span>
+<span class="c1">#         elif datatype == &#39;test&#39;:</span>
+<span class="c1">#             name = &#39;x_data_minmax_7.20e+05_test.npy&#39;</span>
+<span class="c1">#         elif datatype == &#39;valid&#39;:</span>
+<span class="c1">#             name = &#39;x_data_minmax_7.20e+05_valid.npy&#39;</span>
+<span class="c1">#</span>
+<span class="c1">#         r = requests.get(url + name).content</span>
+<span class="c1">#         with open(self.filename, &#39;wb&#39;) as self.data:</span>
+<span class="c1">#             self.data.write(r)</span>
+<span class="c1">#</span>
+<span class="c1">#         print(self.data[:10])</span>
+<span class="c1">#</span>
+<span class="c1">#         # self.data = np.load(f&#39;{self.path+self.filename}&#39;)</span>
+<span class="c1">#         self.n_datapoints = self.data.shape[0]</span>
+<span class="c1">#         self.n_features = self.data.shape[1]</span>
+<span class="c1">#         return self</span>
+<span class="c1">#</span>
+<span class="c1">#     def label_load(self, datatype):</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         load background/signal</span>
+<span class="c1">#</span>
+<span class="c1">#         This function loads the background and signal dataset.</span>
+<span class="c1">#</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         # fetching the background dataset from its path</span>
+<span class="c1">#</span>
+<span class="c1">#         url = &#39;https://cernbox.cern.ch/index.php/s/WAKFsaxC9aSW59R?path=%2Finput_ae&#39;</span>
+<span class="c1">#         if datatype == &#39;train&#39;:</span>
+<span class="c1">#             name = &#39;y_data_minmax_7.20e+05_train.npy&#39;</span>
+<span class="c1">#         elif datatype == &#39;test&#39;:</span>
+<span class="c1">#             name = &#39;y_data_minmax_7.20e+05_test.npy&#39;</span>
+<span class="c1">#         elif datatype == &#39;valid&#39;:</span>
+<span class="c1">#             name = &#39;y_data_minmax_7.20e+05_valid.npy&#39;</span>
+<span class="c1">#</span>
+<span class="c1">#         r = requests.get(url + name).content</span>
+<span class="c1">#         with open(self.filename, &#39;wb&#39;) as self.data:</span>
+<span class="c1">#             self.data.write(r)</span>
+<span class="c1">#</span>
+<span class="c1">#         print(self.data[:10])</span>
+<span class="c1">#</span>
+<span class="c1">#         # self.data = np.load(f&#39;{self.path+self.filename}&#39;)</span>
+<span class="c1">#         self.n_datapoints = self.data.shape[0]</span>
+<span class="c1">#         return self</span>
+<span class="c1">#</span>
+<span class="c1">#     def get_feature_names(self):</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         get feature names</span>
+<span class="c1">#</span>
+<span class="c1">#         This function allocate the features of the Higgs event under study</span>
+<span class="c1">#         to the dataset.</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#</span>
+<span class="c1">#         features = [&#39;jet_1_pt&#39;, &#39;jet_1_eta&#39;, &#39;jet_1_phi&#39;, &#39;jet_1_energy&#39;, &#39;jet_1_b-tag&#39;, &#39;jet_1_px&#39;, &#39;jet_1_py&#39;,</span>
+<span class="c1">#                     &#39;jet_1_pz&#39;,</span>
+<span class="c1">#                     &#39;jet_2_pt&#39;, &#39;jet_2_eta&#39;, &#39;jet_2_phi&#39;, &#39;jet_2_energy&#39;, &#39;jet_2_b-tag&#39;, &#39;jet_2_px&#39;, &#39;jet_2_py&#39;,</span>
+<span class="c1">#                     &#39;jet_2_pz&#39;,</span>
+<span class="c1">#                     &#39;jet_3_pt&#39;, &#39;jet_3_eta&#39;, &#39;jet_3_phi&#39;, &#39;jet_3_energy&#39;, &#39;jet_3_b-tag&#39;, &#39;jet_3_px&#39;, &#39;jet_3_py&#39;,</span>
+<span class="c1">#                     &#39;jet_3_pz&#39;,</span>
+<span class="c1">#                     &#39;jet_4_pt&#39;, &#39;jet_4_eta&#39;, &#39;jet_4_phi&#39;, &#39;jet_4_energy&#39;, &#39;jet_4_b-tag&#39;, &#39;jet_4_px&#39;, &#39;jet_4_py&#39;,</span>
+<span class="c1">#                     &#39;jet_4_pz&#39;,</span>
+<span class="c1">#                     &#39;jet_5_pt&#39;, &#39;jet_5_eta&#39;, &#39;jet_5_phi&#39;, &#39;jet_5_energy&#39;, &#39;jet_5_b-tag&#39;, &#39;jet_5_px&#39;, &#39;jet_5_py&#39;,</span>
+<span class="c1">#                     &#39;jet_5_pz&#39;,</span>
+<span class="c1">#                     &#39;jet_6_pt&#39;, &#39;jet_6_eta&#39;, &#39;jet_6_phi&#39;, &#39;jet_6_energy&#39;, &#39;jet_6_b-tag&#39;, &#39;jet_6_px&#39;, &#39;jet_6_py&#39;,</span>
+<span class="c1">#                     &#39;jet_6_pz&#39;,</span>
+<span class="c1">#                     &#39;jet_7_pt&#39;, &#39;jet_7_eta&#39;, &#39;jet_7_phi&#39;, &#39;jet_7_energy&#39;, &#39;jet_7_b-tag&#39;, &#39;jet_7_px&#39;, &#39;jet_7_py&#39;,</span>
+<span class="c1">#                     &#39;jet_7_pz&#39;,</span>
+<span class="c1">#                     &#39;met_pt&#39;, &#39;met_phi&#39;, &#39;met_px&#39;, &#39;met_py&#39;,</span>
+<span class="c1">#                     &#39;lept_pt&#39;, &#39;lept_eta&#39;, &#39;lept_phi&#39;, &#39;lept_energy&#39;, &#39;lept_px&#39;, &#39;lept_py&#39;, &#39;lept_pz&#39;]</span>
+<span class="c1">#</span>
+<span class="c1">#         self.features = features</span>
+<span class="c1">#</span>
+<span class="c1">#     def compute_auc_roc(self, labels):</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         compute auc roc</span>
+<span class="c1">#</span>
+<span class="c1">#         This function compute the Area Under the Curve (AUC) of the ROC curve for each feature in the dataset.</span>
+<span class="c1">#</span>
+<span class="c1">#         self: dataset</span>
+<span class="c1">#         labels: labels for the given dataset. &#39;0&#39; for background, &#39;1&#39; for signal</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#</span>
+<span class="c1">#         # divide the dataset in signal and background</span>
+<span class="c1">#         # x_bkg = []</span>
+<span class="c1">#         # x_sig = []</span>
+<span class="c1">#         # for i in range(self.n_datapoints):</span>
+<span class="c1">#</span>
+<span class="c1">#         #     if labels[i] == 0:</span>
+<span class="c1">#         #         x_bkg.append(self.data[i])</span>
+<span class="c1">#</span>
+<span class="c1">#         #     elif labels[i] == 1:</span>
+<span class="c1">#         #         x_sig.append(self.data[i])</span>
+<span class="c1">#</span>
+<span class="c1">#         # x_bkg = np.array(x_bkg)</span>
+<span class="c1">#         # x_sig = np.array(x_sig)</span>
+<span class="c1">#</span>
+<span class="c1">#         aucs = []</span>
+<span class="c1">#         for i in range(self.n_features):</span>
+<span class="c1">#</span>
+<span class="c1">#             # Compute ROC curve and ROC area for each class</span>
+<span class="c1">#             fpr, tpr, _ = roc_curve(labels, self.data[:, i])</span>
+<span class="c1">#             roc_auc = auc(fpr, tpr)</span>
+<span class="c1">#</span>
+<span class="c1">#             # results under 0.5 are still discriminative</span>
+<span class="c1">#             if roc_auc &lt; 0.5:</span>
+<span class="c1">#                 roc_auc = 1 - roc_auc</span>
+<span class="c1">#</span>
+<span class="c1">#             aucs.append(roc_auc)</span>
+<span class="c1">#</span>
+<span class="c1">#         # save the auc scores relatively to their features</span>
+<span class="c1">#         feature_scores = {feature: score for feature, score in zip(self.features, aucs)}</span>
+<span class="c1">#         return feature_scores</span>
+<span class="c1">#</span>
+<span class="c1">#     def feature_selection(self, feature_scores=dict, n_features=int):</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         feature selection</span>
+<span class="c1">#</span>
+<span class="c1">#         This function selects n_features from the dataset according to their auc scores.</span>
+<span class="c1">#</span>
+<span class="c1">#         self: dataset</span>
+<span class="c1">#         feature_scores: dict with scores of the roc auc for each feature ordered as in the dataset</span>
+<span class="c1">#         n_features: number of features for the final dataset</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#</span>
+<span class="c1">#         # save only the values of the scores</span>
+<span class="c1">#         scores = []</span>
+<span class="c1">#         for v in feature_scores.values():</span>
+<span class="c1">#             scores.append(v)</span>
+<span class="c1">#</span>
+<span class="c1">#         # select the indices of the n_features best scores</span>
+<span class="c1">#         idx = np.argpartition(scores, n_features)[-n_features:]</span>
+<span class="c1">#         # pick from the dataset only the n_features features at the indeces idx</span>
+<span class="c1">#         new_dataset = Data(n_datapoints=self.n_datapoints, n_features=n_features, features=list(np.zeros(n_features)))</span>
+<span class="c1">#         new_dataset.data = np.zeros((new_dataset.n_datapoints, new_dataset.n_features))</span>
+<span class="c1">#         for i in range(self.n_datapoints):</span>
+<span class="c1">#             for k, j in enumerate(idx):</span>
+<span class="c1">#                 new_dataset.data[i, k] = self.data[i, j]</span>
+<span class="c1">#                 new_dataset.features[k] = self.features[j]</span>
+<span class="c1">#</span>
+<span class="c1">#         print(new_dataset.features)</span>
+<span class="c1">#         return new_dataset</span>
+<span class="c1">#</span>
+<span class="c1">#     def normalization(self):</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         normalization</span>
+<span class="c1">#</span>
+<span class="c1">#         This function normalizes the dataset between -1,1 without</span>
+<span class="c1">#         changing the mean and the standard deviation.</span>
+<span class="c1">#</span>
+<span class="c1">#         self: dataset to be normalized</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#</span>
+<span class="c1">#         transformer = MaxAbsScaler().fit(self.data)</span>
+<span class="c1">#         self.data = transformer.transform(self.data)</span>
+<span class="c1">#         return self</span>
+<span class="c1">#</span>
+<span class="c1">#     def dataset_truncation(self, N_TRAIN, label, datatype, label_type):</span>
+<span class="c1">#         N_TEST = round(N_TRAIN * 0.2)</span>
+<span class="c1">#         x = Data()</span>
+<span class="c1">#         y = Data()</span>
+<span class="c1">#         if datatype == &#39;train&#39;:</span>
+<span class="c1">#             x.n_datapoints = N_TRAIN</span>
+<span class="c1">#             x.n_features = self.n_features</span>
+<span class="c1">#             y.n_datapoints = N_TRAIN</span>
+<span class="c1">#             i = 0</span>
+<span class="c1">#         if datatype == &#39;test&#39;:</span>
+<span class="c1">#             x.n_datapoints = N_TEST</span>
+<span class="c1">#             x.n_features = self.n_features</span>
+<span class="c1">#             y.n_datapoints = N_TEST</span>
+<span class="c1">#             i = N_TRAIN</span>
+<span class="c1">#</span>
+<span class="c1">#         x.data = []</span>
+<span class="c1">#         y.data = []</span>
+<span class="c1">#</span>
+<span class="c1">#         k = 0</span>
+<span class="c1">#         if datatype == &#39;train&#39;:</span>
+<span class="c1">#             dim = round(N_TRAIN / 2)</span>
+<span class="c1">#</span>
+<span class="c1">#         elif datatype == &#39;test&#39;:</span>
+<span class="c1">#             dim = round(N_TEST / 2)</span>
+<span class="c1">#</span>
+<span class="c1">#         while k &lt; dim:</span>
+<span class="c1">#</span>
+<span class="c1">#             if label[i] == 0:</span>
+<span class="c1">#                 if label_type == &#39;classical&#39;:</span>
+<span class="c1">#                     x.data.append(self.data[i])</span>
+<span class="c1">#                     y.data.append(0)</span>
+<span class="c1">#                     k += 1</span>
+<span class="c1">#                 elif label_type == &#39;quantum&#39;:</span>
+<span class="c1">#                     x.data.append(self.data[i])</span>
+<span class="c1">#                     y.data.append(-1)</span>
+<span class="c1">#                     k += 1</span>
+<span class="c1">#</span>
+<span class="c1">#             i += 1</span>
+<span class="c1">#</span>
+<span class="c1">#         k = 0</span>
+<span class="c1">#         if datatype == &#39;train&#39;:</span>
+<span class="c1">#             i = 0</span>
+<span class="c1">#         elif datatype == &#39;test&#39;:</span>
+<span class="c1">#             i = N_TRAIN</span>
+<span class="c1">#</span>
+<span class="c1">#         while k &lt; dim:</span>
+<span class="c1">#</span>
+<span class="c1">#             if label[i] == 1:</span>
+<span class="c1">#                 x.data.append(self.data[i])</span>
+<span class="c1">#                 y.data.append(1)</span>
+<span class="c1">#                 k += 1</span>
+<span class="c1">#             i += 1</span>
+<span class="c1">#</span>
+<span class="c1">#         x.data = np.array(x.data)</span>
+<span class="c1">#         y.data = np.array(y.data)</span>
+<span class="c1">#         return x, y</span>
+<span class="c1">#</span>
+<span class="c1">#     def data_save(self):</span>
+<span class="c1">#         return np.savetxt(self.path + self.filename, self.data)</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># def download_dataset_HEP(datatype, N_TRAIN, n_features):</span>
+<span class="c1">#     X = Data()</span>
+<span class="c1">#     y = Data()</span>
+<span class="c1">#</span>
+<span class="c1">#     X.filename = f&#39;x_{datatype}_higgs_{N_TRAIN}_{n_features}&#39;</span>
+<span class="c1">#     X.path = &#39;resources/&#39;</span>
+<span class="c1">#     y.filename = f&#39;y_{datatype}_higgs_{N_TRAIN}_{n_features}&#39;</span>
+<span class="c1">#     y.path = &#39;resources/&#39;</span>
+<span class="c1">#</span>
+<span class="c1">#     X.data_load(datatype)</span>
+<span class="c1">#     y.label_load(datatype)</span>
+<span class="c1">#</span>
+<span class="c1">#     print(&#39;uploaded&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#     X.get_feature_names()</span>
+<span class="c1">#     y.get_feature_names()</span>
+<span class="c1">#</span>
+<span class="c1">#     print(&#39;===========================================&#39;)</span>
+<span class="c1">#     print(&#39;\nDataset and labels loaded\n&#39;)</span>
+<span class="c1">#     print(&#39;Initial shapes of the arrays are:&#39;)</span>
+<span class="c1">#     print(f&#39;dataset: {X.data.shape}&#39;)</span>
+<span class="c1">#     print(f&#39;labels: {y.data.shape}&#39;)</span>
+<span class="c1">#     print(&#39;Computing roc curves for feature selection...\n&#39;)</span>
+<span class="c1">#     feature_scores = X.compute_auc_roc(y.data)</span>
+<span class="c1">#</span>
+<span class="c1">#     X_feat_selected = X.feature_selection(feature_scores, n_features)</span>
+<span class="c1">#     print(f&#39;The dataset has now {n_features} features\n&#39;)</span>
+<span class="c1">#     X_normalized = X_feat_selected.normalization()</span>
+<span class="c1">#     print(&#39;Dataset normalized&#39;)</span>
+<span class="c1">#     x, y = X_normalized.dataset_truncation(N_TRAIN, y.data, datatype, &#39;quantum&#39;)</span>
+<span class="c1">#     print(f&#39;The dataset has now {x.n_datapoints} datapoints\n&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#     X.data_save()</span>
+<span class="c1">#     y.data_save()</span>
+<span class="c1">#     return X, y</span>
+
+
+<span class="c1"># def generate_HEP_dataset_quantum(datatype, N_TRAIN, n_features, enc):</span>
+<span class="c1">#     X, y = download_dataset_HEP(datatype, N_TRAIN, n_features)</span>
+<span class="c1">#     y = observables(datatype, N_TRAIN, n_features, enc, pennylane=False, save=True)</span>
+<span class="c1">#     return X, y</span>
+
+
+<span class="c1"># use in future version to generate dataset quantum from classical datasets</span>
+<span class="c1"># def generate_dataset_quantum(the_id, wires):</span>
+<span class="c1">#     X, y = download_dataset_openml(the_id)</span>
+<span class="c1">#     y = random_qnn_encoding(X, wires)</span>
+<span class="c1">#     return X, y</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Francesco Di Marcantonio, Massimiliano Incudini, Davide Tezza, Michele Grossi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

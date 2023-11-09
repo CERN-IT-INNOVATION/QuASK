@@ -1,0 +1,20 @@
+[build-system]
+requires = [
+  "setuptools>=61.0",
+  "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quask"
+version = "1.0.3"
+authors = [
+  { name="Massimiliano Incudini", email="massimiliano.incudini@univr.it" },
+  { name="Francesco Di Marcantonio", email="francesco.di.marcantonio@cern.ch" },
+  { name="Michele Grossi", email="michele.grossi@cern.ch" },
+]
+dynamic = ["dependencies"]
+
+[project.urls]
+"Homepage" = "https://github.com/CERN-IT-INNOVATION/QuASK"
+"Bug Tracker" = "https://github.com/CERN-IT-INNOVATION/QuASK/issues"

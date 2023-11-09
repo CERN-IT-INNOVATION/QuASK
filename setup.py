@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from setuptools import setup, find_packages
 
 # Read the contents of the README.md file
@@ -24,3 +25,11 @@ setup(
     python_requires=">=3.8",
     install_requires=[]
 )
+=======
+import setuptools
+from setuptools import setup
+
+setup(
+    packages=setuptools.find_packages(),
+)
+>>>>>>> origin

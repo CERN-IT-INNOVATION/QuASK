@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to use it &mdash; QuASK 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to QuASK’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> QuASK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to use it</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#use-quask-as-a-library-of-software-components">Use quask as a library of software components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-quask-as-a-command-line-interface-tool">Use quask as a command-line interface tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#a-complete-tutorial">A complete tutorial</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">QuASK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>How to use it</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/how_to_use.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-to-use-it">
+<h1>How to use it<a class="headerlink" href="#how-to-use-it" title="Permalink to this heading"></a></h1>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<p>The software has been tested on Python 3.9.10. We recommend using this version or a newer one.</p>
+<p>You can install the software directly from the repository using the command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">https://github.com/CERN-IT-INNOVATION/QuASK/releases/download/1.0.0-beta/quask-1.0.0b0-py3-none-any.whl</span></code></p>
+<p>If the software shows dependencies related problems, download the repository and from the main directory run the command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<section id="use-quask-as-a-library-of-software-components">
+<h3>Use quask as a library of software components<a class="headerlink" href="#use-quask-as-a-library-of-software-components" title="Permalink to this heading"></a></h3>
+<p>QuASK can be used as a library to extend your own software. Check if everything’s working with:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">python</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy</span> <span class="pre">as</span> <span class="pre">np</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">quask.metrics</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">np.array([[1,2],</span> <span class="pre">[3,4]])</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">=</span> <span class="pre">np.array([[5,6],</span> <span class="pre">[7,8]])</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">print(quask.metrics.calculate_frobenius_inner_product(A,</span> <span class="pre">B))</span></code></div>
+</div>
+</section>
+<section id="use-quask-as-a-command-line-interface-tool">
+<h3>Use quask as a command-line interface tool<a class="headerlink" href="#use-quask-as-a-command-line-interface-tool" title="Permalink to this heading"></a></h3>
+<p>QuASK can be used as a command-line interface to analyze the dataset with the
+kernel methods. These are the commands implemented so far.</p>
+<p>To retrieve the datasets available:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3.9</span> <span class="pre">-m</span> <span class="pre">quask</span> <span class="pre">get-dataset</span></code></p>
+</div></blockquote>
+<p>To preprocess a dataset:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3.9</span> <span class="pre">-m</span> <span class="pre">quask</span> <span class="pre">preprocess-dataset</span></code></p>
+</div></blockquote>
+<p>To analyze a dataset using quantum and classical kernels:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3.9</span> <span class="pre">-m</span> <span class="pre">quask</span> <span class="pre">apply-kernel</span></code></p>
+</div></blockquote>
+<p>To create some plot of the property related to the generated Gram matrices:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python3.9</span> <span class="pre">-m</span> <span class="pre">quask</span> <span class="pre">plot-metric</span> <span class="pre">--metric</span> <span class="pre">accuracy</span> <span class="pre">--train-gram</span> <span class="pre">training_linear_kernel.npy</span> <span class="pre">--train-y</span> <span class="pre">Y_train.npy</span> <span class="pre">--test-gram</span> <span class="pre">testing_linear_kernel.npy</span> <span class="pre">--test-y</span> <span class="pre">Y_test.npy</span> <span class="pre">--label</span> <span class="pre">linear</span></code></p>
+</div></blockquote>
+</section>
+</section>
+<section id="a-complete-tutorial">
+<h2>A complete tutorial<a class="headerlink" href="#a-complete-tutorial" title="Permalink to this heading"></a></h2>
+<p>In this tutorial we show how quask can be integrated as a library in the
+researcher code. As a simple example, we take the hand-written digits MNIST
+dataset from sklearn, operating some preprocessing steps on it. Thus, we
+introduce quantum machine learning in our pipeline thanks to QuASK.</p>
+<p>The libraries we need to import for this tutorial are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># scikit</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span> <span class="k">as</span> <span class="n">spl</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span> <span class="p">,</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span> <span class="c1"># C-Support Vector Classification</span>
+
+<span class="c1"># quask packages</span>
+
+<span class="kn">from</span> <span class="nn">quask.template_pennylane</span> <span class="kn">import</span> <span class="n">zz_fullentanglement_embedding</span><span class="p">,</span> <span class="n">pennylane_quantum_kernel</span><span class="p">,</span> <span class="n">pennylane_projected_quantum_kernel</span>
+<span class="kn">from</span> <span class="nn">quask.kernels</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
+<span class="kn">from</span> <span class="nn">quask.metrics</span> <span class="kn">import</span> <span class="n">calculate_generalization_accuracy</span><span class="p">,</span> <span class="n">calculate_geometric_difference</span>
+
+<span class="c1"># additional packages for visualization and math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span>
+</pre></div>
+</div>
+<p>Let us create our dataset from scikit taking only images
+with handwritten 0 and 1 so that we can develop a binary classifier:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#data load</span>
+<span class="n">digits</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_digits</span><span class="p">(</span><span class="n">n_class</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We define the data structure that will hold the results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># create lists to save the results</span>
+<span class="n">gaussian_accuracy</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">quantum_accuracy</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">projected_accuracy</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">quantum_gaussian</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">projected_gaussian</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>Then this loop will test preprocess the dataset and then
+try several quantum kernels, with an increasing number of qubit simulated.
+The kernels are evaluated accordingly to the metrics defined in QuASK:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># reduce dimensionality</span>
+<span class="n">qubits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">:</span>
+    <span class="n">n_qubits</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="n">x_tr</span><span class="p">,</span> <span class="n">x_te</span> <span class="p">,</span> <span class="n">y_tr</span> <span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="n">spl</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">22</span><span class="p">)</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_tr</span><span class="p">)</span>
+    <span class="n">x_tr_reduced</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_tr</span><span class="p">)</span>
+    <span class="n">x_te_reduced</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_te</span><span class="p">)</span>
+
+    <span class="c1"># normalize and scale</span>
+
+    <span class="n">std</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_tr_reduced</span><span class="p">)</span>
+    <span class="n">x_tr_norm</span> <span class="o">=</span> <span class="n">std</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_tr_reduced</span><span class="p">)</span>
+    <span class="n">x_te_norm</span> <span class="o">=</span> <span class="n">std</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_te_reduced</span><span class="p">)</span>
+
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_tr_norm</span><span class="p">,</span> <span class="n">x_te_norm</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">minmax</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="n">x_tr_norm</span> <span class="o">=</span> <span class="n">minmax</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_tr_norm</span><span class="p">)</span>
+    <span class="n">x_te_norm</span> <span class="o">=</span> <span class="n">minmax</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_te_norm</span><span class="p">)</span>
+
+    <span class="c1"># select only 100 training and 20 test data</span>
+
+    <span class="n">tr_size</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">x_tr</span> <span class="o">=</span> <span class="n">x_tr_norm</span><span class="p">[:</span><span class="n">tr_size</span><span class="p">]</span>
+    <span class="n">y_tr</span> <span class="o">=</span> <span class="n">y_tr</span><span class="p">[:</span><span class="n">tr_size</span><span class="p">]</span>
+
+    <span class="n">te_size</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">x_te</span> <span class="o">=</span> <span class="n">x_te_norm</span><span class="p">[:</span><span class="n">te_size</span><span class="p">]</span>
+    <span class="n">y_te</span> <span class="o">=</span> <span class="n">y_te</span><span class="p">[:</span><span class="n">te_size</span><span class="p">]</span>
+
+    <span class="c1"># compute the training kernels</span>
+    <span class="n">gaussian_kernel_tr</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">x_tr</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">quantum_kernel_tr</span> <span class="o">=</span> <span class="n">pennylane_quantum_kernel</span><span class="p">(</span><span class="n">feature_map</span><span class="o">=</span><span class="n">zz_fullentanglement_embedding</span><span class="p">,</span> <span class="n">X_1</span><span class="o">=</span><span class="n">x_tr</span><span class="p">)</span>
+    <span class="n">projected_kernel_tr</span> <span class="o">=</span> <span class="n">pennylane_projected_quantum_kernel</span><span class="p">(</span><span class="n">feature_map</span><span class="o">=</span><span class="n">zz_fullentanglement_embedding</span><span class="p">,</span> <span class="n">X_1</span><span class="o">=</span><span class="n">x_tr</span><span class="p">)</span>
+
+    <span class="c1"># compute the testing kernels</span>
+    <span class="n">gaussian_kernel_te</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">x_te</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="n">x_tr</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">quantum_kernel_te</span> <span class="o">=</span> <span class="n">pennylane_quantum_kernel</span><span class="p">(</span><span class="n">feature_map</span><span class="o">=</span><span class="n">zz_fullentanglement_embedding</span><span class="p">,</span> <span class="n">X_1</span><span class="o">=</span><span class="n">x_te</span><span class="p">,</span> <span class="n">X_2</span><span class="o">=</span><span class="n">x_tr</span><span class="p">)</span>
+    <span class="n">projected_kernel_te</span> <span class="o">=</span> <span class="n">pennylane_projected_quantum_kernel</span><span class="p">(</span><span class="n">feature_map</span><span class="o">=</span><span class="n">zz_fullentanglement_embedding</span><span class="p">,</span> <span class="n">X_1</span><span class="o">=</span><span class="n">x_te</span><span class="p">,</span> <span class="n">X_2</span><span class="o">=</span><span class="n">x_tr</span><span class="p">)</span>
+
+
+    <span class="c1"># generalization accuracy</span>
+    <span class="n">gaussian_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calculate_generalization_accuracy</span><span class="p">(</span><span class="n">gaussian_kernel_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">,</span> <span class="n">gaussian_kernel_te</span><span class="p">,</span> <span class="n">y_te</span><span class="p">))</span>
+    <span class="n">quantum_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calculate_generalization_accuracy</span><span class="p">(</span><span class="n">quantum_kernel_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">,</span> <span class="n">quantum_kernel_te</span><span class="p">,</span> <span class="n">y_te</span><span class="p">))</span>
+    <span class="n">projected_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calculate_generalization_accuracy</span><span class="p">(</span><span class="n">projected_kernel_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">,</span> <span class="n">projected_kernel_te</span><span class="p">,</span> <span class="n">y_te</span><span class="p">))</span>
+    <span class="c1"># geometric difference</span>
+    <span class="n">quantum_gaussian</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calculate_geometric_difference</span><span class="p">(</span><span class="n">quantum_kernel_tr</span><span class="p">,</span> <span class="n">gaussian_kernel_tr</span><span class="p">))</span>
+    <span class="n">projected_gaussian</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calculate_geometric_difference</span><span class="p">(</span><span class="n">projected_kernel_tr</span><span class="p">,</span> <span class="n">gaussian_kernel_tr</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Then we plot the results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot generalization accuracy</span>
+<span class="n">qubits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">gaussian_accuracy</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orangered&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;RBF - gaussian&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">quantum_accuracy</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;deepskyblue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Q - quantum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">projected_accuracy</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;limegreen&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;PQ - projected&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Features (n)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy Plot - RBF, Q, PQ&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;Accuracy_digits_mnist_RBF-Q-PQ&quot;</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">quantum_gaussian</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;mediumturquoise&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;gaussian - quantum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">projected_gaussian</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;mediumpurple&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;gaussian - projected&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Features (n)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Geometric Difference ($g$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geometry Test Plot - RBF, Q, PQ&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;geometric_difference_digits_mnist_RBF-Q-PQ&quot;</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The figure resulting are the following ones. Here’s the accuracy:</p>
+<a class="reference internal image-reference" href="_images/Accuracy_digits_mnist_RBF-Q-PQ.png"><img alt="Accuracy plot" class="align-center" src="_images/Accuracy_digits_mnist_RBF-Q-PQ.png" style="width: 70%;" /></a>
+<p>and the geometric difference:</p>
+<a class="reference internal image-reference" href="_images/geometric_difference_digits_mnist_RBF-Q-PQ.png"><img alt="Geometric difference plot" class="align-center" src="_images/geometric_difference_digits_mnist_RBF-Q-PQ.png" style="width: 70%;" /></a>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to QuASK’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Francesco Di Marcantonio, Massimiliano Incudini, Davide Tezza, Michele Grossi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

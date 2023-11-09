@@ -12,17 +12,29 @@
 #
 import os
 import sys
+<<<<<<< HEAD
 sys.path.insert(0, os.path.abspath('../../src'))
+=======
+sys.path.insert(0, os.path.abspath('../..'))
+>>>>>>> origin
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'QuASK'
+<<<<<<< HEAD
 copyright = '2023, Massimiliano Incudini, Michele Grossi'
 author = 'Massimiliano Incudini, Michele Grossi'
 
 # The full version, including alpha/beta/rc tags
 release = '2.0.0-alpha1'
+=======
+copyright = '2022, Francesco Di Marcantonio, Massimiliano Incudini, Davide Tezza, Michele Grossi'
+author = 'Francesco Di Marcantonio, Massimiliano Incudini, Davide Tezza, Michele Grossi'
+
+# The full version, including alpha/beta/rc tags
+release = '1.0.0'
+>>>>>>> origin
 
 
 # -- General configuration ---------------------------------------------------
@@ -33,7 +45,11 @@ release = '2.0.0-alpha1'
 extensions = [
   'sphinx.ext.autodoc',
   'sphinx.ext.viewcode',
+<<<<<<< HEAD
   'sphinx.ext.napoleon'
+=======
+  'sphinx.ext.napoleon',
+>>>>>>> origin
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -44,7 +60,10 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
+<<<<<<< HEAD
 autodoc_mock_imports = ["skopt", "skopt.space", "django", "mushroom_rl", "opytimizer", "pennylane", "qiskit", "qiskit_ibm_runtime", "qiskit_aer"]
+=======
+>>>>>>> origin
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -52,14 +71,19 @@ autodoc_mock_imports = ["skopt", "skopt.space", "django", "mushroom_rl", "opytim
 # a list of builtin themes.
 #
 #html_theme = 'alabaster'
+<<<<<<< HEAD
 # html_theme = 'sphinx_rtd_theme'
 html_theme = 'furo'
 
+=======
+html_theme = 'sphinx_rtd_theme'
+>>>>>>> origin
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 html_show_sourcelink = True
+<<<<<<< HEAD
 
 html_favicon = "images/favicon.ico"
 html_logo = "images/logo_nobg.png"
@@ -67,3 +91,5 @@ html_logo = "images/logo_nobg.png"
 html_theme_options = {
     "sidebar_hide_name": True
 }
+=======
+>>>>>>> origin
