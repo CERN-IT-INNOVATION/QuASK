@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Modules
 =============
 
@@ -119,13 +118,3 @@ Package ``quask.optimizer``
    :members:
    :undoc-members:
    :show-inheritance:
-=======
-QuASK
-=====
-
-.. toctree::
-   :maxdepth: 4
-
-   quask
-   setup
->>>>>>> origin
