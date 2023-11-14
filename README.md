@@ -35,7 +35,8 @@ Then [advanced features of _quask_](https://quask.readthedocs.io/en/latest/tutor
 Finally, [look here for some applications](https://quask.readthedocs.io/en/latest/tutorials_applications/index.html). 
 
 
-## Source
+## Source 
+
 
 ### Deployment to PyPI
 
@@ -43,7 +44,23 @@ The software is uploaded to [PyPI](https://pypi.org/project/quask/).
 
 ### Test
 
-The suite of test for _quask_ is currently under development. 
+The suite of test for _quask_ is currently under development.To run the available tests, type 
+
+    pytest
+
+
+You can also specify specific test scripts.
+
+    pytest tests/test_example.py
+
+ _quask_ has been developed and tested with the following versions of the quantum frameworks: 
+
+* PennyLane==0.32.0
+* PennyLane-Lightning==0.32.0
+* qiskit==0.44.1
+* qiskit-aer==0.12.2
+* qiskit-ibm-runtime==0.14.0
+
 
 ## Documentation 
 
@@ -84,6 +101,7 @@ The UML diagrams are created via:
 
     cd src/quask
     pyreverse -o png -p QUASK .
+
 
 ## Acknowledgements
 
