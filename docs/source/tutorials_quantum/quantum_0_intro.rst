@@ -114,7 +114,7 @@ in great detail later.
 
 .. parsed-literal::
 
-    -i 0.40 * x[2] XI^(1,0)
+    -i 0.67 * x[1] IX^(0,1)
 
 
 The ``Ansatz`` class
@@ -412,7 +412,7 @@ To calculate the kernel values, simply call the ``kappa`` method.
 
 .. parsed-literal::
 
-    The kernel value between x1=array([0.15985191, 0.25483345]) and x2=array([0.1139941 , 0.61940653]) is 0.96714
+    The kernel value between x1=array([0.47349073, 0.25305625]) and x2=array([0.8771323 , 0.71764648]) is 0.94700
 
 
 Serialization of the Kernel objects
@@ -474,7 +474,7 @@ The SWAP test can be constructed just as the fidelity test.
 
 .. parsed-literal::
 
-    The kernel value between x1=array([0.15985191, 0.25483345]) and x2=array([0.1139941 , 0.61940653]) is 0.98357
+    The kernel value between x1=array([0.47349073, 0.25305625]) and x2=array([0.8771323 , 0.71764648]) is 0.94700
 
 
 You can check that the value calculated with the SWAP test matches the
