@@ -7,3 +7,5 @@ src/quask/core_implementation/__pycache__/*
 src/quask/evaluator/__pycache__/*
 src/quask/optimizer/__pycache__/*
 .ipynb_checkpoints/*
+.vs_code/*
+.vscode/*
