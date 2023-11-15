@@ -1,5 +1,5 @@
 import numpy as np
-import PennyLane as qml
+import pennylane as qml
 from ..core import Ansatz, Kernel, KernelType
 
 
