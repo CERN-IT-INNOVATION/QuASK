@@ -31,7 +31,7 @@ theoretical papers.
 
         Manenti Riccardo and Motta Mario. (2023). Quantum Information Science. Oxford University Press.
 
-    For an introduction to quantum machine machine you can refer to:
+    For an introduction to quantum machine learning you can refer to:
 
         Schuld Maria and Petruccione Francesco. (2021). Machine learning with quantum computers. Springer.
 

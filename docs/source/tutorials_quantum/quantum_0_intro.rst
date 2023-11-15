@@ -1,13 +1,23 @@
 Quantum kernels
 ===============
 
-The quantum kernel maps the classical data into the Hilbert space of a
-quantum system, then the pair of encoded samples are tested via the
-overlap test or the swap test, simple procedure that allows to estimate
-the inner products of quantum states with a small overhead in terms of
-depth of the circuit.
+.. code:: ipython3
 
-The theory of quantum kernels has been first explored in [sch19] and
+    import sys
+    import os
+    # to import quask, move from docs/source/notebooks to src
+    sys.path.append('../../../src')
+    import quask
+
+In this tutorial, we explore one of the paradigms of QML, the use of
+*quantum algorithms* with *classical data*. The quantum kernel maps the
+classical data into the Hilbert space of a quantum system, and then the
+pair of encoded samples is tested via the overlap test or the swap test,
+simple procedures that allow to estimate the inner products of quantum
+states with a small overhead in terms of depth of the circuit.
+
+The work in [rml14] introduced the Quantum Support Vector Machine. The
+theory of quantum kernels has been first explored in [sch19] and
 [hav19]. A concise, theoretical introduction to the topic is [sch21].
 
 Parameterized quantum circuits as feature maps
@@ -19,7 +29,7 @@ operator :math:`U(\mathbf{x})`, corresponds to the feature map in the
 classical machine learning setting. We start the computation in the
 initial state :math:`\rho_0`, which is usually the :math:`\ketbra{0}{0}`
 pure density matrix, and then evolve the initial state via the
-parametric unitary whose arguments correspond to the feature of the
+parametric unitary whose arguments correspond to the features of the
 first data point,
 
 .. math:: \rho_{\mathbf{x}} = U^\dagger(\mathbf{x}) \rho_0 U(\mathbf{x}).
@@ -40,35 +50,29 @@ Any operation corresponds to a two-qubit gate in the form
 
 .. math::
 
+
    U(\theta) = \exp\left(-i \frac{\beta \theta}{2} \sigma_1^{(p)} \sigma_2^{(q)}\right),
 
 with :math:`\theta \in \mathbb{R}` being the single real value that
 parameterizes the unitary rotation. The operation is also characterized
 by its generators, :math:`\sigma_1` and :math:`\sigma_2`, the qubits on
 which the operation is applied, :math:`p` and :math:`q`, and a scaling
-constant :math:`\beta`.
+constant :math:`\beta`.ed in great detail later.
 
 The parameter :math:`\theta` corresponds to one of the components of
 :math:`\mathbf{x} \in \mathbb{R}^d` and can be identified with the index
-:math:`i \in \{0, \ldots, d-1\}`. Some works have assigned a function of
-the parameters of :math:`\mathbf{x}`, such as
-:math:`(\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`. This can be
-accomplished by adding a calculated feature to :math:`\mathbf{x}`,
+:math:`i \in \{0, \ldots, d-1\}`. In some works, you can see
+:math:`\theta` is a function of the parameters of :math:`\mathbf{x}`,
+e.g. :math:`(\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`. This particular
+custom function can be used to reduce the number of qubits needed to
+embed the full feature vector :math:`\mathbf{x}`. We add the calculated
+new feature to :math:`\mathbf{x}`,
 :math:`\mathbf{x}'_d \leftarrow (\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`.
 Then, :math:`\mathbf{x}' \in \mathbb{R}^{d+1}`. Furthermore, to allow
 the action of constant gates, the feature of index :math:`i = d`
 corresponds to the constant :math:`1`. By fixing the constant feature
 and an arbitrary value of :math:`\beta`, one can define any rotational
 angle.
-
-The generators :math:`\sigma_1` and :math:`\sigma_2` correspond to one
-of the Pauli matrices: :math:`X`, :math:`Y`, :math:`Z`, or
-:math:`\mathrm{Id}`. For example, if :math:`\sigma_1 = \sigma_2 = X`,
-the transformation corresponds to an :math:`R_{XX}` rotation, while for
-:math:`\sigma_1^{(p)} = X` and :math:`\sigma_2^{(q)} = \mathrm{Id}`, the
-transformation corresponds to a single-qubit gate acting non-trivially
-on qubit :math:`p` via an :math:`R_X` rotation, while the transformation
-on qubit :math:`q` is vacuous.
 
 Clearly, :math:`p` and :math:`q` are in :math:`\{0, 1, \ldots, n-1\}`
 where :math:`n` is the number of qubits in the quantum circuit, and
@@ -110,7 +114,7 @@ in great detail later.
 
 .. parsed-literal::
 
-    -i 0.96 * x[0] ZI^(1,0)
+    -i 0.40 * x[2] XI^(1,0)
 
 
 The ``Ansatz`` class
@@ -119,11 +123,11 @@ The ``Ansatz`` class
 An ``Ansatz`` is a sequence of parameterized quantum gates. This class
 wraps individual operations and performs consistency checks to ensure
 the validity of each operation. To accomplish this, the Ansatz object
-contains shared information about the quantum circuit, which need not be
-redundantly repeated for each operation. This shared information
-includes: the number of features :math:`d` in the classical data vector,
-the total number of operations in the quantum circuit, and the number of
-qubits in the quantum system.
+contains shared information about the quantum circuit, which avoids to
+repeat checks for each operation. This shared information includes: the
+number of features :math:`d` in the classical data vector, the total
+number of operations in the quantum circuit, and the number of qubits in
+the quantum system.
 
 By storing these details at the ``Ansatz`` level, we streamline the
 management and validation of operations, ensuring coherence and
@@ -282,21 +286,21 @@ space of density matrices :math:`\rho`.
 Setup the ``Kernel`` object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-One of the main advantage of *quask* is being compatible with many
-different framework. We work with ``Kernel`` objects, with are high
-level description of the operation we want to perform, and then this
-description is compiled to a low level object via one of the many
-quantum SDK available.
+One of the main advantages of *quask* is being compatible with many
+different frameworks. We work with ``Kernel`` objects, which are
+high-level descriptions of the operations we want to perform, and then
+these descriptions are compiled into a low-level object via one of the
+many quantum SDKs available.
 
 The way *quask* manages the different implementations is via the
 ``KernelFactory`` object. We cannot directly instantiate ``Kernel``
-objects (the class is *abstract*), instead we use
-``KernelFactory.create_kernel`` which has the exact same argument of
+objects (the class is *abstract*), instead, we use
+``KernelFactory.create_kernel`` which has the exact same argument as
 ``Kernel.__init__``.
 
 The role of ``KernelFactory`` is to choose the subclass of ``Kernel``,
 the one that concretely implements the methods of the class on some
-backend, and instantiate the object. To do that, we first have to list
+backend, and instantiates the object. To do that, we first have to list
 all the available implementations.
 
 .. code:: ipython3
@@ -305,16 +309,16 @@ all the available implementations.
     from quask.core_implementation import PennylaneKernel
 
 The class ``PennylaneKernel`` implements the Kernel on PennyLane. It
-requires all the argument of ``Kernel`` plus some additional information
-such as the name of the device we are using, and the number of shots. We
-can instantiate a wrapper class that already give all the
-configurations. It follows the example that configure a noiseless
+requires all the arguments of ``Kernel`` plus some additional
+information such as the name of the device we are using, and the number
+of shots. We can instantiate a wrapper class that already gives all the
+configurations. It follows the example that configures a noiseless
 simulator with infinite shots.
 
 .. warning::
 
     You need to have installed PennyLane to instantiate the class quask.core_implementation.PennylaneKernel.
-    If you are using a different quantum SDK (Qiskit, Qibo, ...) you should configure directly the corresponding object (QiskitKernel, QiboKernel, ...). Look at the _backends_ tutorial for more details. 
+    If you are using a different quantum SDK (Qiskit, Qibo, ...) you should configure directly the corresponding object (QiskitKernel, QiboKernel, ...). Look at the *backends* tutorial for more details. 
 
 .. code:: ipython3
 
@@ -349,6 +353,10 @@ To estimate the inner product with precision :math:`\varepsilon`, we
 need :math:`O(1/\epsilon^2)` shots.
 
 The corresponding quantum circuit is:
+
+.. image:: overlap_test.png
+    :width: 300
+    :alt: Quantum circuit of the overlap test
 
 Performing the overlap test via the ``Kernel`` object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -404,16 +412,16 @@ To calculate the kernel values, simply call the ``kappa`` method.
 
 .. parsed-literal::
 
-    The kernel value between x1=array([0.10564231, 0.01790869]) and x2=array([0.28366491, 0.43843157]) is 0.95644
+    The kernel value between x1=array([0.15985191, 0.25483345]) and x2=array([0.1139941 , 0.61940653]) is 0.96714
 
 
 Serialization of the Kernel objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The kernel object can be serialized too into a Numpy array. When
+The kernel object can be serialized into a Numpy array. When
 de-serializing a kernel object, the KernelFactory.create_kernel method
 is invoked and the default backend of KernelFactory is chosen. The
-defualt behaviour of the KernelFactor class can be changed via the
+default behavior of the KernelFactory class can be changed via the
 KernelFactory API.
 
 .. code:: ipython3
@@ -439,6 +447,10 @@ quantum circuit that has :math:`2n+1` qubits, :math:`n` qubits of each
 state :math:`\rho`. The quantum circuit for the SWAP test is the
 following one:
 
+.. image:: swap_test.png
+    :width: 300
+    :alt: Quantum circuit of the swap test
+
 Only the ancilla qubit is measured, and the probability of having
 outcome :math:`M_0 = \ketbra{0}{0}` is
 :math:`\frac{1}{2} + \mathrm{Tr}[\rho_x \rho_{x'}]`. It is usually
@@ -462,7 +474,7 @@ The SWAP test can be constructed just as the fidelity test.
 
 .. parsed-literal::
 
-    The kernel value between x1=array([0.10564231, 0.01790869]) and x2=array([0.28366491, 0.43843157]) is 0.97822
+    The kernel value between x1=array([0.15985191, 0.25483345]) and x2=array([0.1139941 , 0.61940653]) is 0.98357
 
 
 You can check that the value calculated with the SWAP test matches the
@@ -470,6 +482,9 @@ one calculated with the overlap test.
 
 References
 ----------
+
+[rml14] Rebentrost, Mohseni, Lloyd. “Quantum support vector machine for
+big data classification.” Physical review letters 113 (2014): 130503
 
 [hav19] Havlíček, Vojtěch, et al. “Supervised learning with
 quantum-enhanced feature spaces.” Nature 567.7747 (2019): 209-212.
