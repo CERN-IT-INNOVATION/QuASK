@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../../src'))
 
 project = 'QuASK'
 copyright = '2023, Massimiliano Incudini, Michele Grossi'
-author = 'Massimiliano Incudini, Michele Grossi'
+author = 'Massimiliano Incudini, Francesco Di Marcantonio, Roman Wixinger, Sofia Vallecorsa, and Michele Grossi.'
 
 # The full version, including alpha/beta/rc tags
 release = '2.0.0-alpha1'
@@ -61,6 +61,7 @@ html_theme = 'furo'
 html_static_path = ['_static']
 html_show_sourcelink = True
 
+html_title = "QUASK·v2"
 html_favicon = "images/favicon.ico"
 html_logo = "images/logo_nobg.png"
 

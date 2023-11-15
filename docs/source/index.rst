@@ -25,29 +25,6 @@ You may want to use *quask* for several compelling reasons:
 - You want to use a high-level software API that can be seamlessly compiled to work with the most widely used quantum SDKs like Qiskit, Pennylane, Braket, Qibo, and more. This is advantageous if you prefer not to be tied to a specific hardware vendor's platform, allowing for flexibility when changing hardware. Additionally, *quask*'s modular platform enables you to easily configure custom backends to harness specific low-level features from vendors when required.
 - You want a platform to learn about quantum kernels or to use the source code as a reference  implementation for theoretical constructs that lack practical details on how to build them.
 
-Features
---------
-
-Here it follows a comparison of the features available in *quask* compared to 
-other quantum machine learning softwares:
-
-.. list-table:: Comparison of the features of some quantum machine learning software
-   :widths: 25 25 25 25
-   :header-rows: 1
-
-   * - 
-     - *quask*
-     - Qiskit Machine Learning
-     - Pennylane
-   * - Feature 1
-     - V
-     - X
-     - X
-   * - Feature 2
-     - V
-     - X
-     - X
-
 
 Acknowledgements
 ----------------
