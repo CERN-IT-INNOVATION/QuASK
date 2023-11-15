@@ -1,18 +1,26 @@
 Projected quantum kernels
 =========================
 
-Use of projector / partial tracesmances.
+To understand Projected Quantum Kernels we should understand the limitations
+of "traditional" quantum kernels. These limitations have very deep implications
+in the understanding of kernel methods also on a classical perspective.
 
 Expressibility and curse of dimensionality in kernel methods
 ------------------------------------------------------------
 
+When approaching a ML problem we could ask if it makes sense at all to use
+QML techniques, such as quantum kernel methods. We understood in the last years 
+[kbs21],[Hua21] that having a large Hilbert space where we can compute 
+classically intractable inner products does not guarantee an advantage. But, why?
+
 When dealing with kernel methods, whether classical or quantum, we must
 exercise caution when working in high-dimensional (or even
 infinite-dimensional) Hilbert spaces. This is due to the fact that in
-high dimensions, certain unfavorable phenomena can occur, resulting in a
-kernel machine that, after the training phase, becomes a complex
-function prone to overfitting. These phenomena are explored in the
-`upcoming tutorial <xxx>`__.
+high dimensions, the problem of generalization becomes hard, *i.e.* the 
+trained kernel is prone to overfitting.
+In turn, an exponential (in the number of features/qubits) number of datapoints 
+are needed to learn the target function we aim to estimate.
+These phenomena are explored in the `upcoming tutorial <xxx>`__.
 
 For instance, in the classical context, the Gaussian kernel maps any
 :math:`\mathbf{x} \in \mathbb{R}^d` to a multi-dimensional Gaussian
@@ -20,7 +28,8 @@ distribution with an average of :math:`\mathbf{x}` and a covariance
 matrix of :math:`\sigma I`. When :math:`\sigma` is small, data points
 are mapped to different regions of this infinite-dimensional Hilbert
 space, and :math:`\kappa(\mathbf{x}, \mathbf{x}') \approx 0` for all
-:math:`\mathbf{x} \neq \mathbf{x}'`. To avoid this, a larger
+:math:`\mathbf{x} \neq \mathbf{x}'`. This is known as the phenonenon of
+*curse of dimensionality*, or *orthogonality catastrophe*. To avoid this, a larger
 :math:`\sigma` is chosen to ensure that most data points relevant to our
 task have some nontrivial overlap.
 
@@ -38,7 +47,8 @@ Projection as expressibility control
 The authors of [Hua21], who initially addressed the challenge of the
 exponential dimensionality of Hilbert space in the context of quantum
 kernels, have introduced the concept of *projected quantum kernels* to
-mitigate this issue.
+mitigate this issue. Then, in [kbs21] they proved as this projected kernel
+must intertwine with a correct inductive bias to obtain some positive results.
 
 The concept is straightforward: first, the unitary transformation
 :math:`U` maps classical data into the Hilbert space of the quantum
@@ -224,7 +234,11 @@ or if such an advantage is unlikely. The test operates as follows:
 References & acknowledgements
 -----------------------------
 
-[Hua21] Huang, HY., Broughton, M., Mohseni, M. et al. Power of data in
-quantum machine learning. Nat Commun 12, 2631 (2021).
+[Hua21] Huang, HY., Broughton, M., Mohseni, M. et al."Power of data in
+quantum machine learning." Nat Commun 12, 2631 (2021).
 https://doi.org/10.1038/s41467-021-22539-9
+
+[kbs21] Jonas M. Kübler, Simon Buchholz, Bernhard Schölkopf. "The 
+Inductive Bias of Quantum Kernels." arXiv:2106.03747 (2021).
+https://doi.org/10.48550/arXiv.2106.03747 
 

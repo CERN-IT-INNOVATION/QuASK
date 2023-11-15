@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as readme_file:
     long_description = readme_file.read()
 
 setup(
-    name="quask",
+    name="QuASK",
     version="2.0.0-alpha1",
     author="Massimiliano Incudini, Francesco Di Marcantonio, Michele Grossi",
     author_email="massimiliano.incudini@univr.it",

@@ -48,4 +48,3 @@ class KernelFactory:
         """
         fn = KernelFactory.__implementations[KernelFactory.__current_implementation]
         return fn(ansatz, measurement, type)
-

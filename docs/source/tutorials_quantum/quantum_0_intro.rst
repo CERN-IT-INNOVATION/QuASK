@@ -1,12 +1,16 @@
 Quantum kernels
 ===============
 
+In this tutorial we explore one of the paradigm of QML, the use of 
+*quantum algorithms* with *classical data*.
 The quantum kernel maps the classical data into the Hilbert space of a
 quantum system, then the pair of encoded samples are tested via the
-overlap test or the swap test, simple procedure that allows to estimate
+overlap test or the swap test, simple procedures that allow to estimate
 the inner products of quantum states with a small overhead in terms of
 depth of the circuit.
 
+The seminal paper of Rebentrost *et al* [rml14] introduced the basic concept
+of Quantum Support Vector Machine.
 The theory of quantum kernels has been first explored in [sch19] and
 [hav19]. A concise, theoretical introduction to the topic is [sch21].
 
@@ -19,7 +23,7 @@ operator :math:`U(\mathbf{x})`, corresponds to the feature map in the
 classical machine learning setting. We start the computation in the
 initial state :math:`\rho_0`, which is usually the :math:`\ketbra{0}{0}`
 pure density matrix, and then evolve the initial state via the
-parametric unitary whose arguments correspond to the feature of the
+parametric unitary whose arguments correspond to the features of the
 first data point,
 
 .. math:: \rho_{\mathbf{x}} = U^\dagger(\mathbf{x}) \rho_0 U(\mathbf{x}).
@@ -48,18 +52,22 @@ by its generators, :math:`\sigma_1` and :math:`\sigma_2`, the qubits on
 which the operation is applied, :math:`p` and :math:`q`, and a scaling
 constant :math:`\beta`.
 
-The parameter :math:`\theta` corresponds to one of the components of
-:math:`\mathbf{x} \in \mathbb{R}^d` and can be identified with the index
-:math:`i \in \{0, \ldots, d-1\}`. Some works have assigned a function of
-the parameters of :math:`\mathbf{x}`, such as
-:math:`(\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`. This can be
-accomplished by adding a calculated feature to :math:`\mathbf{x}`,
-:math:`\mathbf{x}'_d \leftarrow (\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`.
-Then, :math:`\mathbf{x}' \in \mathbb{R}^{d+1}`. Furthermore, to allow
-the action of constant gates, the feature of index :math:`i = d`
-corresponds to the constant :math:`1`. By fixing the constant feature
-and an arbitrary value of :math:`\beta`, one can define any rotational
-angle.
+| The parameter :math:`\theta` corresponds to one of the components of
+  :math:`\mathbf{x} \in \mathbb{R}^d` and can be identified with the index
+  :math:`i \in \{0, \ldots, d-1\}`. 
+  In some works, you can see :math:`\theta`
+  is a function of the parameters of :math:`\mathbf{x}`, e.g.
+  :math:`(\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`.
+  This particular custom function can be used to reduce the number of qubits needed
+  to embed the full feature vector :math:`\mathbf{x}`.
+| We add the calculated new feature to :math:`\mathbf{x}`,
+  :math:`\mathbf{x}'_d \leftarrow (\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`.
+  Then, :math:`\mathbf{x}' \in \mathbb{R}^{d+1}`.
+
+Furthermore, to allow the action of constant gates, the feature of 
+index :math:`i = d` corresponds to the constant :math:`1`. By fixing 
+the constant feature and an arbitrary value of :math:`\beta`, one can 
+define any rotational angle.
 
 The generators :math:`\sigma_1` and :math:`\sigma_2` correspond to one
 of the Pauli matrices: :math:`X`, :math:`Y`, :math:`Z`, or
@@ -119,8 +127,8 @@ The ``Ansatz`` class
 An ``Ansatz`` is a sequence of parameterized quantum gates. This class
 wraps individual operations and performs consistency checks to ensure
 the validity of each operation. To accomplish this, the Ansatz object
-contains shared information about the quantum circuit, which need not be
-redundantly repeated for each operation. This shared information
+contains shared information about the quantum circuit, which avoids to 
+repeat checks for each operation. This shared information
 includes: the number of features :math:`d` in the classical data vector,
 the total number of operations in the quantum circuit, and the number of
 qubits in the quantum system.
@@ -283,15 +291,15 @@ Setup the ``Kernel`` object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 One of the main advantage of *quask* is being compatible with many
-different framework. We work with ``Kernel`` objects, with are high
-level description of the operation we want to perform, and then this
-description is compiled to a low level object via one of the many
+different framework. We work with ``Kernel`` objects, which are high
+level descriptions of the operations we want to perform, and then these
+descriptions are compiled to a low level object via one of the many
 quantum SDK available.
 
 The way *quask* manages the different implementations is via the
 ``KernelFactory`` object. We cannot directly instantiate ``Kernel``
 objects (the class is *abstract*), instead we use
-``KernelFactory.create_kernel`` which has the exact same argument of
+``KernelFactory.create_kernel`` which has the exact same arguments of
 ``Kernel.__init__``.
 
 The role of ``KernelFactory`` is to choose the subclass of ``Kernel``,
@@ -305,9 +313,9 @@ all the available implementations.
     from quask.core_implementation import PennylaneKernel
 
 The class ``PennylaneKernel`` implements the Kernel on PennyLane. It
-requires all the argument of ``Kernel`` plus some additional information
+requires all the arguments of ``Kernel`` plus some additional information
 such as the name of the device we are using, and the number of shots. We
-can instantiate a wrapper class that already give all the
+can instantiate a wrapper class that already gives all the
 configurations. It follows the example that configure a noiseless
 simulator with infinite shots.
 
@@ -413,7 +421,7 @@ Serialization of the Kernel objects
 The kernel object can be serialized too into a Numpy array. When
 de-serializing a kernel object, the KernelFactory.create_kernel method
 is invoked and the default backend of KernelFactory is chosen. The
-defualt behaviour of the KernelFactor class can be changed via the
+defualt behaviour of the KernelFactory class can be changed via the
 KernelFactory API.
 
 .. code:: ipython3
@@ -470,6 +478,9 @@ one calculated with the overlap test.
 
 References
 ----------
+
+[rml14] Rebentrost, Mohseni, Lloyd. "Quantum support vector machine for 
+big data classification." Physical review letters 113 (2014): 130503
 
 [hav19] Havlíček, Vojtěch, et al. “Supervised learning with
 quantum-enhanced feature spaces.” Nature 567.7747 (2019): 209-212.
