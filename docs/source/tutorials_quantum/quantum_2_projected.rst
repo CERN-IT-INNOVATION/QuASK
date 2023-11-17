@@ -48,7 +48,7 @@ The authors of [Hua21], who initially addressed the challenge of the
 exponential dimensionality of Hilbert space in the context of quantum
 kernels, have introduced the concept of *projected quantum kernels* to
 mitigate this issue. Then, in [kbs21] they proved as this projected kernel
-must intertwine with a correct inductive bias to obtain some positive results.
+must intertwine with a correct inductive bias to obtain some good performance.
 
 The concept is straightforward: first, the unitary transformation
 :math:`U` maps classical data into the Hilbert space of the quantum
@@ -59,12 +59,15 @@ classical kernels.
 
 For a single data point encoded in the quantum system, denoted as
 :math:`\rho_x = U(x) \rho_0 U(x)`, projected quantum kernels can be
-implemented in two different ways: - We can implement the feature map
-:math:`\phi(x) = \mathrm{\tilde{Tr}}[\rho_x]`, with
-:math:`\mathrm{\tilde{Tr}}` representing partial trace. - Alternatively,
-we can implement the feature map
-:math:`\phi(x) = \{ \mathrm{Tr}[\rho_x O^{(j)}] \}_{j=1}^k`, where the
-observable :math:`O^{(j)}` is employed for the projections.
+implemented in two different ways: 
+
+    * We can implement the feature map
+    :math:`\phi(x) = \mathrm{\tilde{Tr}}[\rho_x]`, with
+    :math:`\mathrm{\tilde{Tr}}` representing partial trace. 
+
+    * Alternatively, we can implement the feature map
+    :math:`\phi(x) = \{ \mathrm{Tr}[\rho_x O^{(j)}] \}_{j=1}^k`, where the
+    observable :math:`O^{(j)}` is employed for the projections.
 
 Finally, the kernel :math:`\kappa(x, x')` is explicitly constructed as
 the inner product between :math:`\phi(x)` and :math:`\phi(x')`.

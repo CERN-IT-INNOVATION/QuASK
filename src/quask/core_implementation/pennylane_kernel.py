@@ -1,5 +1,5 @@
 import numpy as np
-import PennyLane as qml
+import pennylane as qml
 from ..core import Ansatz, Kernel, KernelType
 
 
@@ -93,7 +93,7 @@ class PennylaneKernel(Kernel):
         elif self.type == KernelType.SWAP_TEST:
             probabilities = self.swap_kernel(x1, x2)
             self.last_probabilities = probabilities
-            return probabilities[0]
+            return np.max([2 * probabilities[0] - 1, 0.0])
 
     def phi(self, x) -> float:
         if self.type == KernelType.OBSERVABLE:
