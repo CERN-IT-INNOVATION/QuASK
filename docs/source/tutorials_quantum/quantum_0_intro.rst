@@ -59,7 +59,6 @@ by its generators, :math:`\sigma_1` and :math:`\sigma_2`, the qubits on
 which the operation is applied, :math:`p` and :math:`q`, and a scaling
 constant :math:`\beta`.ed in great detail later.
 
-<<<<<<< HEAD
 | The parameter :math:`\theta` corresponds to one of the components of
   :math:`\mathbf{x} \in \mathbb{R}^d` and can be identified with the index
   :math:`i \in \{0, \ldots, d-1\}`. 
@@ -76,22 +75,6 @@ Furthermore, to allow the action of constant gates, the feature of
 index :math:`i = d` corresponds to the constant :math:`1`. By fixing 
 the constant feature and an arbitrary value of :math:`\beta`, one can 
 define any rotational angle.
-=======
-The parameter :math:`\theta` corresponds to one of the components of
-:math:`\mathbf{x} \in \mathbb{R}^d` and can be identified with the index
-:math:`i \in \{0, \ldots, d-1\}`. In some works, you can see
-:math:`\theta` is a function of the parameters of :math:`\mathbf{x}`,
-e.g. :math:`(\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`. This particular
-custom function can be used to reduce the number of qubits needed to
-embed the full feature vector :math:`\mathbf{x}`. We add the calculated
-new feature to :math:`\mathbf{x}`,
-:math:`\mathbf{x}'_d \leftarrow (\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`.
-Then, :math:`\mathbf{x}' \in \mathbb{R}^{d+1}`. Furthermore, to allow
-the action of constant gates, the feature of index :math:`i = d`
-corresponds to the constant :math:`1`. By fixing the constant feature
-and an arbitrary value of :math:`\beta`, one can define any rotational
-angle.
->>>>>>> origin/main
 
 Clearly, :math:`p` and :math:`q` are in :math:`\{0, 1, \ldots, n-1\}`
 where :math:`n` is the number of qubits in the quantum circuit, and
@@ -142,19 +125,11 @@ The ``Ansatz`` class
 An ``Ansatz`` is a sequence of parameterized quantum gates. This class
 wraps individual operations and performs consistency checks to ensure
 the validity of each operation. To accomplish this, the Ansatz object
-<<<<<<< HEAD
 contains shared information about the quantum circuit, which avoids to 
 repeat checks for each operation. This shared information
 includes: the number of features :math:`d` in the classical data vector,
 the total number of operations in the quantum circuit, and the number of
 qubits in the quantum system.
-=======
-contains shared information about the quantum circuit, which avoids to
-repeat checks for each operation. This shared information includes: the
-number of features :math:`d` in the classical data vector, the total
-number of operations in the quantum circuit, and the number of qubits in
-the quantum system.
->>>>>>> origin/main
 
 By storing these details at the ``Ansatz`` level, we streamline the
 management and validation of operations, ensuring coherence and
@@ -313,18 +288,6 @@ space of density matrices :math:`\rho`.
 Setup the ``Kernel`` object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-<<<<<<< HEAD
-One of the main advantage of *quask* is being compatible with many
-different framework. We work with ``Kernel`` objects, which are high
-level descriptions of the operations we want to perform, and then these
-descriptions are compiled to a low level object via one of the many
-quantum SDK available.
-
-The way *quask* manages the different implementations is via the
-``KernelFactory`` object. We cannot directly instantiate ``Kernel``
-objects (the class is *abstract*), instead we use
-``KernelFactory.create_kernel`` which has the exact same arguments of
-=======
 One of the main advantages of *quask* is being compatible with many
 different frameworks. We work with ``Kernel`` objects, which are
 high-level descriptions of the operations we want to perform, and then
@@ -335,7 +298,6 @@ The way *quask* manages the different implementations is via the
 ``KernelFactory`` object. We cannot directly instantiate ``Kernel``
 objects (the class is *abstract*), instead, we use
 ``KernelFactory.create_kernel`` which has the exact same argument as
->>>>>>> origin/main
 ``Kernel.__init__``.
 
 The role of ``KernelFactory`` is to choose the subclass of ``Kernel``,
@@ -349,17 +311,10 @@ all the available implementations.
     from quask.core_implementation import PennylaneKernel
 
 The class ``PennylaneKernel`` implements the Kernel on PennyLane. It
-<<<<<<< HEAD
-requires all the arguments of ``Kernel`` plus some additional information
-such as the name of the device we are using, and the number of shots. We
-can instantiate a wrapper class that already gives all the
-configurations. It follows the example that configure a noiseless
-=======
 requires all the arguments of ``Kernel`` plus some additional
 information such as the name of the device we are using, and the number
 of shots. We can instantiate a wrapper class that already gives all the
 configurations. It follows the example that configures a noiseless
->>>>>>> origin/main
 simulator with infinite shots.
 
 .. warning::
@@ -468,11 +423,7 @@ Serialization of the Kernel objects
 The kernel object can be serialized into a Numpy array. When
 de-serializing a kernel object, the KernelFactory.create_kernel method
 is invoked and the default backend of KernelFactory is chosen. The
-<<<<<<< HEAD
-defualt behaviour of the KernelFactory class can be changed via the
-=======
 default behavior of the KernelFactory class can be changed via the
->>>>>>> origin/main
 KernelFactory API.
 
 .. code:: ipython3
@@ -534,13 +485,8 @@ one calculated with the overlap test.
 References
 ----------
 
-<<<<<<< HEAD
-[rml14] Rebentrost, Mohseni, Lloyd. "Quantum support vector machine for 
-big data classification." Physical review letters 113 (2014): 130503
-=======
 [rml14] Rebentrost, Mohseni, Lloyd. “Quantum support vector machine for
 big data classification.” Physical review letters 113 (2014): 130503
->>>>>>> origin/main
 
 [hav19] Havlíček, Vojtěch, et al. “Supervised learning with
 quantum-enhanced feature spaces.” Nature 567.7747 (2019): 209-212.
