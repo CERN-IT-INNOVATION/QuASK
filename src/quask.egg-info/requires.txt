@@ -1,17 +1,9 @@
-matplotlib
-numpy
-scipy
-click
-scikit-learn
-imbalanced-learn
-prince
-openml
-jax
-jaxlib
-PennyLane
-PennyLane-qiskit
-simanneal
-optax
+pennylane==0.33.1
+pytest>=7.4.3
+numpy>=1.23.5
+pandas>=2.1.2
+scikit-learn>=1.3.1
+scipy>=1.11.2
 
 [demo]
 jupyter
