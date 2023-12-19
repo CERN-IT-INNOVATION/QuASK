@@ -4,7 +4,7 @@ from ..core import Kernel
 from . import KernelEvaluator
 
 
-def EssModelComplexityEvaluator(KernelEvaluator):
+class EssModelComplexityEvaluator(KernelEvaluator):
     """
     Calculate the model complexity s(K). 
     See Equation F1 in "The power of data in quantum machine learning" (https://arxiv.org/abs/2011.01938)
@@ -23,8 +23,9 @@ def EssModelComplexityEvaluator(KernelEvaluator):
         if K is None:
             K = kernel.build_kernel(X, X)
 
-        return calculate_model_complexity(K, y)
+        return EssModelComplexityEvaluator.calculate_model_complexity(K, y)
 
+    @staticmethod
     def calculate_model_complexity(k, y, normalization_lambda=0.001):
         """
         Calculate the model complexity s(K), which is equation F1 in
@@ -41,6 +42,7 @@ def EssModelComplexityEvaluator(KernelEvaluator):
         model_complexity = y.T @ k_body @ y
         return model_complexity
 
+    @staticmethod
     def calculate_model_complexity_training(k, y, normalization_lambda=0.001):
         """
         Subprocedure of the function 'calculate_model_complexity_generalized'.
@@ -56,6 +58,7 @@ def EssModelComplexityEvaluator(KernelEvaluator):
         model_complexity = (normalization_lambda**2) * (y.T @ k_mid @ y)
         return model_complexity
 
+    @staticmethod
     def calculate_model_complexity_generalized(k, y, normalization_lambda=0.001):
         """
         Calculate the model complexity s(K), which is equation M1 in
@@ -67,6 +70,6 @@ def EssModelComplexityEvaluator(KernelEvaluator):
         :return: model complexity of the given kernel
         """
         n = k.shape[0]
-        a = np.sqrt(calculate_model_complexity_training(k, y, normalization_lambda) / n)
-        b = np.sqrt(calculate_model_complexity(k, y, normalization_lambda) / n)
+        a = np.sqrt(EssModelComplexityEvaluator.calculate_model_complexity_training(k, y, normalization_lambda) / n)
+        b = np.sqrt(EssModelComplexityEvaluator.calculate_model_complexity(k, y, normalization_lambda) / n)
         return a + b

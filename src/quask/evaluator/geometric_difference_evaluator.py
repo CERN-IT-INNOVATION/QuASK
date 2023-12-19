@@ -39,7 +39,8 @@ class GeometricDifferenceEvaluator(KernelEvaluator):
         geometric_differences = [GeometricDifferenceEvaluator.g(K, Kc, self.lam) 
                                  for Kc in self.list_classical_kernel_matrices]
 
-        return -1 * np.min(geometric_differences)
+        # return -1 * np.min(geometric_differences)
+        return geometric_differences
 
     @staticmethod
     def g(k_1, k_2, lam):
