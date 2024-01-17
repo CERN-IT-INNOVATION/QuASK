@@ -11,7 +11,7 @@ QuASK promotes the use of reusable code and is available as a library that can b
 The easiest way to use *quask* is by installing it in your Python3
 environment (version >= 3.10) via the *pip* packet manager,
 
-    python3 -m pip install quask==2.0.0-alpha1
+    python3 -m pip install -U quask==2.0.0-alpha1
 
 You also need any quantum SDK installed on your system. For example, we can install Qiskit (but we can also work with Pennylane, Braket, Qibo, and the modular nature of the software allows the creation of your own custom backends).
 
