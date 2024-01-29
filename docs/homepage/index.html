@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>quask</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://quask.readthedocs.io/en/latest/_static/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom left, #004080, #00274d, #000033), /* Left gradient: blue to black */
+                        linear-gradient(to bottom right, #805c00, #330033, #000033); /* Right gradient: purple to black */
+            background-blend-mode: screen; /* Blend both gradients */
+            color: #fff!important;
+            margin-top: 56px; /* Adjusted to accommodate the fixed header */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .navbar {
+            background-color: #f0f0f0; /* Light header background color */
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand, .navbar-nav a {
+            color: #333; /* Dark text color for header links */
+        }
+
+        .bsubtitle {
+            color: #ccc;
+            font-size: 30px;
+            padding-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #ccc;
+            font-size: 20px;
+            padding-bottom: 8px;
+        }
+        .subtitle > a {
+            color: #fff!important;
+        }
+
+        .logo-container {
+            margin-top: 70px; /* Adjusted margin for space before the logo */
+        }
+
+        .footer {
+            background-color: #f0f0f0; /* Light footer background color */
+            color: #333; /* Dark text color for footer text */
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .section {
+            padding-top: 50px; /* Add vertical padding to separate sections */
+        }
+
+        .section h1, .section h2, .section h3 {
+            margin-bottom: 20px; /* Add margin to bottom of headings for spacing */
+        }
+
+        .container {
+            max-width: 800px; /* Set a maximum width for the content */
+            margin: 0 auto; /* Center the container */
+        }
+
+        @media (min-width: 770px) {
+            .spaced-block {
+                min-height: 220px;
+            }
+        }
+        @media (max-width: 769px) {
+            .spaced-block {
+                padding-top: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"><b><i>quask</i></b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/CERN-IT-INNOVATION/QuASK" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://quask.readthedocs.io/" target="_blank">
+                    <i class="fas fa-book"></i> Documentation
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+<!-- Logo -->
+<div class="text-center mt-4 logo-container">
+    <img src="https://quask.readthedocs.io/en/latest/_images/logo_nobg.png" alt="QuASK Logo" style="width: 450px;">
+</div>
+
+<!-- Title -->
+<div class="text-center mt-3">
+    <h1>Quantum Advantage Seeker with Kernels (<i>quask</i>)</h1>
+    <p class="bsubtitle">A software framework to speed up the research in quantum machine learning</p>
+    <p class="subtitle">We have started rolling out the second version of <i>quask</i>. <br/> <a href="https://quask.readthedocs.io/en/latest/contact_us.html">Keep in touch</a> to help us improve our alpha!</p>
+</div>
+
+<!-- Purpose Section -->
+<div class="text-center mt-4 section">
+    <h2>Our Purpose</h2>
+    <p class="subtitle">What differentiates our software from anything else?</p>
+    <div class="row">
+        <div class="col-md-4">
+            <i class="fas fa-code fa-5x"></i>
+            <p><b>Complex features w/ little code</b></p>
+            <p>We let researchers create complex machine 
+                learning scenarios within tens of lines of code, providing a very high-level API for that. </p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-book fa-5x"></i>
+            <p><b>Reference implementation</b></p>
+            <p>We know how much time you can waste replicating the results from the latest papers. 
+                <i>QuASK</i> is also used as a reference implementation for the most popular papers.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-chalkboard-teacher fa-5x"></i>
+            <p><b>Pedagogical mission</b></p>
+            <p>You can use the set of introductory tutorials to start your journey in quantum machine learning with <i>quask</i>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="text-center mt-4 section">
+    <h2>Our Features</h2>
+    <p class="subtitle">Backend independent, stable and fully documented, focused toward applications</p>
+    <div class="row">
+        <div class="col-md-4">
+            <i class="fas fa-cogs fa-5x"></i>
+            <p>Backend independent</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-book-open fa-5x"></i>
+            <p>Stable and fully documented</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-bullseye fa-5x"></i>
+            <p>Focused toward applications</p>
+        </div>
+    </div>
+</div>
+
+<!-- Getting Started Section -->
+<div class="text-center mt-4 section">
+    <h2>This is How You Can Start</h2>
+    <a href="https://quask.readthedocs.io/en/latest/getting_started.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Getting Started Tutorial</a>
+</div>
+
+<!-- What You Can Do Section -->
+<div class="text-center mt-4 section">
+    <h2>This is What You Can Do</h2>
+    <p class="subtitle">These are just few of the features the framework offers</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="spaced-block">
+                <i class="fas fa-rocket fa-5x"></i>
+                <p>A reinforcement learning agent guiding you toward the construction of a quantum circuit</p>
+            </div>
+            <a href="https://quask.readthedocs.io/en/latest/tutorials_quask/quask_2_optimizers.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Try it!</a>
+        </div>
+        <div class="col-md-4">
+            <div class="spaced-block">
+                <i class="fas fa-chart-line fa-5x"></i>
+                <p>Use the task-model alignment to estimate the spectral bias between your quantum kernel and your task</p>
+            </div>
+            <a href="https://quask.readthedocs.io/en/latest/tutorials_quask/quask_1_evaluators.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Try it!</a>
+        </div>
+        <div class="col-md-4">
+            <div class="spaced-block"> 
+                <i class="fas fa-cogs fa-5x"></i>
+                <p>Run a geometric test for a possible quantum advantage</p>
+            </div>
+            <a href="https://quask.readthedocs.io/en/latest/tutorials_quantum/quantum_2_projected.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Try it!</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Works using our framework Section -->
+<div class="text-center mt-4 section">
+    <h2>Works Using Our Framework</h2>
+    <p class="subtitle">List of examples or projects using <i>quask</i></p>
+    <p>Automatic and effective discovery of quantum kernels (<a href="https://arxiv.org/abs/2209.11144">arxiv 2023</a>)</p>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="footer" style="margin-top: 32px">
+    <div class="mt-4 container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5><i>quask</i></h5>
+                <ul class="list-unstyled small">
+                    <li class="mb-2">Designed by Massimiliano Incudini, Francesco Di Marcantonio, Davide Tezza, Roman Wixinger, Harris Tzovanakis, Sofia Vallecorsa, and Michele Grossi.</li>
+                    <li class="mb-2">Code licensed <a href="https://quask.readthedocs.io/en/latest/license.html" target="_blank" rel="license noopener">Apache Licence 2.0</a>.</li>
+                    <li class="mb-2">Looking for a poweful backend? Take a look at <a href="https://qibo.science/"><i>qibo</i></a>.</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#">Home</a></li>
+                    <li class="mb-2"><a href="https://quask.readthedocs.io/en/latest/tutorials_quantum/index.html">Tutorials</a></li>
+                    <li class="mb-2"><a href="https://quask.readthedocs.io/en/latest/tutorials_applications/index.html">Applications</a></li>
+                    <li class="mb-2"><a href="https://quask.readthedocs.io/">Documentation</a></li>
+                    <li class="mb-2"><a href="https://quask.readthedocs.io/en/latest/publications.html">Publications</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Community</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="https://github.com/CERN-IT-INNOVATION/QuASK">GitHub</a></li>
+                    <li class="mb-2"><a href="https://github.com/CERN-IT-INNOVATION/QuASK/issues">Issues</a></li>
+                    <li class="mb-2"><a href="https://github.com/CERN-IT-INNOVATION/QuASK/pulls">Pull requests</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
