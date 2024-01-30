@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>quask</title>
     <!-- Favicon -->
-    <link rel="icon" href="https://quask.readthedocs.io/en/latest/_static/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -72,6 +72,11 @@
             margin: 0 auto; /* Center the container */
         }
 
+        i.fa-5x + p {
+            /* Your styles for the <p> tag that follows <i class="fa-5x"> */
+            padding-top: 8px;
+        }
+
         @media (min-width: 770px) {
             .spaced-block {
                 min-height: 220px;
@@ -110,105 +115,107 @@
 
 <div class="container">
 
-<!-- Logo -->
-<div class="text-center mt-4 logo-container">
-    <img src="https://quask.readthedocs.io/en/latest/_images/logo_nobg.png" alt="QuASK Logo" style="width: 450px;">
-</div>
+    <!-- Logo -->
+    <div class="text-center mt-4 logo-container">
+        <img src="logo_duck.png" alt="QuASK Logo" style="height: 225px; margin-top: 24px;">
+    </div>
 
-<!-- Title -->
-<div class="text-center mt-3">
-    <h1>Quantum Advantage Seeker with Kernels (<i>quask</i>)</h1>
-    <p class="bsubtitle">A software framework to speed up the research in quantum machine learning</p>
-    <p class="subtitle">We have started rolling out the second version of <i>quask</i>. <br/> <a href="https://quask.readthedocs.io/en/latest/contact_us.html">Keep in touch</a> to help us improve our alpha!</p>
-</div>
+    <!-- Title -->
+    <div class="text-center mt-3">
+        <h1>Quantum Advantage Seeker with Kernels (<i>quask</i>)</h1>
+        <p class="bsubtitle">A software framework to speed up the research in quantum machine learning</p>
+        <p class="subtitle">We have started rolling out the second version of <i>quask</i>. <br/> <a href="https://quask.readthedocs.io/en/latest/contact_us.html">Keep in touch</a> to help us improve our alpha!</p>
+    </div>
 
-<!-- Purpose Section -->
-<div class="text-center mt-4 section">
-    <h2>Our Purpose</h2>
-    <p class="subtitle">What differentiates our software from anything else?</p>
-    <div class="row">
-        <div class="col-md-4">
-            <i class="fas fa-code fa-5x"></i>
-            <p><b>Complex features w/ little code</b></p>
-            <p>We let researchers create complex machine 
-                learning scenarios within tens of lines of code, providing a very high-level API for that. </p>
-        </div>
-        <div class="col-md-4">
-            <i class="fas fa-book fa-5x"></i>
-            <p><b>Reference implementation</b></p>
-            <p>We know how much time you can waste replicating the results from the latest papers. 
-                <i>quask</i> is also used as a reference implementation for the most popular pieces of literature.</p>
-        </div>
-        <div class="col-md-4">
-            <i class="fas fa-chalkboard-teacher fa-5x"></i>
-            <p><b>Pedagogical mission</b></p>
-            <p>You can use the set of introductory tutorials to start your journey in quantum machine learning with <i>quask</i>.</p>
+    <!-- Purpose Section -->
+    <div class="text-center mt-4 section">
+        <h2>Our Purpose</h2>
+        <p class="subtitle">What differentiates our software from anything else?</p>
+        <div class="row">
+            <div class="col-md-4">
+                <i class="fas fa-code fa-5x"></i>
+                <p><b>Complex features w/ little code</b></p>
+                <p>Easily craft complex machine learning scenarios in just a few lines of code. Our high-level API streamlines the process for researchers.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-book fa-5x"></i>
+                <p><b>Reference implementation</b></p>
+                <p>Tired of wasting time replicating results from the latest papers? <i>quask</i> serves as a reliable reference implementation for popular literature.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-chalkboard-teacher fa-5x"></i>
+                <p><b>Pedagogical mission</b></p>
+                <p>Kickstart your exploration of quantum machine learning with <i>quask</i>. Utilize our set of introductory tutorials to embark on your learning journey.</p>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Features Section -->
-<div class="text-center mt-4 section">
-    <h2>Our Features</h2>
-    <p class="subtitle">Backend independent, stable and fully documented, focused toward applications</p>
-    <div class="row">
-        <div class="col-md-4">
-            <i class="fas fa-cogs fa-5x"></i>
-            <p><b>Backend independent</b></p>
-        </div>
-        <div class="col-md-4">
-            <i class="fas fa-book-open fa-5x"></i>
-            <p><b>Stable and fully documented</b></p>
-        </div>
-        <div class="col-md-4">
-            <i class="fas fa-bullseye fa-5x"></i>
-            <p><b>Focused toward applications</b></p>
-        </div>
-    </div>
-</div>
-
-<!-- Getting Started Section -->
-<div class="text-center mt-4 section">
-    <h2>This is How You Can Start</h2>
-    <a href="https://quask.readthedocs.io/en/latest/getting_started.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Getting Started Tutorial</a>
-</div>
-
-<!-- What You Can Do Section -->
-<div class="text-center mt-4 section">
-    <h2>This is What You Can Do</h2>
-    <p class="subtitle">These are just few of the features the framework offers</p>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="spaced-block">
-                <i class="fas fa-rocket fa-5x"></i>
-                <p>A reinforcement learning agent guiding you toward the construction of a quantum circuit</p>
-            </div>
-            <a href="https://quask.readthedocs.io/en/latest/tutorials_quask/quask_2_optimizers.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Try it!</a>
-        </div>
-        <div class="col-md-4">
-            <div class="spaced-block">
-                <i class="fas fa-chart-line fa-5x"></i>
-                <p>Use the task-model alignment to estimate the spectral bias between your quantum kernel and your task</p>
-            </div>
-            <a href="https://quask.readthedocs.io/en/latest/tutorials_quask/quask_1_evaluators.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Try it!</a>
-        </div>
-        <div class="col-md-4">
-            <div class="spaced-block"> 
+    <!-- Features Section -->
+    <div class="text-center mt-4 section">
+        <h2>Features</h2>
+        <p class="subtitle">Backend independent, stable and fully documented, focused toward applications</p>
+        <div class="row">
+            <div class="col-md-4">
                 <i class="fas fa-cogs fa-5x"></i>
-                <p>Run a geometric test for a possible quantum advantage</p>
+                <p><b>Backend independent</b></p>
+                <p>quask seamlessly integrates with popular frameworks like Qiskit, Pennylane, Braket, and Qibo, utilizing each as a backend for maximum compatibility.</p>
             </div>
-            <a href="https://quask.readthedocs.io/en/latest/tutorials_quantum/quantum_2_projected.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Try it!</a>
+            <div class="col-md-4">
+                <i class="fas fa-book-open fa-5x"></i>
+                <p><b>Stable and fully documented</b></p>
+                <p>Like any new software, we encounter challenges. We actively address them through testing and detailed documentation to consistently enhance the reliability of our platform.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-bullseye fa-5x"></i>
+                <p><b>Focused toward applications</b></p>
+                <p>Skip the technical details and dive straight into your tasks. <i>quask</i> simplifies your experience, allowing you to focus on your objectives without unnecessary complexity.</p>
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- Getting Started Section -->
+    <div class="text-center mt-4 section">
+        <h2>Where do I start?</h2>
+        <a href="https://quask.readthedocs.io/en/latest/getting_started.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Getting Started</a>
+    </div>
+
+    <!-- What You Can Do Section -->
+    <div class="text-center mt-4 section">
+        <h2>What can I do?</h2>
+        <p class="subtitle">These are just some of the features the framework offers</p>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="spaced-block">
+                    <i class="fas fa-rocket fa-5x"></i>
+                    <p>Build a reinforcement learning agent that guides you through the construction of a quantum circuit.</p>
+                </div>
+                <a href="https://quask.readthedocs.io/en/latest/tutorials_quask/quask_2_optimizers.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Try it!</a>
+            </div>
+            <div class="col-md-4">
+                <div class="spaced-block">
+                    <i class="fas fa-chart-line fa-5x"></i>
+                    <p>Use task-model alignment to estimate the spectral bias between your quantum kernel and your task.</p>
+                </div>
+                <a href="https://quask.readthedocs.io/en/latest/tutorials_quask/quask_1_evaluators.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Try it!</a>
+            </div>
+            <div class="col-md-4">
+                <div class="spaced-block"> 
+                    <i class="fas fa-cogs fa-5x"></i>
+                    <p>Run a geometric test to explore the potential quantum advantage.</p>
+                </div>
+                <a href="https://quask.readthedocs.io/en/latest/tutorials_quantum/quantum_2_projected.html" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">Try it!</a>
+            </div>
+        </div>
+    </div>
 
 
-<!-- Works using our framework Section -->
-<div class="text-center mt-4 section">
-    <h2>Works Using Our Framework</h2>
-    <p class="subtitle">List of examples or projects using <i>quask</i></p>
-    <p>Automatic and effective discovery of quantum kernels (<a href="https://arxiv.org/abs/2209.11144">arxiv 2023</a>)</p>
-</div>
+    <!-- Works using our framework Section -->
+    <div class="text-center mt-4 section">
+        <h2>Powered by <i>quask</i></h2>
+        <p class="subtitle">List of projects using <i>quask</i></p>
+        <p>Automatic and effective discovery of quantum kernels (<a href="https://arxiv.org/abs/2209.11144">arxiv 2023</a>)</p>
+    </div>
+
 </div>
 
 <!-- Footer -->
