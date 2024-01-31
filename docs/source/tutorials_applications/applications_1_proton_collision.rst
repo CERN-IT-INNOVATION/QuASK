@@ -50,23 +50,22 @@ each particle is described by three spatial coordinates for a total of
 performance are: Randall-Sundrum gravitons decaying into W-bosons
 (narrow G), broad Randall-Sundrum gravitons decaying into W-bosons
 (broad G), and a scalar boson A decaying into Higgs and Z bosons
-(:math:`A\textrightarrow{}HZ`). Events are produced with PYTHIA, Jets
-are clustered from reconstructed particles using the anti-kT clustering
-algorithm, with typical kinematic cut emulating the effect of a typical
-LHC online event selection. Subsequently, data are processed with
-DELPHES to emulate detector effects, specifically with the adoption of
-CMS configuration card. Then, this huge dataset is manipulated using a
+(:math:`A \to HZ`). Events are produced with PYTHIA, Jets are clustered
+from reconstructed particles using the anti-kT clustering algorithm,
+with typical kinematic cut emulating the effect of a typical LHC online
+event selection. Subsequently, data are processed with DELPHES to
+emulate detector effects, specifically with the adoption of CMS
+configuration card. Then, this huge dataset is manipulated using a
 classical autoencoder that is trained to compress particle jet objects
 individually without access to truth labels. This approach is preferred
 over the more standard PCA method due to its ability to capture
 nonlinear relationships within the data. The output dimension of the
-autoencoder is the :raw-latex:`\emph{latent dimension}`. We have used
-the pre-processed dataset, after the simulation and the autoencoding.
-These datasets takes the form
+autoencoder is the *latent dimension*. We have used the pre-processed
+dataset, after the simulation and the autoencoding. These datasets takes
+the form
 :math:`\{ ({x}^{(i)}, y^{(i)}) \in \mathbb{R}^{2\ell} \times \{\mathrm{sm}, \mathrm{bsm}\}\}_{i=1}^m`.
 The factor of :math:`2\ell` arises from the fact that we are studying
-dijet events, where two jets collide with each other. As a result, we
-have :math:`\ell` features for each jet.
+dijet events. As a result, we have :math:`\ell` features for each jet.
 
 For this tutorial, we have subsampled the smallest useful subset of this
 huge dataset. It results in a background signal and one single BSM
@@ -76,54 +75,45 @@ Download
 ~~~~~~~~
 
 We can load a HEP dataset. This dataset is proton collision and compares
-the predictions of the standard model (background.npy) with the
-prediction of A->HZ decay (signal_AtoH_to_ZZZ_subsampled.npy). These
-files are a small subset of the true one, built for educational purposes
-only.
+the predictions of the standard model (``background_subsampled.npy``)
+with the prediction of A->HZ decay
+(``signal_AtoH_to_ZZZ_subsampled.npy``). These files are a small subset
+of the true one, built for educational purposes only.
 
 .. code:: ipython3
 
     !curl "https://zenodo.org/records/10570949/files/background_subsampled.npy?download=1" --output 'background_subsampled.npy'
 
-
-.. parsed-literal::
-
-      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-    100  3328  100  3328    0     0   7068      0 --:--:-- --:--:-- --:--:--  7080
-
-
 .. code:: ipython3
 
     !curl "https://zenodo.org/records/10570949/files/signal_AtoH_to_ZZZ_subsampled.npy?download=1" --output 'signal_AtoH_to_ZZZ_subsampled.npy'
 
-
-.. parsed-literal::
-
-      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-    100  3328  100  3328    0     0   6277      0 --:--:-- --:--:-- --:--:--  6279
-
+Once downloaded the files, they can be easily loaded via ``numpy``.
 
 .. code:: ipython3
 
     qX1 = np.load('background_subsampled.npy')
     qX2 = np.load('signal_AtoH_to_ZZZ_subsampled.npy')
+
+Analyzing all this data might take a while. To cut the computational
+time, here, we analyze only the first 10 samples of each class.
+
+.. code:: ipython3
+
     qX1 = qX1[:10,:]
     qX2 = qX2[:10,:]
-    
+
+The dataset is finally constructed as it follows. The background samples
+are labelled with target :math:`-1` while the BSM samples are labelled
+with :math:`+1`.
+
+.. code:: ipython3
+
     qX = np.row_stack([qX1, qX2])
     qy = np.array([-1] * len(qX1) + [1] * len(qX2))
     
     print(f"{qX.shape=}")
     print(f"{qy.shape=}")
-
-
-.. parsed-literal::
-
-    qX.shape=(20, 8)
-    qy.shape=(20,)
-
 
 Split the dataset in training and testing set
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,16 +126,6 @@ Split the dataset in training and testing set
     print("Shape testing set:", qX_test.shape, qy_test.shape)
     print("Example of feature:", qX_train[0])
     print("Example of label:", qy_train[0])
-
-
-.. parsed-literal::
-
-    Shape training set: (16, 8) (16,)
-    Shape testing set: (4, 8) (4,)
-    Example of feature: [-0.23470192 -0.49848634 -0.13048592  0.6318868  -0.5250736  -0.6175051
-      0.08415551  0.43143862]
-    Example of label: -1
-
 
 Anomaly detection using fixed kernels
 -------------------------------------
@@ -201,15 +181,6 @@ We use a simple support vector classifier.
     model = SVC(kernel='precomputed')
     model.fit(K_train, qy_train)
 
-
-
-
-.. raw:: html
-
-    <style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>SVC(kernel=&#x27;precomputed&#x27;)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">SVC</label><div class="sk-toggleable__content"><pre>SVC(kernel=&#x27;precomputed&#x27;)</pre></div></div></div></div></div>
-
-
-
 Finally, we get the accuracy of the model.
 
 .. code:: ipython3
@@ -218,12 +189,6 @@ Finally, we get the accuracy of the model.
     y_pred = model.predict(K_test)
     accuracy = np.sum(qy_test == y_pred) / len(qy_test)
     print("Accuracy:", accuracy)
-
-
-.. parsed-literal::
-
-    Accuracy: 1.0
-
 
 Anomaly detection using optimized kernels
 -----------------------------------------
