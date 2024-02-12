@@ -5,7 +5,8 @@ from mushroom_rl.core import Environment
 
 from ..core import Kernel
 from ..evaluator import KernelEvaluator
-from . import BaseKernelOptimizer, WideKernelEnvironment
+from .base_kernel_optimizer import BaseKernelOptimizer
+from .wide_kernel_environment import WideKernelEnvironment
 
 
 class GreedyOptimizer(BaseKernelOptimizer):

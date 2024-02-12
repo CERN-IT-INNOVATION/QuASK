@@ -9,7 +9,7 @@ from opytimizer.spaces import GridSpace
 from opytimizer.utils.callback import Callback
 from ..core import Kernel
 from ..evaluator import KernelEvaluator
-from . import BaseKernelOptimizer
+from .base_kernel_optimizer import BaseKernelOptimizer
 
 
 class CustomCallback(Callback):
@@ -60,7 +60,7 @@ class MetaheuristicType(Enum):
 
     # evolutionary
     FOREST_OPTIMIZATION = 1
-    GENERIC_ALGORITHM = 2
+    GENETIC_ALGORITHM = 2
     # population
     EMPEROR_PENGUIN_OPTIMIZER = 3
     # swarm

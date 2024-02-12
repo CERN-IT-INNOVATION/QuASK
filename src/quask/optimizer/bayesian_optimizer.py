@@ -5,7 +5,7 @@ from skopt.space import Real, Categorical
 
 from ..core import Operation, Ansatz, Kernel, KernelFactory
 from ..evaluator import KernelEvaluator
-from . import BaseKernelOptimizer
+from .base_kernel_optimizer import BaseKernelOptimizer
 
 
 class BayesianOptimizer(BaseKernelOptimizer):
