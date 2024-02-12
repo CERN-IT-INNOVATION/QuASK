@@ -105,7 +105,7 @@ class Ansatz:
         """
         self.operation_list = [None] * self.n_operations
         for i in range(self.n_operations):
-            self.operation_list[i] = Operation("II", [0, 1], -1, 1)
+            self.operation_list[i] = Operation("II", [0, 1], self.n_features, 1.0)
 
     def initialize_to_random_circuit(self):
         """
