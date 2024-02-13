@@ -6,6 +6,11 @@ It is designed to simplify the process of choosing a quantum kernel, automate th
 
 QuASK promotes the use of reusable code and is available as a library that can be seamlessly integrated into existing code bases. It is written in Python 3, can be easily installed using pip, and is accessible on PyPI.
 
+
+*Homepage*: [quask.web.cern.ch](https://quask.web.cern.ch/)
+
+*Documentation*: [quask.readthedocs.io](https://quask.readthedocs.io/en/latest/)
+
 ## Installation 
 
 The easiest way to use *quask* is by installing it in your Python3
