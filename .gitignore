@@ -1,4 +1,6 @@
 *.pyc
+dist/*
+build/*
 docs/build/*
 docs/source/notebooks/.ipynb_checkpoints/*
 src/quask/__pycache__/*
