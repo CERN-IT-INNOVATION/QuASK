@@ -30,12 +30,12 @@ class HaarEvaluator(KernelEvaluator):
         :return: cost of the kernel, the lower the better
         """
         haar_histogram = HaarEvaluator.haar_histogram(kernel, self.n_bins)
-        ansatz_histogram = HaarEvaluator.ansatz_histogram(kernel, self.n_bins, self.n_samples)
+        ansatz_histogram = HaarEvaluator.ansatz_histogram(kernel, self.n_bins, self.n_samples, K)
         self.last_result = (haar_histogram, ansatz_histogram)
         return np.linalg.norm(haar_histogram - ansatz_histogram)
 
     @staticmethod
-    def ansatz_histogram(kernel, n_bins, n_samples):
+    def ansatz_histogram(kernel, n_bins, n_samples, K: None):
         """
         Create a histogram of the fidelities of the ansatz
         :param kernel: kernel object
@@ -45,12 +45,18 @@ class HaarEvaluator(KernelEvaluator):
         """
         histogram = [0] * n_bins
 
-        for _ in range(n_samples):
-            theta_1 = np.random.normal(size=(kernel.ansatz.n_features,)) * np.pi
-            theta_2 = np.random.normal(size=(kernel.ansatz.n_features,)) * np.pi
-            fidelity = kernel.kappa(theta_1, theta_2)
-            index = int(fidelity * n_bins)
-            histogram[np.minimum(index, n_bins - 1)] += 1
+        if type(K) != type(None):
+            for i in range(K.shape[0]):
+                for j in range(K.shape[1]):
+                    index = int(K[i,j] * n_bins)
+                    histogram[np.minimum(index, n_bins - 1)] += 1
+        else:
+            for _ in range(n_samples):
+                theta_1 = np.random.normal(size=(kernel.ansatz.n_features,)) * np.pi
+                theta_2 = np.random.normal(size=(kernel.ansatz.n_features,)) * np.pi
+                fidelity = kernel.kappa(theta_1, theta_2)
+                index = int(fidelity * n_bins)
+                histogram[np.minimum(index, n_bins - 1)] += 1
 
         return np.array(histogram) / n_samples
 
