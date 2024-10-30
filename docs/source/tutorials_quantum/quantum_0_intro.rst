@@ -59,20 +59,22 @@ by its generators, :math:`\sigma_1` and :math:`\sigma_2`, the qubits on
 which the operation is applied, :math:`p` and :math:`q`, and a scaling
 constant :math:`\beta`.ed in great detail later.
 
-The parameter :math:`\theta` corresponds to one of the components of
-:math:`\mathbf{x} \in \mathbb{R}^d` and can be identified with the index
-:math:`i \in \{0, \ldots, d-1\}`. In some works, you can see
-:math:`\theta` is a function of the parameters of :math:`\mathbf{x}`,
-e.g. :math:`(\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`. This particular
-custom function can be used to reduce the number of qubits needed to
-embed the full feature vector :math:`\mathbf{x}`. We add the calculated
-new feature to :math:`\mathbf{x}`,
-:math:`\mathbf{x}'_d \leftarrow (\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`.
-Then, :math:`\mathbf{x}' \in \mathbb{R}^{d+1}`. Furthermore, to allow
-the action of constant gates, the feature of index :math:`i = d`
-corresponds to the constant :math:`1`. By fixing the constant feature
-and an arbitrary value of :math:`\beta`, one can define any rotational
-angle.
+| The parameter :math:`\theta` corresponds to one of the components of
+  :math:`\mathbf{x} \in \mathbb{R}^d` and can be identified with the index
+  :math:`i \in \{0, \ldots, d-1\}`. 
+  In some works, you can see :math:`\theta`
+  is a function of the parameters of :math:`\mathbf{x}`, e.g.
+  :math:`(\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`.
+  This particular custom function can be used to reduce the number of qubits needed
+  to embed the full feature vector :math:`\mathbf{x}`.
+| We add the calculated new feature to :math:`\mathbf{x}`,
+  :math:`\mathbf{x}'_d \leftarrow (\mathbf{x}_1 - \pi)(\mathbf{x}_2 - \pi)`.
+  Then, :math:`\mathbf{x}' \in \mathbb{R}^{d+1}`.
+
+Furthermore, to allow the action of constant gates, the feature of 
+index :math:`i = d` corresponds to the constant :math:`1`. By fixing 
+the constant feature and an arbitrary value of :math:`\beta`, one can 
+define any rotational angle.
 
 Clearly, :math:`p` and :math:`q` are in :math:`\{0, 1, \ldots, n-1\}`
 where :math:`n` is the number of qubits in the quantum circuit, and
@@ -123,11 +125,11 @@ The ``Ansatz`` class
 An ``Ansatz`` is a sequence of parameterized quantum gates. This class
 wraps individual operations and performs consistency checks to ensure
 the validity of each operation. To accomplish this, the Ansatz object
-contains shared information about the quantum circuit, which avoids to
-repeat checks for each operation. This shared information includes: the
-number of features :math:`d` in the classical data vector, the total
-number of operations in the quantum circuit, and the number of qubits in
-the quantum system.
+contains shared information about the quantum circuit, which avoids to 
+repeat checks for each operation. This shared information
+includes: the number of features :math:`d` in the classical data vector,
+the total number of operations in the quantum circuit, and the number of
+qubits in the quantum system.
 
 By storing these details at the ``Ansatz`` level, we streamline the
 management and validation of operations, ensuring coherence and

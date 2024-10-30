@@ -7,7 +7,6 @@ class KernelFactory:
     Implement the self-registering factory pattern
     """
 
-    # to see the implementations and the current_implementation you can call it in this way: ._KernelFactory__implementations, ._KernelFactory__current_implementation 
     __implementations = {}
     """Dictionary containing pairs (name, function to create the kernel)."""
 
