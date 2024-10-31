@@ -1,3 +1,0 @@
-Quantum kernels beyond NISQ
-===========================
-
