@@ -63,12 +63,13 @@ class Kernel(ABC):
         """
         return self.ansatz.get_allowed_operations()
 
-    def build_kernel(self, X1: np.ndarray, X2: np.ndarray) -> np.ndarray:
+    def build_kernel(self, X1: np.ndarray, X2: np.ndarray, matrix: str=None) -> np.ndarray:
         """
         Build a kernel.
 
         :param X1: a single datapoint or a list of datapoints
         :param X2: a single datapoint or a list of datapoints
+        :param matrix: training or testing matrix
         :return: a single or a matrix of kernel inner products
         """
         # if you gave me only one sample
@@ -82,13 +83,37 @@ class Kernel(ABC):
         assert self.ansatz.n_features == X1.shape[1], "Number of features and X1.shape[1] do not match"
         assert self.ansatz.n_features == X2.shape[1], "Number of features and X2.shape[1] do not match"
         if self.type in [KernelType.FIDELITY, KernelType.SWAP_TEST]:
-            return cdist(X1, X2, metric=self.kappa)
+            if matrix == "train":
+                return self.kernel_train_matrix(X1, X2)
+            elif matrix == "test":
+                return self.kernel_test_matrix(X1, X2)
         else:
             n = X1.shape[0]
             m = X2.shape[0]
             Phi1 = np.array([self.phi(x) for x in X1]).reshape((n, 1))
             Phi2 = np.array([self.phi(x) for x in X2]).reshape((m, 1))
             return Phi1.dot(Phi2.T)
+
+    def kernel_train_matrix(self, X1, X2):
+        N = X1.shape[0]
+        kernel_matrix = np.full((N, N), np.nan)
+        for i in range(kernel_matrix.shape[0]):
+            for j in range(i,kernel_matrix.shape[1]):
+                if i == j:
+                    kernel_matrix[i,j] = 1
+                else:
+                    kernel_matrix[i,j] = self.kappa(X1[i], X2[j])
+                    kernel_matrix[j,i] = kernel_matrix[i,j]
+        return kernel_matrix
+    
+    def kernel_test_matrix(self, X1, X2):
+        N_tr = X2.shape[0]
+        N_te = X1.shape[0]
+        kernel_matrix = np.full((N_te, N_tr), np.nan)
+        for i in range(kernel_matrix.shape[0]):
+            for j in range(kernel_matrix.shape[1]):
+                kernel_matrix[i,j] = self.kappa(X1[i],X2[j])
+        return kernel_matrix
 
     def to_numpy(self):
         """
